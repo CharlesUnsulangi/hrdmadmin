@@ -1,3 +1,15 @@
+
+# Modul Utama Aplikasi HRD
+
+1. Manajemen Pelamar
+2. Manajemen Interview
+3. Manajemen Register Karyawan
+4. Manajemen PKWT/PKWTT
+5. Manajemen Payroll
+6. Manajemen Absensi & Cuti
+7. Manajemen Assessment
+8. Manajemen Berita Acara
+
 # AI Safety Guidelines for Project Development
 
 
