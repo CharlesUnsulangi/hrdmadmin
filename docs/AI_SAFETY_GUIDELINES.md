@@ -27,7 +27,7 @@ This document outlines the mandatory safety and quality guidelines that must be 
 - **Composer and NPM**: Use Composer for PHP dependencies and NPM for JavaScript dependencies. All dependencies must be properly declared in `composer.json` and `package.json`.
 
 ### 2.3. Testing
-- **Pest for Testing**: This project will use Pest for all levels of testing (Unit, Feature, Integration).
+- **PHPUnit 11 for Testing**: Testing utama menggunakan PHPUnit 11, yang sudah modern dan didukung Laravel 11. Pest dapat digunakan jika dependency kompatibel, namun jika terjadi konflik dependency, gunakan PHPUnit saja.
 - **Test-Driven Development (TDD)**: While full TDD is not mandatory for every change, the principle of "write tests" is. All new functionality must be accompanied by corresponding tests.
 - **Test Coverage**: The goal is to maintain high test coverage. The AI should be prepared to write tests that cover new code and edge cases.
 - **Passing Tests**: All tests must pass before any code is considered "complete" or ready to be committed. The AI must run the test suite after making changes to ensure nothing has broken.
