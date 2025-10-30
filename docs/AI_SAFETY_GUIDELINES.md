@@ -198,6 +198,14 @@ DB_PASSWORD=pfind@sqlserver
 | time_sent        | time(7)        | Yes        | Waktu pesan dikirim (opsional)                          |
 
 
+### Contoh Struktur Tabel Master WhatsApp Message (ms_hr_wa_msg)
+
+| Kolom            | Tipe        | Nullable   | Keterangan                                 |
+|------------------|-------------|------------|--------------------------------------------|
+| ms_hr_wa_msg_id  | int         | No         | Primary key, ID master template pesan WA   |
+| msg_desc         | text        | Yes        | Deskripsi/isi template pesan WhatsApp      |
+
+
 
 
 
@@ -393,6 +401,33 @@ DB_PASSWORD=pfind@sqlserver
 | payrollpaymentnonmonthly_potongan       | money        | Yes      | Potongan (opsional)                            |
 | payrollpaymentnonmonthly_status_hold    | varchar(50)  | Yes      | Status hold pembayaran (opsional)              |
 
+
+
+### Pengaturan & Otomasi Pengiriman Pesan WhatsApp
+
+Sistem HRD menyediakan fitur pengaturan dan pengiriman pesan WhatsApp (WA) otomatis untuk mendukung proses rekrutmen dan onboarding pelamar. Fitur ini terintegrasi dengan data pelamar dan jadwal interview, serta dapat dikonfigurasi oleh admin HRD.
+
+#### Fitur Utama:
+- **Pengaturan Template Pesan WA**: Admin dapat membuat dan mengelola template pesan WA (disimpan di tabel `ms_hr_wa_msg`).
+- **Pengiriman Otomatis**: Sistem secara otomatis membaca nomor HP (`hp`) dan nama pelamar dari database, lalu mengirimkan pesan WA sesuai template yang dipilih.
+- **Isi Pesan Dinamis**: Pesan dapat berisi variabel seperti nama pelamar, link kelengkapan data, dan link konfirmasi jadwal interview.
+- **Kelengkapan Data & Konfirmasi Interview**: Pesan WA berisi instruksi agar pelamar mengisi kelengkapan data diri dan melakukan konfirmasi jadwal interview melalui link yang disisipkan.
+- **Log & Monitoring**: Setiap pengiriman pesan dicatat di tabel `tr_hr_wa_msg_id` untuk keperluan monitoring, audit, dan troubleshooting.
+
+#### Contoh Alur Pengiriman WA Otomatis:
+1. HRD memilih pelamar yang akan dipanggil interview.
+2. Sistem mengambil nomor HP dan nama pelamar dari database.
+3. Sistem memilih template pesan WA yang sesuai (misal: "Silakan isi kelengkapan data dan konfirmasi jadwal interview pada link berikut...").
+4. Sistem mengganti variabel pada template dengan data pelamar dan link yang relevan.
+5. Pesan WA dikirim otomatis ke nomor pelamar.
+6. Status pengiriman dan isi pesan dicatat di tabel log.
+
+#### Contoh Template Pesan WA:
+> Halo {{nama_pelamar}},
+> Silakan lengkapi data diri Anda dan konfirmasi jadwal interview melalui link berikut: {{link_interview}}.
+> Terima kasih, HRD.
+
+Fitur ini memastikan proses komunikasi dengan pelamar berjalan efisien, terdokumentasi, dan dapat dikustomisasi sesuai kebutuhan bisnis.
 
 ### Rekomendasi Form Utama Aplikasi HRD
 
