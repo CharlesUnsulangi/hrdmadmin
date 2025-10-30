@@ -18,7 +18,11 @@ Aplikasi HRD terdiri dari dua aplikasi utama:
 0. **Manajemen User**
     - Pengelolaan akun, peran (role), hak akses, audit trail, dan histori aktivitas user/operator/admin.
 1. **Manajemen Pelamar**
-    - Input data pelamar (copy dari portal/email), flag status interview, kategori pelamar (karyawan/mitra), pengiriman WA otomatis, link onboarding, verifikasi data.
+    - 1. **Memasukkan Data Pelamar Baru**: User HRD menginput data pelamar ke sistem, baik dengan mengisi manual atau menyalin dari portal/email eksternal.
+    - 2. **Mengirim Pesan WhatsApp ke Pelamar**: Setelah data pelamar masuk, sistem dapat mengirim pesan WA otomatis ke nomor pelamar untuk instruksi kelengkapan data dan konfirmasi interview.
+    - 3. **Mengundang Interview (Penjadwalan)**: User HRD menentukan tanggal interview dan mengundang pelamar sesuai jadwal yang dipilih. Link konfirmasi interview dikirim via WA.
+    - 4. **Memeriksa Skedul Interview & Konfirmasi**: HRD dapat melihat daftar jadwal interview, status konfirmasi dari pelamar, dan melakukan monitoring siapa saja yang sudah/akan hadir.
+    - 5. **(Opsional) Proses Lanjutan**: Setelah interview, HRD dapat melanjutkan proses ke register karyawan atau menandai status pelamar sesuai hasil interview.
 2. **Manajemen Interview**
     - Penjadwalan interview, konfirmasi online/offline, check-in QR, multi-user real-time notes, hasil interview sebagai dasar keputusan.
 3. **Manajemen Register Karyawan**
