@@ -167,7 +167,26 @@ DB_PASSWORD=pfind@sqlserver
 
 
 
-### Contoh Struktur Tabel Fee Driver/Helper (tr_acc_driver_helper_fee_d)
+
+### Contoh Struktur Tabel Header Fee Driver/Helper (tr_acc_driver_helper_fee_h)
+
+| Kolom                          | Tipe         | Nullable | Keterangan |
+|--------------------------------|--------------|----------|------------|
+| rec_usercreated                | varchar(50)  | No       | User yang membuat data |
+| rec_userupdate                 | varchar(50)  | No       | User yang mengupdate data |
+| rec_datecreated                | datetime     | No       | Tanggal data dibuat |
+| rec_dateupdate                 | datetime     | No       | Tanggal data diupdate |
+| rec_status                     | char(1)      | No       | Status record (aktif/nonaktif) |
+| rec_comcode                    | varchar(50)  | No       | Kode perusahaan |
+| rec_areacode                   | varchar(50)  | No       | Kode area |
+| driver_helper_code_h           | varchar(50)  | No       | Kode header fee driver/helper |
+| emp_code                       | varchar(50)  | No       | Kode karyawan driver/helper |
+| driver_helper_desc             | varchar(50)  | Yes      | Deskripsi fee driver/helper (opsional) |
+| driver_helper_dateregistration | datetime     | Yes      | Tanggal registrasi (opsional) |
+| driver_helper_transmaincoa     | varchar(50)  | Yes      | Kode COA transaksi utama (opsional) |
+| driver_helper_mode             | varchar(50)  | Yes      | Mode fee (opsional) |
+| driver_helper_total_value_out  | varchar(50)  | Yes      | Total value out (opsional) |
+| driver_helper_totalprice       | money        | Yes      | Total harga/fee (opsional) |
 
 | Kolom                        | Tipe         | Nullable | Keterangan |
 |------------------------------|--------------|----------|------------|
