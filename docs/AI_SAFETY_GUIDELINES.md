@@ -360,6 +360,51 @@ DB_PASSWORD=pfind@sqlserver
 | payrollpaymentnonmonthly_potongan       | money        | Yes      | Potongan (opsional)                            |
 | payrollpaymentnonmonthly_status_hold    | varchar(50)  | Yes      | Status hold pembayaran (opsional)              |
 
+
+### Rekomendasi Form Utama Aplikasi HRD
+
+Berikut daftar form utama yang perlu diimplementasikan sesuai kebutuhan bisnis dan struktur tabel:
+
+#### A. Form Manajemen Pelamar
+- Input Data Pelamar Baru
+- Edit Data Pelamar
+- Input/Review Pengalaman Kerja
+- Input/Review Data Sosial Media
+- Penjadwalan Interview & Konfirmasi
+- Form Check-in Interview (QR/Manual)
+- Form Penilaian & Catatan Interview
+
+#### B. Form Manajemen Karyawan
+- Register Karyawan Baru (dari pelamar)
+- Edit Data Karyawan
+- Form Data Payroll Karyawan (upah, tunjangan, bank)
+- Form Data Komisi Karyawan
+
+#### C. Form Payroll & Pembayaran
+- Form Generate Payroll Bulanan
+- Form Pembayaran Payroll Bulanan (detail & header)
+- Form Pembayaran Payroll Non Bulanan
+- Form Slip Gaji (untuk karyawan)
+
+#### D. Form Absensi & Cuti
+- Form Input Absensi Harian
+- Form Pengajuan & Approval Cuti
+
+#### E. Form Assessment
+- Form Self Assessment Karyawan
+- Form Penilaian Atasan/HRD/Board
+
+#### F. Form Berita Acara
+- Form Input Berita Acara (pelanggaran, penghargaan, dsb)
+- Form Master Jenis Berita Acara
+
+#### G. Form Manajemen User & Permission
+- Form Input/Edit User HRD
+- Form Pengaturan Hak Akses User (Permission)
+- Form Master Form HRD
+
+> Setiap form dapat dipecah menjadi create, edit, view, dan approval sesuai kebutuhan workflow dan hak akses user.
+
 ### Struktur Repository GitHub
 
 
