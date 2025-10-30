@@ -165,71 +165,46 @@ DB_PASSWORD=pfind@sqlserver
 | form_hr_desc    | varchar(50)  | Yes        | Deskripsi form HRD (opsional)               |
 
 
-### Contoh Struktur Tabel Master Employee (ms_employee)
 
-| Kolom                | Tipe           | Nullable | Keterangan |
-|----------------------|----------------|----------|------------|
-| rec_usercreated      | varchar(50)    | No       | User yang membuat data |
-| rec_userupdate       | varchar(50)    | No       | User yang mengupdate data |
-| rec_datecreated      | datetime       | No       | Tanggal data dibuat |
-| rec_dateupdate       | datetime       | No       | Tanggal data diupdate |
-| rec_status           | char(1)        | No       | Status record (aktif/nonaktif) |
-| emp_id               | varchar(50)    | No       | Primary key, ID karyawan |
-| emp_iddivision       | varchar(50)    | Yes      | ID divisi karyawan |
-| emp_name             | varchar(100)   | Yes      | Nama karyawan |
-| emp_inactive         | bit            | Yes      | Status nonaktif (opsional) |
-| emp_subdivision      | varchar(50)    | Yes      | Subdivisi karyawan |
-| emp_upahpokok        | money          | Yes      | Upah pokok |
-| emp_tunjangan        | money          | Yes      | Tunjangan |
-| emp_datejoin         | date           | Yes      | Tanggal mulai kerja |
-| emp_dateresign       | date           | Yes      | Tanggal resign |
-| emp_born             | date           | Yes      | Tanggal lahir |
-| emp_nokontrak        | varchar(50)    | Yes      | Nomor kontrak |
-| emp_expdatekontrak   | date           | Yes      | Tanggal akhir kontrak |
-| emp_numkontrak       | money          | Yes      | Nomor kontrak (opsional, numerik) |
-| emp_npwp             | varchar(50)    | Yes      | NPWP |
-| emp_bank             | varchar(50)    | Yes      | Nama bank |
-| emp_norek            | varchar(50)    | Yes      | Nomor rekening |
-| emp_address          | varchar(200)   | Yes      | Alamat |
-| emp_idktp            | varchar(50)    | Yes      | Nomor KTP |
-| emp_kotalahir        | varchar(100)   | Yes      | Kota lahir |
-| emp_childno          | money          | Yes      | Jumlah anak |
-| emp_namaistri        | varchar(50)    | Yes      | Nama istri/suami |
-| emp_jamsostek        | varchar(50)    | Yes      | Nomor Jamsostek/BPJS |
-| emp_includepajak     | bit            | Yes      | Termasuk pajak (opsional) |
-| emp_telp             | varchar(50)    | Yes      | Nomor telepon |
-| emp_lastedu          | varchar(100)   | Yes      | Pendidikan terakhir |
-| emp_lastcom          | varchar(100)   | Yes      | Perusahaan terakhir |
-| emp_telplastcom      | varchar(50)    | Yes      | Telepon perusahaan terakhir |
-| emp_lastjabatan      | varchar(100)   | Yes      | Jabatan terakhir |
-| emp_lastsalary       | money          | Yes      | Gaji terakhir |
-| emp_cutitotal        | varchar(50)    | Yes      | Total cuti |
-| emp_com              | varchar(50)    | Yes      | Nama perusahaan |
-| emp_status           | varchar(50)    | Yes      | Status karyawan |
-| emp_religion         | varchar(50)    | Yes      | Agama |
-| emp_citizen          | varchar(50)    | Yes      | Kewarganegaraan |
-| emp_desc             | varchar(100)   | Yes      | Keterangan tambahan |
-| emp_levelclass       | money          | Yes      | Level kelas jabatan |
-| emp_leveljabatan     | money          | Yes      | Level jabatan |
-| emp_lastjobdesk      | varchar(50)    | Yes      | Jobdesk terakhir |
-| emp_apprlast         | varchar(50)    | Yes      | Approval terakhir |
-| emp_gender           | char(1)        | Yes      | Jenis kelamin |
-| emp_typepayroll      | varchar(50)    | Yes      | Tipe payroll |
-| emp_reason_nonactive | varchar(200)   | Yes      | Alasan nonaktif |
-| emp_aksesuser        | varchar(50)    | Yes      | User akses |
-| emp_email            | varchar(255)   | Yes      | Email |
-| emp_statuskaryawan   | varchar(50)    | Yes      | Status karyawan (opsional) |
-| card_id              | varchar(10)    | Yes      | ID kartu |
-| emp_no_drt           | varchar(50)    | Yes      | Nomor DRT (opsional) |
-| emp_name_drt         | varchar(100)   | Yes      | Nama DRT (opsional) |
-| emp_akn_fb           | varchar(100)   | Yes      | Akun Facebook (opsional) |
-| emp_akn_ig           | varchar(100)   | Yes      | Akun Instagram (opsional) |
-| emp_last_contract    | datetime       | Yes      | Kontrak terakhir (opsional) |
-| emp_state_appr       | varchar(1)     | Yes      | Status approval (opsional) |
-| emp_nik              | varchar(255)   | Yes      | NIK (opsional) |
-| cek_akfif            | bit            | Yes      | Cek aktif (opsional) |
-| cek_non_aktif        | bit            | Yes      | Cek non aktif (opsional) |
-| ms_company_id        | varchar(50)    | Yes      | ID perusahaan (opsional) |
+### Contoh Struktur Tabel Master Driver (ms_driver)
+
+| Kolom             | Tipe           | Nullable | Keterangan |
+|-------------------|----------------|----------|------------|
+| rec_usercreated   | varchar(50)    | No       | User yang membuat data |
+| rec_userupdate    | varchar(50)    | No       | User yang mengupdate data |
+| rec_datecreated   | datetime       | No       | Tanggal data dibuat |
+| rec_dateupdate    | datetime       | No       | Tanggal data diupdate |
+| rec_status        | char(1)        | No       | Status record (aktif/nonaktif) |
+| Drv_Id            | varchar(50)    | No       | Primary key, ID driver |
+| Drv_FistName      | varchar(100)   | Yes      | Nama depan driver |
+| Drv_LastName      | varchar(100)   | Yes      | Nama belakang driver |
+| Drv_Addrase       | varchar(200)   | Yes      | Alamat driver |
+| Drv_BPlace        | varchar(100)   | Yes      | Tempat lahir driver |
+| Drv_Bdate         | date           | Yes      | Tanggal lahir driver |
+| Drv_StartDate     | date           | Yes      | Tanggal mulai kerja |
+| Drv_EndDate       | date           | Yes      | Tanggal selesai kerja |
+| Drv_Phone         | varchar(20)    | Yes      | Nomor telepon rumah |
+| Drv_CellPhone     | varchar(50)    | Yes      | Nomor HP |
+| Drv_License       | varchar(50)    | Yes      | Nomor SIM |
+| Drv_LicenseExpire | date           | Yes      | Tanggal kadaluarsa SIM |
+| Drv_LastEducation | varchar(50)    | Yes      | Pendidikan terakhir |
+| Drv_SpvId         | varchar(50)    | Yes      | ID supervisor |
+| Drv_Merid         | char(1)        | Yes      | Status pernikahan |
+| Drv_ChildNo       | varchar(10)    | Yes      | Jumlah anak |
+| Drv_VhCode        | varchar(50)    | Yes      | Kode kendaraan |
+| Drv_DptCode       | varchar(50)    | Yes      | Kode departemen |
+| Drv_SimDate       | date           | Yes      | Tanggal pembuatan SIM |
+| Drv_Phone_Drt     | varchar(20)    | Yes      | Nomor telepon DRT (opsional) |
+| Drv_Name_Drt      | varchar(50)    | Yes      | Nama DRT (opsional) |
+| Drv_Instagram     | varchar(50)    | Yes      | Akun Instagram (opsional) |
+| Drv_Facebook      | varchar(50)    | Yes      | Akun Facebook (opsional) |
+| drv_no_rek        | varchar(50)    | Yes      | Nomor rekening bank |
+| drv_bank_rek      | varchar(50)    | Yes      | Nama bank |
+| drv_email         | varchar(100)   | No       | Email driver |
+| drv_branch_code   | varchar(50)    | Yes      | Kode cabang |
+| drv_ranking       | int            | Yes      | Ranking driver (opsional) |
+| drv_gender        | char(1)        | Yes      | Jenis kelamin (L: Laki, P: Perempuan) |
+| nik_driver        | varchar(50)    | Yes      | NIK driver (opsional) |
 
 ### Struktur Repository GitHub
 
