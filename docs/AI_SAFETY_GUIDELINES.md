@@ -166,7 +166,24 @@ DB_PASSWORD=pfind@sqlserver
 
 
 
-### Contoh Struktur Tabel Master Driver (ms_driver)
+
+### Contoh Struktur Tabel Fee Driver/Helper (tr_acc_driver_helper_fee_d)
+
+| Kolom                        | Tipe         | Nullable | Keterangan |
+|------------------------------|--------------|----------|------------|
+| rec_comcode                  | varchar(50)  | No       | Kode perusahaan |
+| rec_areacode                 | varchar(50)  | No       | Kode area |
+| drvhlprfee_code_h            | varchar(50)  | No       | Kode header fee driver/helper |
+| drvhlprfee_code_d            | varchar(50)  | No       | Kode detail fee driver/helper |
+| drvhlprfee_no                | int          | No       | Nomor urut detail fee |
+| drvhlprfee_Value_fee         | money        | Yes      | Nilai fee (opsional) |
+| drvhlprfee_emp_code          | varchar(50)  | Yes      | Kode karyawan driver/helper (opsional) |
+| drvhlprfee_Value_potongan    | money        | Yes      | Nilai potongan (opsional) |
+| drvhlprfee_Total_value       | money        | Yes      | Total nilai setelah potongan (opsional) |
+| drvhlprfee_outstanding_pinjaman | money    | Yes      | Outstanding pinjaman (opsional) |
+| drvhlprfee_status            | varchar(50)  | Yes      | Status fee (opsional) |
+| drvhlprfee_date              | date         | Yes      | Tanggal fee (opsional) |
+| drvhlprfee_codepayroll       | varchar(50)  | Yes      | Kode payroll (opsional) |
 
 | Kolom             | Tipe           | Nullable | Keterangan |
 |-------------------|----------------|----------|------------|
