@@ -164,6 +164,17 @@ DB_PASSWORD=pfind@sqlserver
 | ms_hr_from_id   | varchar(50)  | No         | Primary key, ID form HRD                   |
 | form_hr_desc    | varchar(50)  | Yes        | Deskripsi form HRD (opsional)               |
 
+### Contoh Struktur Tabel Komisi Karyawan (tr_hr_employee_komisi)
+
+| Kolom                  | Tipe         | Nullable   | Keterangan                                 |
+|------------------------|--------------|------------|---------------------------------------------|
+| tr_hr_employee_komisi  | varchar(50)  | No         | Primary key, ID komisi karyawan            |
+| ms_hr_employee_id      | varchar(50)  | Yes        | Foreign key ke karyawan (opsional)         |
+| value_komisi           | money        | Yes        | Nilai komisi (opsional)                    |
+| periode_komisi         | money        | Yes        | Periode komisi (opsional, bisa bulan/tahun) |
+| date_created           | date         | Yes        | Tanggal data dibuat (opsional)             |
+| user_created           | varchar(50)  | Yes        | User yang membuat data (opsional)          |
+
 ### Struktur Repository GitHub
 
 
