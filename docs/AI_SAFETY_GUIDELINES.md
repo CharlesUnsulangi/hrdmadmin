@@ -372,7 +372,7 @@ Berikut daftar form utama yang perlu diimplementasikan sesuai kebutuhan bisnis d
 - Input/Review Data Sosial Media
 - Penjadwalan Interview & Konfirmasi
 - Form Check-in Interview (QR/Manual)
-- Form Penilaian & Catatan Interview
+- Form Review & Penilaian Pelamar (**khusus admin HRD, terpisah dari form pelamar, tidak terlihat oleh pelamar**)
 
 #### B. Form Manajemen Karyawan
 - Register Karyawan Baru (dari pelamar)
