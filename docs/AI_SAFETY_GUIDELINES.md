@@ -165,6 +165,25 @@ DB_PASSWORD=pfind@sqlserver
 | form_hr_desc    | varchar(50)  | Yes        | Deskripsi form HRD (opsional)               |
 
 
+### Contoh Struktur Tabel Kandidat Karyawan (ms_hr_kandidat)
+
+| Kolom                  | Tipe         | Nullable   | Keterangan                                                      |
+|------------------------|--------------|------------|-----------------------------------------------------------------|
+| ms_hr_kandidat_emp_id  | varchar(50)  | No         | Primary key, ID kandidat (relasi ke karyawan/pelamar)           |
+| ms_status_id           | varchar(50)  | Yes        | Status kandidat (proses, approved, rejected, dsb)               |
+| ms_user_id             | varchar(50)  | Yes        | User yang menginput/menangani kandidat                          |
+| date_kandidat          | date         | Yes        | Tanggal kandidat diusulkan                                      |
+| date_emp               | date         | Yes        | Tanggal kandidat menjadi karyawan (jika lolos)                  |
+| date_hrd_approve       | date         | Yes        | Tanggal approval HRD                                            |
+| date_finance_approve   | date         | Yes        | Tanggal approval Finance                                        |
+| date_bod_approve       | date         | Yes        | Tanggal approval Board of Director                              |
+| rating_hrd             | int          | Yes        | Rating/penilaian HRD terhadap kandidat                          |
+| rating_finance         | int          | Yes        | Rating/penilaian Finance terhadap kandidat                      |
+| rating_bod             | int          | Yes        | Rating/penilaian Board of Director terhadap kandidat            |
+| rating_spv             | int          | Yes        | Rating/penilaian Supervisor terhadap kandidat                   |
+| date_spv               | date         | Yes        | Tanggal penilaian/approval Supervisor                           |
+
+
 
 
 
