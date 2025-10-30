@@ -27,6 +27,7 @@ Aplikasi HRD terdiri dari dua aplikasi utama:
     - Terdapat dashboard interview yang menampilkan daftar pelamar beserta status konfirmasi kehadiran interview.
     - HRD dapat langsung melihat siapa saja pelamar yang sudah konfirmasi hadir, belum konfirmasi, atau membatalkan.
     - Dashboard ini otomatis membentuk jadwal interview berdasarkan data konfirmasi, sehingga HRD dapat mengatur urutan, waktu, dan interviewer yang bertugas.
+    - Terdapat statistik per user HRD: berapa pelamar yang berhasil diinput oleh masing-masing user (user leaderboard), sehingga dapat memantau kontribusi tiap user dalam proses rekrutmen.
     - Penjadwalan interview, konfirmasi online/offline, check-in QR, multi-user real-time notes, hasil interview sebagai dasar keputusan.
 3. **Manajemen Register Karyawan**
     - Usulan kandidat, syarat kelengkapan data, tanda tangan kontrak, approval berjenjang (admin, finance, manager), perubahan status ke karyawan.
