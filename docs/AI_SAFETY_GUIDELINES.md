@@ -168,7 +168,20 @@ DB_PASSWORD=pfind@sqlserver
 
 
 
-### Contoh Struktur Tabel Header Fee Driver/Helper (tr_acc_driver_helper_fee_h)
+
+### Contoh Struktur Tabel User HRD (ms_hr_user)
+
+| Kolom            | Tipe         | Nullable | Keterangan |
+|------------------|--------------|----------|------------|
+| ms_hr_user_id    | varchar(50)  | No       | Primary key, ID user HRD |
+| password         | varchar(50)  | Yes      | Password user (hash/encrypted) |
+| email            | varchar(50)  | Yes      | Email user |
+| cek_aktif        | bit          | Yes      | Status aktif (opsional) |
+| ms_user_level_id | varchar(50)  | Yes      | ID level user (opsional) |
+| cek_inaktif      | bit          | Yes      | Status inaktif (opsional) |
+| sync_emp         | bit          | Yes      | Sinkronisasi dengan employee (opsional) |
+| sync_exp_date    | date         | Yes      | Tanggal sync expired (opsional) |
+| exp_date         | date         | Yes      | Tanggal expired user (opsional) |
 
 | Kolom                          | Tipe         | Nullable | Keterangan |
 |--------------------------------|--------------|----------|------------|
@@ -241,6 +254,19 @@ DB_PASSWORD=pfind@sqlserver
 | drv_ranking       | int            | Yes      | Ranking driver (opsional) |
 | drv_gender        | char(1)        | Yes      | Jenis kelamin (L: Laki, P: Perempuan) |
 | nik_driver        | varchar(50)    | Yes      | NIK driver (opsional) |
+
+
+### Contoh Struktur Tabel User Permission (ms_user_permission)
+
+| Kolom                | Tipe         | Nullable   | Keterangan                                    |
+|----------------------|--------------|------------|------------------------------------------------|
+| ms_user_permission_id| varchar(50)  | No         | Primary key, ID user permission                |
+| ms_user_id           | varchar(50)  | Yes        | Foreign key ke user (opsional)                 |
+| ms_modul_id          | varchar(50)  | Yes        | Foreign key ke modul (opsional)                |
+| ms_level_id          | varchar(50)  | Yes        | Foreign key ke level user (opsional)           |
+| date_created         | date         | Yes        | Tanggal data dibuat (opsional)                 |
+| user_created         | varchar(50)  | Yes        | User yang membuat data (opsional)              |
+| cek_non_aktif        | bit          | Yes        | Status non aktif (opsional)                    |
 
 ### Struktur Repository GitHub
 
