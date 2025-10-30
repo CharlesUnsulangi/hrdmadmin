@@ -164,16 +164,72 @@ DB_PASSWORD=pfind@sqlserver
 | ms_hr_from_id   | varchar(50)  | No         | Primary key, ID form HRD                   |
 | form_hr_desc    | varchar(50)  | Yes        | Deskripsi form HRD (opsional)               |
 
-### Contoh Struktur Tabel Komisi Karyawan (tr_hr_employee_komisi)
 
-| Kolom                  | Tipe         | Nullable   | Keterangan                                 |
-|------------------------|--------------|------------|---------------------------------------------|
-| tr_hr_employee_komisi  | varchar(50)  | No         | Primary key, ID komisi karyawan            |
-| ms_hr_employee_id      | varchar(50)  | Yes        | Foreign key ke karyawan (opsional)         |
-| value_komisi           | money        | Yes        | Nilai komisi (opsional)                    |
-| periode_komisi         | money        | Yes        | Periode komisi (opsional, bisa bulan/tahun) |
-| date_created           | date         | Yes        | Tanggal data dibuat (opsional)             |
-| user_created           | varchar(50)  | Yes        | User yang membuat data (opsional)          |
+### Contoh Struktur Tabel Master Employee (ms_employee)
+
+| Kolom                | Tipe           | Nullable | Keterangan |
+|----------------------|----------------|----------|------------|
+| rec_usercreated      | varchar(50)    | No       | User yang membuat data |
+| rec_userupdate       | varchar(50)    | No       | User yang mengupdate data |
+| rec_datecreated      | datetime       | No       | Tanggal data dibuat |
+| rec_dateupdate       | datetime       | No       | Tanggal data diupdate |
+| rec_status           | char(1)        | No       | Status record (aktif/nonaktif) |
+| emp_id               | varchar(50)    | No       | Primary key, ID karyawan |
+| emp_iddivision       | varchar(50)    | Yes      | ID divisi karyawan |
+| emp_name             | varchar(100)   | Yes      | Nama karyawan |
+| emp_inactive         | bit            | Yes      | Status nonaktif (opsional) |
+| emp_subdivision      | varchar(50)    | Yes      | Subdivisi karyawan |
+| emp_upahpokok        | money          | Yes      | Upah pokok |
+| emp_tunjangan        | money          | Yes      | Tunjangan |
+| emp_datejoin         | date           | Yes      | Tanggal mulai kerja |
+| emp_dateresign       | date           | Yes      | Tanggal resign |
+| emp_born             | date           | Yes      | Tanggal lahir |
+| emp_nokontrak        | varchar(50)    | Yes      | Nomor kontrak |
+| emp_expdatekontrak   | date           | Yes      | Tanggal akhir kontrak |
+| emp_numkontrak       | money          | Yes      | Nomor kontrak (opsional, numerik) |
+| emp_npwp             | varchar(50)    | Yes      | NPWP |
+| emp_bank             | varchar(50)    | Yes      | Nama bank |
+| emp_norek            | varchar(50)    | Yes      | Nomor rekening |
+| emp_address          | varchar(200)   | Yes      | Alamat |
+| emp_idktp            | varchar(50)    | Yes      | Nomor KTP |
+| emp_kotalahir        | varchar(100)   | Yes      | Kota lahir |
+| emp_childno          | money          | Yes      | Jumlah anak |
+| emp_namaistri        | varchar(50)    | Yes      | Nama istri/suami |
+| emp_jamsostek        | varchar(50)    | Yes      | Nomor Jamsostek/BPJS |
+| emp_includepajak     | bit            | Yes      | Termasuk pajak (opsional) |
+| emp_telp             | varchar(50)    | Yes      | Nomor telepon |
+| emp_lastedu          | varchar(100)   | Yes      | Pendidikan terakhir |
+| emp_lastcom          | varchar(100)   | Yes      | Perusahaan terakhir |
+| emp_telplastcom      | varchar(50)    | Yes      | Telepon perusahaan terakhir |
+| emp_lastjabatan      | varchar(100)   | Yes      | Jabatan terakhir |
+| emp_lastsalary       | money          | Yes      | Gaji terakhir |
+| emp_cutitotal        | varchar(50)    | Yes      | Total cuti |
+| emp_com              | varchar(50)    | Yes      | Nama perusahaan |
+| emp_status           | varchar(50)    | Yes      | Status karyawan |
+| emp_religion         | varchar(50)    | Yes      | Agama |
+| emp_citizen          | varchar(50)    | Yes      | Kewarganegaraan |
+| emp_desc             | varchar(100)   | Yes      | Keterangan tambahan |
+| emp_levelclass       | money          | Yes      | Level kelas jabatan |
+| emp_leveljabatan     | money          | Yes      | Level jabatan |
+| emp_lastjobdesk      | varchar(50)    | Yes      | Jobdesk terakhir |
+| emp_apprlast         | varchar(50)    | Yes      | Approval terakhir |
+| emp_gender           | char(1)        | Yes      | Jenis kelamin |
+| emp_typepayroll      | varchar(50)    | Yes      | Tipe payroll |
+| emp_reason_nonactive | varchar(200)   | Yes      | Alasan nonaktif |
+| emp_aksesuser        | varchar(50)    | Yes      | User akses |
+| emp_email            | varchar(255)   | Yes      | Email |
+| emp_statuskaryawan   | varchar(50)    | Yes      | Status karyawan (opsional) |
+| card_id              | varchar(10)    | Yes      | ID kartu |
+| emp_no_drt           | varchar(50)    | Yes      | Nomor DRT (opsional) |
+| emp_name_drt         | varchar(100)   | Yes      | Nama DRT (opsional) |
+| emp_akn_fb           | varchar(100)   | Yes      | Akun Facebook (opsional) |
+| emp_akn_ig           | varchar(100)   | Yes      | Akun Instagram (opsional) |
+| emp_last_contract    | datetime       | Yes      | Kontrak terakhir (opsional) |
+| emp_state_appr       | varchar(1)     | Yes      | Status approval (opsional) |
+| emp_nik              | varchar(255)   | Yes      | NIK (opsional) |
+| cek_akfif            | bit            | Yes      | Cek aktif (opsional) |
+| cek_non_aktif        | bit            | Yes      | Cek non aktif (opsional) |
+| ms_company_id        | varchar(50)    | Yes      | ID perusahaan (opsional) |
 
 ### Struktur Repository GitHub
 
