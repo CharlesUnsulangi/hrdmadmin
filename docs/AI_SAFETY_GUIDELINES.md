@@ -1,6 +1,225 @@
 
+
+
+# Workflow Aplikasi HRD
+
+## 1. Gambaran Umum
+Aplikasi HRD terdiri dari dua aplikasi utama:
+- **hrdmguest**: Untuk pelamar, berisi fitur pengisian data, konfirmasi interview, self check-in (QR), dan pelengkapan data diri.
+- **hrdmadmin**: Untuk user/operator/admin HRD, berisi fitur manajemen seluruh proses HRD (rekrutmen, kontrak, payroll, absensi, assessment, berita acara, monitoring).
+
+## 2. Struktur Repository GitHub
+- `hrdmadmin`: aplikasi admin HRD
+- `hrdmguest`: aplikasi guest/pelamar
+> Akses kode dan kolaborasi langsung di GitHub melalui link repository.
+
+## 3. Modul Utama & Alur Bisnis
+
+0. **Manajemen User**
+    - Pengelolaan akun, peran (role), hak akses, audit trail, dan histori aktivitas user/operator/admin.
+1. **Manajemen Pelamar**
+    - Input data pelamar (copy dari portal/email), flag status interview, kategori pelamar (karyawan/mitra), pengiriman WA otomatis, link onboarding, verifikasi data.
+2. **Manajemen Interview**
+    - Penjadwalan interview, konfirmasi online/offline, check-in QR, multi-user real-time notes, hasil interview sebagai dasar keputusan.
+3. **Manajemen Register Karyawan**
+    - Usulan kandidat, syarat kelengkapan data, tanda tangan kontrak, approval berjenjang (admin, finance, manager), perubahan status ke karyawan.
+4. **Manajemen PKWT/PKWTT**
+    - Pencatatan kontrak kerja karyawan & mitra (driver/kenek/outsourcing), masa berlaku, dokumen pendukung, reminder perpanjangan.
+5. **Manajemen Payroll**
+    - Pengelolaan komponen gaji (upah pokok, tunjangan, bonus, komisi), olah data absensi, hasil payroll berupa tabel pembayaran, proses approval & pembayaran, slip gaji, pencatatan status & bukti pembayaran (notifikasi/slip/berita acara).
+6. **Manajemen Absensi & Cuti**
+    - Absensi harian, pengajuan cuti, verifikasi & pengelolaan data absensi/cuti oleh HRD.
+7. **Manajemen Assessment**
+    - Assessment terdiri dari beberapa bagian:
+        - Self assessment (diisi oleh karyawan sendiri)
+        - Dinilai oleh atasan langsung
+        - Dinilai oleh board director
+        - Dinilai oleh HRD
+        - Dinilai oleh bawahan (jika ada bawahan)
+    - Penilaian kinerja dilakukan secara periodik dan terstruktur dari berbagai perspektif (multi-rater), hasil digunakan untuk pengembangan karir & evaluasi.
+8. **Manajemen Berita Acara**
+    - Daftar semua informasi penting (pelanggaran, anomali, penghargaan, dsb), table master jenis berita acara untuk klasifikasi, dokumentasi & akses sesuai kebutuhan.
+
+## 4. Diagram Alur Sederhana
+Pelamar → [Seleksi Administrasi] → Interview → [Diterima] → Register Karyawan → PKWT/PKWTT → Absensi/Cuti → Payroll → Assessment → Berita Acara
+
+## 5. Catatan Teknis & Standar
+- Laravel 11, Laravel Breeze (Livewire + Alpine), Pest/PHPUnit 11.
+- Standar keamanan, code style, workflow Git, dependency management, dan protokol interaksi AI sudah dijabarkan detail di bawah bagian workflow.
+
+### Contoh Konfigurasi Database (SQL Server)
+
+Tambahkan konfigurasi berikut ke file `.env` (jangan commit password ke repository!):
+
+```
+DB_CONNECTION=sqlsrv
+DB_HOST=66.96.240.131,26402
+DB_DATABASE=RCM_DEV_HGS_SB
+DB_USERNAME=sa
+DB_PASSWORD=pfind@sqlserver
+```
+
+> **Keamanan:**
+> Jangan pernah commit file .env yang berisi password ke repository GitHub. Gunakan .env.example tanpa password untuk contoh.
+
+### Contoh Struktur Tabel Interview (tr_hr_pelamar_interview)
+
+| Kolom                | Tipe         | Nullable   | Keterangan                       |
+|----------------------|--------------|------------|-----------------------------------|
+| tr_hr_pelamar_interview_id | int          | No         | Primary key                      |
+| tr_hr_pelamar_id     | varchar(50)  | Yes        | Foreign key ke pelamar           |
+| date_interview       | date         | Yes        | Tanggal interview                |
+| time_start           | time(7)      | Yes        | Waktu mulai                      |
+| time_end             | time(7)      | Yes        | Waktu selesai                    |
+| note_operator        | varchar(50)  | Yes        | Catatan operator                 |
+| note_spv             | varchar(50)  | Yes        | Catatan supervisor               |
+| note_mgr             | varchar(50)  | Yes        | Catatan manager                  |
+| note_hrd             | varchar(50)  | Yes        | Catatan HRD                      |
+| note_bd              | varchar(50)  | Yes        | Catatan board director           |
+| note_gm              | varchar(50)  | Yes        | Catatan general manager          |
+| note_dir             | varchar(50)  | Yes        | Catatan direktur                 |
+| note_mgt             | varchar(50)  | Yes        | Catatan manajemen                |
+| rating_operator      | int          | Yes        | Rating operator                  |
+| rating_spv           | int          | Yes        | Rating supervisor                |
+| rating_mgr           | int          | Yes        | Rating manager                   |
+| rating_gm            | int          | Yes        | Rating general manager           |
+| rating_bd            | int          | Yes        | Rating board director            |
+| rating_mgt           | int          | Yes        | Rating manajemen                 |
+| rating_hrd           | int          | Yes        | Rating HRD                       |
+| cek_lanjut           | bit          | Yes        | Flag lanjut proses                |
+| cek_tolak            | bit          | Yes        | Flag tolak proses                 |
+
+### Contoh Struktur Tabel Pengalaman Perusahaan (tr_hr_pelamar_pengalaman_perusahaan)
+
+| Kolom                      | Tipe         | Nullable   | Keterangan                                    |
+|----------------------------|--------------|------------|------------------------------------------------|
+| tr_hr_pelamar_pengalaman_id| int (IDENTITY) | No       | Primary key, auto increment                   |
+| tr_hr_pelamar_id           | varchar(50)  | No         | Foreign key ke pelamar                        |
+| perusahaan                 | varchar(50)  | No         | Nama perusahaan                               |
+| tgl_start                  | date         | No         | Tanggal mulai bekerja                         |
+| tgl_end                    | date         | No         | Tanggal selesai bekerja                       |
+| hp_hrd                     | varchar(50)  | No         | Nomor HP HRD perusahaan                       |
+| nama_hrd                   | varchar(50)  | No         | Nama HRD perusahaan                           |
+| hp_atasan                  | varchar(50)  | No         | Nomor HP atasan langsung                      |
+| alasan_resign              | text         | No         | Alasan resign dari perusahaan                  |
+| jabatan_akhir              | varchar(50)  | Yes        | Jabatan terakhir di perusahaan                 |
+| jabatan_awal               | varchar(50)  | Yes        | Jabatan awal di perusahaan                     |
+| gaji_awal                  | money        | No         | Gaji awal saat masuk perusahaan                |
+| gaji_akhir                 | money        | No         | Gaji akhir saat keluar perusahaan              |
+| sukses_rating              | int          | Yes        | Rating keberhasilan (opsional)                 |
+| sukses_keterangan          | text         | Yes        | Keterangan keberhasilan (opsional)             |
+| sulit_rating               | int          | Yes        | Rating kesulitan (opsional)                    |
+| sulit_keterangan           | text         | Yes        | Keterangan kesulitan (opsional)                |
+| puas_rating                | int          | Yes        | Rating kepuasan (opsional)                     |
+| puas_keterangan            | text         | Yes        | Keterangan kepuasan (opsional)                 |
+| masalah_rating             | int          | Yes        | Rating masalah (opsional)                      |
+| masalah_keterangan         | text         | Yes        | Keterangan masalah (opsional)                  |
+| kesalahan_paling_besar     | text         | Yes        | Catatan kesalahan paling besar (opsional)      |
+
+### Contoh Struktur Tabel Skedul Pelamar (tr_hr_pelamar_skedul)
+
+| Kolom                | Tipe         | Nullable   | Keterangan                                 |
+|----------------------|--------------|------------|---------------------------------------------|
+| tr_hr_pelamar_id     | varchar(50)  | No         | Primary key, foreign key ke pelamar         |
+| skedul_pelamar_time  | datetime     | Yes        | Waktu skedul interview pelamar (opsional)   |
+| skedul_confirmed     | datetime     | Yes        | Waktu konfirmasi skedul oleh pelamar (opsional) |
+
+### Struktur Repository GitHub
+
+
+- Repository utama: [`hrdmadmin`](https://github.com/CharlesUnsulangi/hrdmadmin) (aplikasi admin HRD)
+- Repository kedua: [`hrdmguest`](https://github.com/CharlesUnsulangi/hrdmguest) (aplikasi guest/pelamar)
+
+
+Setiap repository memiliki branch utama (`main`) dan pengembangan fitur dilakukan di feature branch terpisah. Pull request digunakan untuk review dan merge perubahan ke branch utama. Dokumentasi, instruksi deployment, dan CI/CD dapat disimpan di masing-masing repository.
+
+> **add github:** Pastikan setiap perubahan kode, dokumentasi, dan kolaborasi dilakukan melalui GitHub repository di atas untuk menjaga versioning, review, dan kolaborasi yang terstruktur.
+
+> **Akses kode dan kolaborasi:**
+> Silakan langsung _go to GitHub_ pada link repository di atas untuk mengakses source code, melakukan kolaborasi, atau review perubahan.
+    - Ditujukan untuk user/operator/admin HRD.
+    - Fitur: pencatatan data pelamar, penjadwalan dan konfirmasi interview, pengelolaan data karyawan, kontrak, payroll, absensi, assessment, berita acara, serta monitoring seluruh proses HRD.
+    - Digunakan oleh staf HRD untuk mengelola seluruh proses rekrutmen dan administrasi karyawan.
+
+Berikut adalah alur utama proses bisnis aplikasi HRD yang akan diimplementasikan:
+
+0. **Manajemen User**
+    - Sistem menyediakan modul manajemen user untuk mengelola akun, peran (role), dan hak akses user/operator/admin HRD.
+    - Admin dapat menambah, mengedit, menonaktifkan, atau menghapus user sesuai kebutuhan organisasi.
+    - Setiap user dapat diberikan role tertentu (misal: admin, HRD, manager, finance, interviewer) yang menentukan hak akses dan fitur yang dapat digunakan.
+    - Audit trail dan histori aktivitas user dicatat untuk keamanan dan akuntabilitas.
+
+1. **Manajemen Pelamar**
+    - User (HRD) mencatat data pelamar ke sistem dengan menyalin/meng-copy data dari website eksternal (misal: portal rekrutmen, email, dsb).
+    - Setiap data pelamar yang dimasukkan dapat diberi tanda/status apakah pelamar tersebut akan dipanggil interview atau belum (flag "dipanggil"/"belum dipanggil").
+    - Pelamar dikategorikan menjadi dua:
+        1. Calon karyawan (akan diproses untuk menjadi karyawan tetap/perusahaan)
+        2. Calon mitra kerja (driver/kenek, akan diproses untuk menjadi mitra/outsourcing)
+    - Proses lanjutan, persyaratan, dan workflow akan menyesuaikan dengan kategori pelamar tersebut.
+    - Pelamar yang dipilih untuk dipanggil interview akan dihubungi melalui WhatsApp (WA).
+    - Sistem akan mendukung fungsi otomatis untuk mengirim pesan WA ke pelamar yang statusnya "dipanggil".
+    - Pesan WA yang dikirim ke pelamar akan dilengkapi dengan hyperlink ke aplikasi lain (misal: aplikasi onboarding) agar pelamar dapat mengisi kelengkapan data diri dan melakukan konfirmasi jadwal interview secara mandiri.
+    - Hal ini membedakan pelamar yang sudah dipilih untuk diproses lebih lanjut dengan pelamar yang hanya dicatat sebagai arsip atau referensi.
+    - Data pelamar yang sudah dicatat dapat diverifikasi dan diproses lebih lanjut oleh HRD.
+
+2. **Manajemen Interview**
+    - HRD menjadwalkan interview untuk pelamar yang lolos seleksi administrasi.
+    - Jadwal interview dapat dikonfirmasi dengan dua cara:
+        - Pelamar mengisi dan mengkonfirmasi jadwal interview secara online melalui link yang diberikan di pesan WA.
+        - Atau, operator/user menginput dan mengkonfirmasi jadwal interview di aplikasi berdasarkan informasi lisan/telepon/WA dari pelamar (jika pelamar tidak mengisi online).
+    - Saat pelamar datang ke lokasi interview, pelamar dapat melakukan check-in dengan cara scan QR code menggunakan handheld (smartphone) untuk konfirmasi kehadiran.
+    - Alternatifnya, operator dapat membantu melakukan check-in pelamar langsung dari aplikasi jika pelamar tidak bisa scan QR code.
+    - Saat interview berlangsung, halaman interview dapat dibuka berdasarkan ID pelamar.
+    - Beberapa user (HRD/interviewer) dapat membuka halaman interview yang sama secara bersamaan.
+    - Masing-masing user dapat memberikan komentar, catatan, atau penilaian secara real-time pada pelamar tersebut.
+    - Hasil interview dicatat dan menjadi dasar keputusan lanjut/tidaknya pelamar.
+
+3. **Manajemen Register Karyawan**
+    - Pelamar yang lolos interview dan dinyatakan layak akan diusulkan oleh operator untuk menjadi kandidat karyawan.
+    - Syarat agar pelamar dapat diubah menjadi karyawan (data disalin ke data karyawan):
+        1. Data diri pelamar sudah lengkap (termasuk data bank, kontak, dsb).
+        2. Pelamar sudah menandatangani kontrak kerja (PKWT/PKWTT) secara digital/manual.
+        3. Usulan kandidat sudah mendapat approval dari admin, finance, dan manager.
+    - Setelah seluruh syarat di atas terpenuhi, status pelamar diubah menjadi karyawan dan data karyawan baru diinput ke sistem, termasuk data kontrak dan jabatan.
+
+4. **Manajemen PKWT/PKWTT**
+    - HRD mencatat nomor PKWT/PKWTT dan informasi detail kontrak kerja untuk karyawan.
+    - Modul ini juga mencakup pengaturan dan pencatatan dokumen mitra kerja (driver/kenek/outsourcing), termasuk kontrak kemitraan, masa berlaku, dan dokumen pendukung lainnya.
+    - Pencatatan PKWT/PKWTT hanya dapat dilakukan untuk kandidat yang sudah di-approve dan statusnya sudah menjadi karyawan atau mitra.
+    - Sistem mengingatkan masa berlaku kontrak dan proses perpanjangan.
+
+5. **Manajemen Payroll**
+    - Sistem menyediakan fungsi untuk mengatur dan mengelola komponen gaji, meliputi:
+        - Upah pokok
+        - Tunjangan
+        - Bonus
+        - Komisi
+    - Data kehadiran, absensi, dan komponen gaji diolah untuk proses payroll.
+    - Proses payroll akan menghasilkan tabel pembayaran payroll (payroll payment table) yang dapat digunakan untuk proses lebih lanjut, seperti approval, pembayaran, dan pelaporan.
+    - Setelah payroll dibayar, sistem akan mencatat status pembayaran dan dapat mengirimkan atau menampilkan tanda bukti pembayaran (misal: notifikasi, slip, atau berita acara) yang sumber datanya diambil dari tabel lain (misal: tabel transaksi pembayaran atau berita acara pembayaran).
+    - Slip gaji dapat diakses oleh karyawan secara mandiri.
+
+6. **Manajemen Absensi & Cuti**
+    - Karyawan melakukan absensi harian dan pengajuan cuti melalui aplikasi.
+    - HRD memverifikasi dan mengelola data absensi serta cuti.
+
+7. **Manajemen Assessment**
+    - Penilaian kinerja karyawan dilakukan secara periodik.
+    - Hasil assessment digunakan untuk pengembangan karir dan evaluasi.
+
+8. **Manajemen Berita Acara**
+    - Berita acara adalah daftar dari semua informasi penting yang perlu dicatat oleh HRD, seperti laporan pelanggaran, anomali, penghargaan, atau catatan lain yang relevan.
+    - Terdapat table master jenis berita acara yang berfungsi sebagai referensi tipe/klasifikasi berita acara (misal: pelanggaran, anomali, penghargaan, dsb) agar pencatatan lebih terstruktur dan konsisten.
+    - Setiap berita acara dapat berupa laporan pelanggaran, anomali, atau kejadian apapun yang perlu didokumentasikan secara resmi.
+    - Berita acara terdokumentasi dan dapat diakses sesuai kebutuhan.
+
+### Diagram Alur Sederhana
+
+Pelamar → [Seleksi Administrasi] → Interview → [Diterima] → Register Karyawan → PKWT/PKWTT → Absensi/Cuti → Payroll → Assessment → Berita Acara
+
 # Modul Utama Aplikasi HRD
 
+0. Manajemen User
 1. Manajemen Pelamar
 2. Manajemen Interview
 3. Manajemen Register Karyawan
