@@ -268,6 +268,46 @@ DB_PASSWORD=pfind@sqlserver
 | user_created         | varchar(50)  | Yes        | User yang membuat data (opsional)              |
 | cek_non_aktif        | bit          | Yes        | Status non aktif (opsional)                    |
 
+
+### Contoh Struktur Tabel Payroll Karyawan (ms_hr_employee_payroll)
+
+| Kolom             | Tipe         | Nullable | Keterangan                                 |
+|-------------------|--------------|----------|---------------------------------------------|
+| ms_hr_employee_id | varchar(50)  | No       | Primary key, ID karyawan                    |
+| upah_pokok        | money        | No       | Upah pokok karyawan                        |
+| tunjangan         | money        | No       | Tunjangan karyawan                         |
+| bank_acc          | varchar(50)  | No       | Nomor rekening bank karyawan               |
+| bank              | varchar(50)  | No       | Nama bank karyawan                         |
+| date_created      | date         | No       | Tanggal data dibuat                        |
+| user_created      | varchar(50)  | No       | User yang membuat data                     |
+
+
+### Contoh Struktur Tabel Payroll Bulanan (tr_payroll_payment_monthly_d)
+
+| Kolom                                 | Tipe         | Nullable | Keterangan                                    |
+|---------------------------------------|--------------|----------|------------------------------------------------|
+| rec_comcode                           | varchar(50)  | No       | Kode perusahaan                                |
+| rec_areacode                          | varchar(50)  | No       | Kode area                                     |
+| payroll_payment_monthly_h             | varchar(50)  | No       | Kode header payroll bulanan                    |
+| payroll_payment_monthly_no            | int          | No       | Nomor urut detail payroll bulanan              |
+| payroll_payment_payrollmonthlycode    | varchar(50)  | No       | Kode payroll bulanan                           |
+| payroll_payment_date_payroll_payment  | datetime     | Yes      | Tanggal pembayaran payroll (opsional)          |
+| payroll_payment_emp_code              | varchar(50)  | Yes      | Kode karyawan (opsional)                       |
+| payroll_payment_total_payment         | money        | Yes      | Total pembayaran (opsional)                    |
+| payroll_payment_user_payroll          | varchar(50)  | Yes      | User payroll (opsional)                        |
+| payroll_payment_note                  | varchar(50)  | Yes      | Catatan pembayaran (opsional)                  |
+| payroll_payment_transmaincoacode      | varchar(50)  | Yes      | Kode COA transaksi utama (opsional)            |
+| payroll_payment_potongan              | money        | Yes      | Potongan (opsional)                            |
+| payroll_payment_value                 | money        | Yes      | Nilai pembayaran (opsional)                    |
+| payroll_payment_rekno                 | varchar(50)  | Yes      | Nomor rekening (opsional)                      |
+| payroll_upah_pokok                    | money        | Yes      | Upah pokok (opsional)                          |
+| payroll_tunjangan                     | money        | Yes      | Tunjangan (opsional)                           |
+| payroll_payment_bank                  | varchar(50)  | Yes      | Nama bank (opsional)                           |
+| payroll_payment_bonus                 | money        | Yes      | Bonus (opsional)                               |
+| payroll_payment_komisi                | money        | Yes      | Komisi (opsional)                              |
+| payroll_payment_thr                   | money        | Yes      | THR (opsional)                                 |
+| payroll_payment_kompensasi            | money        | Yes      | Kompensasi (opsional)                          |
+
 ### Struktur Repository GitHub
 
 
