@@ -184,6 +184,20 @@ DB_PASSWORD=pfind@sqlserver
 | date_spv               | date         | Yes        | Tanggal penilaian/approval Supervisor                           |
 
 
+### Contoh Struktur Tabel WhatsApp Message (tr_hr_wa_msg_id)
+
+| Kolom            | Tipe           | Nullable   | Keterangan                                              |
+|------------------|----------------|------------|---------------------------------------------------------|
+| tr_hr_wa_msg_id  | int            | No         | Primary key, ID pesan WhatsApp                          |
+| email            | varchar(50)    | Yes        | Email penerima (opsional)                               |
+| ms_hr_pelamar_id | varchar(50)    | Yes        | ID pelamar terkait (opsional)                           |
+| hp               | varchar(50)    | Yes        | Nomor HP penerima (opsional)                            |
+| link             | nvarchar(max)  | Yes        | Link yang dikirim (misal: onboarding/interview)         |
+| msg              | text           | Yes        | Isi pesan WhatsApp                                      |
+| ms_hr_wa_msg_id  | int            | Yes        | Relasi ke master template pesan (opsional)              |
+| time_sent        | time(7)        | Yes        | Waktu pesan dikirim (opsional)                          |
+
+
 
 
 
