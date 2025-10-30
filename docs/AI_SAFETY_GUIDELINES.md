@@ -1,5 +1,9 @@
 # AI Safety Guidelines for Project Development
 
+
+**Framework Version Notice:**
+This project uses **Laravel 11** (bukan 12) karena versi 12 masih baru dan belum terbukti stabil untuk kebutuhan produksi. Semua pengembangan, dependency, dan dokumentasi harus mengacu pada Laravel 11.
+
 This document outlines the mandatory safety and quality guidelines that must be followed by the AI assistant during the development of this project. Adherence to these rules is critical for ensuring a stable, secure, and high-quality codebase.
 
 ## 1. Core Principles
