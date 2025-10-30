@@ -124,6 +124,18 @@ DB_PASSWORD=pfind@sqlserver
 | skedul_pelamar_time  | datetime     | Yes        | Waktu skedul interview pelamar (opsional)   |
 | skedul_confirmed     | datetime     | Yes        | Waktu konfirmasi skedul oleh pelamar (opsional) |
 
+### Contoh Struktur Tabel Sosial Media Pelamar (tr_hr_pelamar_sosmed)
+
+| Kolom                | Tipe            | Nullable   | Keterangan                                      |
+|----------------------|-----------------|------------|-------------------------------------------------|
+| tr_hr_pelamar_sosmed | int             | No         | Primary key, ID sosmed pelamar                   |
+| sosmed_link          | nvarchar(max)   | Yes        | Link ke profil sosial media pelamar (opsional)   |
+| tr_hr_pelamar_id     | varchar(50)     | Yes        | Foreign key ke pelamar (opsional)                |
+| sosmed_user          | varchar(50)     | Yes        | Username/ID akun sosial media (opsional)         |
+| sosmed_type          | varchar(50)     | Yes        | Jenis sosial media (misal: Facebook, IG, dsb)    |
+| date_created         | date            | Yes        | Tanggal data dibuat (opsional)                   |
+| user_created         | varchar(50)     | Yes        | User yang membuat data (opsional)                |
+
 ### Struktur Repository GitHub
 
 
