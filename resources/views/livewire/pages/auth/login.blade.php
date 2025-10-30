@@ -60,10 +60,17 @@ $login = function () {
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
         </div>
-    </form>
+
+        @if(app()->environment('local'))
+            <form method="POST" action="/bypass-login" style="margin-top: 1rem;">
+                @csrf
+                <button type="submit" style="background: #38a169; color: white; padding: 0.5rem 1rem; border-radius: 0.25rem;">Bypass Login (Dev Only)</button>
+            </form>
+        @endif
+        <x-primary-button class="ms-3">
+            {{ __('Log in') }}
+        </x-primary-button>
+    </div>
+</form>
 </div>
