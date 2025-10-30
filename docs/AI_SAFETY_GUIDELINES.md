@@ -308,6 +308,58 @@ DB_PASSWORD=pfind@sqlserver
 | payroll_payment_thr                   | money        | Yes      | THR (opsional)                                 |
 | payroll_payment_kompensasi            | money        | Yes      | Kompensasi (opsional)                          |
 
+
+### Contoh Struktur Tabel Header Payroll Bulanan (tr_payroll_payment_monthly_h)
+
+| Kolom                          | Tipe         | Nullable | Keterangan                                    |
+|--------------------------------|--------------|----------|------------------------------------------------|
+| rec_usercreated                | varchar(50)  | No       | User yang membuat data                         |
+| rec_userupdate                 | varchar(50)  | No       | User yang mengupdate data                      |
+| rec_datecreated                | datetime     | No       | Tanggal data dibuat                            |
+| rec_dateupdate                 | datetime     | No       | Tanggal data diupdate                          |
+| rec_status                     | char(1)      | No       | Status record (aktif/nonaktif)                 |
+| rec_comcode                    | varchar(50)  | No       | Kode perusahaan                                |
+| rec_areacode                   | varchar(50)  | No       | Kode area                                     |
+| payroll_payment_monthly_h_code | varchar(50)  | No       | Kode header payroll bulanan                    |
+| payroll_payment_payrollmonthlycode | varchar(50) | No    | Kode payroll bulanan                           |
+| payroll_monthly_date_payment   | datetime     | Yes      | Tanggal pembayaran payroll (opsional)          |
+| payroll_monthly_date_generate  | datetime     | Yes      | Tanggal generate payroll (opsional)            |
+| payroll_monthly_User_generate  | varchar(50)  | Yes      | User generate payroll (opsional)               |
+| payroll_monthly_User_payment   | varchar(50)  | Yes      | User pembayaran payroll (opsional)             |
+| payroll_monthly_Total_payment  | varchar(50)  | Yes      | Total pembayaran (opsional)                    |
+| payroll_monthly_Payment_type   | varchar(50)  | Yes      | Tipe pembayaran (opsional)                     |
+| payroll_monthly_status         | varchar(50)  | Yes      | Status payroll (opsional)                      |
+| payroll_monthly_statpay        | varchar(50)  | Yes      | Status pembayaran (opsional)                   |
+| payroll_monthly_year           | varchar(50)  | Yes      | Tahun payroll (opsional)                       |
+| payroll_monthly_upah_pokok     | money        | Yes      | Upah pokok (opsional)                          |
+| payroll_monthly_tunjangan      | money        | Yes      | Tunjangan (opsional)                           |
+| ms_company_id                  | varchar(50)  | Yes      | ID perusahaan (opsional)                       |
+| payroll_monthly_komisi         | money        | Yes      | Komisi (opsional)                              |
+| payroll_monthly_bonus          | money        | Yes      | Bonus (opsional)                               |
+| payroll_monthly_thr            | money        | Yes      | THR (opsional)                                 |
+| payroll_monthly_kompensasi     | money        | Yes      | Kompensasi (opsional)                          |
+
+
+### Contoh Struktur Tabel Payroll Non Bulanan (tr_payroll_payment_non_monthly_d)
+
+| Kolom                                   | Tipe         | Nullable | Keterangan                                    |
+|-----------------------------------------|--------------|----------|------------------------------------------------|
+| rec_comcode                             | varchar(50)  | No       | Kode perusahaan                                |
+| rec_areacode                            | varchar(50)  | No       | Kode area                                     |
+| payrollpaymentnonmonthly_code_h         | varchar(50)  | No       | Kode header payroll non bulanan                |
+| payrollpaymentnonmonthly_code_d         | varchar(50)  | No       | Kode detail payroll non bulanan                |
+| payrollpaymentnonmonthly_empcode        | varchar(50)  | Yes      | Kode karyawan (opsional)                       |
+| payrollpaymentnonmonthly_total_payment  | money        | No       | Total pembayaran                               |
+| payrollpaymentnonmonthly_date_payroll_payment | date   | Yes      | Tanggal pembayaran payroll (opsional)          |
+| payrollpaymentnonmonthly_note           | varchar(50)  | No       | Catatan pembayaran                             |
+| payrollpaymentnonmonthly_user_payroll   | varchar(50)  | Yes      | User payroll (opsional)                        |
+| payrollpaymentnonmonthly_transpaymodecode | varchar(50)| Yes      | Kode mode pembayaran (opsional)                |
+| payrollpaymentnonmonthly_transaksicode  | varchar(50)  | Yes      | Kode transaksi (opsional)                      |
+| payrollpaymentnonmonthly_Status         | varchar(50)  | Yes      | Status pembayaran (opsional)                   |
+| payrollpaymentnonmonthly_value          | money        | Yes      | Nilai pembayaran (opsional)                    |
+| payrollpaymentnonmonthly_potongan       | money        | Yes      | Potongan (opsional)                            |
+| payrollpaymentnonmonthly_status_hold    | varchar(50)  | Yes      | Status hold pembayaran (opsional)              |
+
 ### Struktur Repository GitHub
 
 
