@@ -8,15 +8,17 @@ class TrHrPelamarMain extends Model
 {
     protected $table = 'tr_hr_pelamar_main';
     protected $primaryKey = 'tr_hr_pelamar_main_id';
-    public $incrementing = true;
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
-        'tr_hr_pelamar_id',
+        'tr_hr_pelamar_main_id',
         'nama',
         'email',
-        'hp',
+        'no_hp',
         'posisi',
-        'user_created',
-        'date_created',
+        'status',
+        'created_at',
+        'updated_at',
         'rating',
         'cek_confirm',
         'time_confirm',
@@ -31,8 +33,18 @@ class TrHrPelamarMain extends Model
         'time_interview',
         'time_wa',
         'link_cv',
-        'asal_lamaran',
-        'ms_hr_from_id',
-        'status'
+        'date_created',
     ];
+    // Nonaktifkan timestamps otomatis Laravel
+    public $timestamps = false;
+
+    public function pengalaman()
+    {
+        return $this->hasMany(\App\Models\TrHrPelamarPengalaman::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
+    }
+
+    public function hasilInterview()
+    {
+        return $this->hasMany(\App\Models\TrHrPelamarInterview::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
+    }
 }

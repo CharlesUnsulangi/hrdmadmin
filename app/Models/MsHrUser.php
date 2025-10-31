@@ -2,37 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Auth\Authenticatable;
 
-class MsHrUser extends Model implements AuthenticatableContract
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class MsHrUser extends Authenticatable
 {
-    use Authenticatable;
+    use Notifiable;
     protected $table = 'ms_hr_user';
     protected $primaryKey = 'id';
     public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'username',
         'email',
         'password',
         'role',
+        'created_at',
+        'updated_at',
     ];
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-    /**
-     * Override the method to use email as the auth identifier.
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'email';
-    }
 }

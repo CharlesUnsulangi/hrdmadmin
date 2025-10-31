@@ -1,78 +1,128 @@
-<div>
-    {{-- Filter dan kontrol atas tabel --}}
-    <div class="mb-4">
-    <button wire:click="toggleFormInput" class="bg-green-500 text-white px-4 py-2 rounded border border-green-700 shadow-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400">Tambah Pelamar</button>
-    </div>
-    <div class="flex flex-wrap gap-4 mb-4">
-        <div>
-            <label class="block text-sm font-medium">Asal Lamaran</label>
-            <select wire:model="asalLamaran" class="border rounded px-2 py-1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<div class="container py-4">
+    <div class="row mb-3 align-items-end g-2">
+        <div class="col-md-3 mb-2">
+            <a href="{{ route('pelamar.create') }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-plus-circle"></i> Tambah Pelamar
+            </a>
+        </div>
+        <div class="col-md-3 mb-2">
+            <label class="form-label">Asal Lamaran</label>
+            <select wire:model="asalLamaran" class="form-select form-select-sm">
                 <option value="">Semua</option>
                 @foreach($asalLamaranOptions as $option)
                     <option value="{{ $option->ms_hr_from_id }}">{{ $option->form_hr_desc }}</option>
                 @endforeach
             </select>
         </div>
-        <div>
-            <label class="block text-sm font-medium">Rating Default</label>
-            <select wire:model="ratingDefault" class="border rounded px-2 py-1">
+        <div class="col-md-2 mb-2">
+            <label class="form-label">Rating</label>
+            <select wire:model="ratingDefault" class="form-select form-select-sm">
                 <option value="">-</option>
                 @for($i=1;$i<=5;$i++)
                     <option value="{{ $i }}">{{ $i }}</option>
                 @endfor
             </select>
         </div>
-        <div>
-            <input type="text" wire:model="search" placeholder="Cari pelamar..." class="border rounded px-2 py-1" />
+        <div class="col-md-4 mb-2">
+            <label class="form-label">Cari</label>
+            <input type="text" wire:model="search" placeholder="Cari pelamar..." class="form-control form-control-sm" />
         </div>
     </div>
 
-    {{-- Input dinamis satu per satu --}}
-    @if($showFormInput ?? false)
-    <div class="mb-6">
-        <livewire:pelamar-row-entry :asal-lamaran="$asalLamaran" :rating-default="$ratingDefault" />
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="display:none">ID</th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('nama')">
+                                Nama
+                                @if($sortField === 'nama')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('email')">
+                                Email
+                                @if($sortField === 'email')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('no_hp')">
+                                No HP
+                                @if($sortField === 'no_hp')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('status')">
+                                Status
+                                @if($sortField === 'status')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('posisi')">
+                                Posisi
+                                @if($sortField === 'posisi')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('rating')">
+                                Rating
+                                @if($sortField === 'rating')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('asal_lamaran')">
+                                Asal
+                                @if($sortField === 'asal_lamaran')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('date_created')">
+                                Tanggal Input
+                                @if($sortField === 'date_created')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
+                            <th class="align-middle">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pelamars as $index => $pelamar)
+                        <tr ondblclick="window.location='{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}'" style="cursor:pointer;">
+                            <td style="display:none">{{ $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id }}</td>
+                            <td>{{ $pelamar->nama }}</td>
+                            <td>{{ $pelamar->email }}</td>
+                            <td>{{ $pelamar->no_hp }}</td>
+                            <td>{{ $pelamar->status }}</td>
+                            <td>{{ $pelamar->posisi }}</td>
+                            <td>
+                                <span class="badge bg-primary fs-6 px-3 py-2">{{ $pelamar->rating }}</span>
+                            </td>
+                            <td>{{ $pelamar->asal_lamaran }}</td>
+                            <td>{{ $pelamar->date_created ? \Carbon\Carbon::parse($pelamar->date_created)->format('d-m-Y H:i') : '-' }}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button wire:click="showDetail({{ $pelamar->id }})" class="btn btn-sm btn-info" title="Detail"><i class="bi bi-eye"></i></button>
+                                    <a href="{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                    <button wire:click="arsipkanPelamar({{ $pelamar->id }})" class="btn btn-sm btn-warning" title="Arsip"><i class="bi bi-archive"></i></button>
+                                    <button wire:click="kirimWa({{ $pelamar->id }})" class="btn btn-sm btn-dark" title="Kirim WA"><i class="bi bi-whatsapp"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-3">
+                {{ $pelamars->onEachSide(1)->links('pagination::bootstrap-5') }}
+            </div>
+        </div>
     </div>
-    @endif
 
-    {{-- Tabel daftar pelamar --}}
-    <div class="bg-white shadow rounded p-4">
-        <table class="min-w-full text-sm">
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>No HP</th>
-                    <th>Status</th>
-                    <th>Rating</th>
-                    <th>Asal</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{-- Loop pelamar, nanti diisi dari Livewire --}}
-                @foreach($pelamars as $index => $pelamar)
-                <tr class="{{ $index % 2 === 0 ? 'bg-gray-50' : 'bg-white' }} hover:bg-green-50 border-b">
-                    <td class="py-2 px-2">{{ $pelamar->nama }}</td>
-                    <td class="py-2 px-2">{{ $pelamar->email }}</td>
-                    <td class="py-2 px-2">{{ $pelamar->no_hp }}</td>
-                    <td class="py-2 px-2">{{ $pelamar->status }}</td>
-                    <td class="py-2 px-2">{{ $pelamar->rating }}</td>
-                    <td class="py-2 px-2">{{ $pelamar->asal_lamaran }}</td>
-                    <td class="py-2 px-2">
-                        <button wire:click="showDetail({{ $pelamar->id }})" class="bg-blue-600 text-white font-bold px-2 py-1 rounded shadow hover:bg-blue-800">Detail</button>
-                        <button wire:click="editPelamar({{ $pelamar->id }})" class="bg-green-600 text-white font-bold px-2 py-1 rounded shadow hover:bg-green-800 ml-2">Edit</button>
-                        <button wire:click="arsipkanPelamar({{ $pelamar->id }})" class="bg-yellow-300 text-gray-900 font-bold px-2 py-1 rounded shadow hover:bg-yellow-400 ml-2">Arsip</button>
-                        <button wire:click="kirimWa({{ $pelamar->id }})" class="bg-green-800 text-white font-bold px-2 py-1 rounded shadow hover:bg-green-900 ml-2">Kirim WA</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{-- Paginasi Livewire --}}
-        {{ $pelamars->links() }}
-    </div>
-
-    {{-- Modal detail/edit pelamar (akan diisi komponen detail) --}}
     @if($showDetailModal)
         <livewire:pelamar-detail :pelamar-id="$selectedPelamarId" />
     @endif

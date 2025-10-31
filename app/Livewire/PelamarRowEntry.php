@@ -7,13 +7,10 @@ use Livewire\Component;
 class PelamarRowEntry extends Component
 {
     public $successMessage;
-    public $tr_hr_pelamar_id;
+    public $tr_hr_pelamar_main_id;
     public $nama;
     public $email;
-    public $hp;
-    public $posisi;
-    public $user_created;
-    public $date_created;
+    public $no_hp;
     public $rating;
     public $cek_confirm;
     public $time_confirm;
@@ -28,8 +25,6 @@ class PelamarRowEntry extends Component
     public $time_interview;
     public $time_wa;
     public $link_cv;
-    public $asal_lamaran;
-    public $ms_hr_from_id;
     public $status;
     public $asalLamaranOptions = [];
 
@@ -41,16 +36,16 @@ class PelamarRowEntry extends Component
     public function simpanPelamar()
     {
         $validated = $this->validate([
-            'tr_hr_pelamar_id' => 'nullable|string|max:50',
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'hp' => 'nullable|string|max:50',
-            'posisi' => 'nullable|string|max:100',
-            'user_created' => 'nullable|string|max:50',
-            'date_created' => 'nullable|date',
-            'rating' => 'nullable|integer|min:1|max:5',
+            'tr_hr_pelamar_main_id' => 'nullable|string|max:50',
+            'nama' => 'required|string|max:50',
+            'email' => 'nullable|email|max:50',
+            'no_hp' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
+            // 'created_at' => 'nullable|date',
+            // 'updated_at' => 'nullable|date',
+            'rating' => 'nullable|integer',
             'cek_confirm' => 'nullable|boolean',
-            'time_confirm' => 'nullable|date',
+            'time_confirm' => 'nullable',
             'cek_cv' => 'nullable|boolean',
             'cek_driver' => 'nullable|boolean',
             'cek_interview' => 'nullable|boolean',
@@ -58,22 +53,20 @@ class PelamarRowEntry extends Component
             'cek_priority' => 'nullable|boolean',
             'cek_tolak' => 'nullable|boolean',
             'cek_wa' => 'nullable|boolean',
-            'time_cv' => 'nullable|date',
-            'time_interview' => 'nullable|date',
-            'time_wa' => 'nullable|date',
-            'link_cv' => 'nullable|string|max:255',
-            'asal_lamaran' => 'nullable|string|max:100',
-            'ms_hr_from_id' => 'nullable|string|max:50',
-            'status' => 'nullable|string|max:50',
+            'time_cv' => 'nullable',
+            'time_interview' => 'nullable',
+            'time_wa' => 'nullable',
+            'link_cv' => 'nullable|string',
         ]);
 
-        \App\Models\TrHrPelamarMain::create($validated);
+    $validated['tr_hr_pelamar_main_id'] = $validated['email'];
+    \App\Models\TrHrPelamarMain::create($validated);
 
         $this->reset([
-            'tr_hr_pelamar_id', 'nama', 'email', 'hp', 'posisi', 'user_created', 'date_created',
+            'tr_hr_pelamar_main_id', 'nama', 'email', 'no_hp', 'status',
             'rating', 'cek_confirm', 'time_confirm', 'cek_cv', 'cek_driver', 'cek_interview',
             'cek_kandidat', 'cek_priority', 'cek_tolak', 'cek_wa', 'time_cv', 'time_interview',
-            'time_wa', 'link_cv', 'asal_lamaran', 'ms_hr_from_id', 'status'
+            'time_wa', 'link_cv'
         ]);
         $this->successMessage = 'Data pelamar berhasil disimpan!';
         $this->mount(); // refresh dropdown asal lamaran

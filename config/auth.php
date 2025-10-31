@@ -59,11 +59,11 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\MsHrUser::class),
-        ],
+        'providers' => [
+            'users' => [
+                'driver' => 'eloquent',
+                'model' => App\Models\MsHrUser::class,
+            ],
 
         // 'users' => [
         //     'driver' => 'database',
