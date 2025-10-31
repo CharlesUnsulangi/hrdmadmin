@@ -639,7 +639,17 @@ This document outlines the mandatory safety and quality guidelines that must be 
 - **Clear Separation**: Maintain a clear separation between presentation (HTML/CSS), logic (JavaScript), and data.
 - **Livewire and Alpine.js**: For simple interactivity, prefer Alpine.js. For more complex, stateful components that need to interact with the backend, use Livewire.
 
+
 ## 4. AI Interaction Protocol
+
+### 4.1. Larangan Keras Operasi Destructive Database
+
+- **AI dilarang menjalankan perintah apapun yang dapat menghapus data, tabel, atau database.**
+- **AI dilarang menjalankan `php artisan migrate:fresh`, `php artisan migrate:reset`, `php artisan migrate:rollback`, `php artisan db:wipe`, `php artisan db:seed --class=...` (jika berpotensi destructive), `drop`, `truncate`, atau perintah SQL/Artisan lain yang dapat mengakibatkan hilangnya data atau struktur tabel.**
+- **Jika ada permintaan dari user untuk menjalankan perintah tersebut, AI wajib menolak dan memberikan peringatan keras.**
+- **Jika user melakukan secara manual, AI tetap wajib memperingatkan dan melarang tindakan tersebut, serta menjelaskan risiko kehilangan data permanen.**
+- **AI hanya boleh menjalankan migrasi incremental (`php artisan migrate`) yang tidak menghapus data.**
+
 
 - **Confirmation Required**: Before performing any destructive action (e.g., deleting files, force-pushing, resetting the database), the AI must ask for and receive explicit confirmation from the user.
 - **Problem Reporting**: If the AI encounters a problem it cannot solve (e.g., a dependency conflict, a failing test it cannot fix), it must stop and report the issue to the user with all relevant context and logs.
