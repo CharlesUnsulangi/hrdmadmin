@@ -83,7 +83,7 @@ class PelamarController extends Controller
             'link_cv' => 'nullable|string|max:255',
         ]);
         $pelamar->update($validated);
-        return redirect()->route('pelamar.index')->with('success', 'Pelamar berhasil diupdate');
+        return redirect()->route('pelamar.edit', $id)->with('success', 'Pelamar berhasil diupdate');
     }
 
     public function destroy($id)
@@ -91,6 +91,42 @@ class PelamarController extends Controller
     $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
         $pelamar->delete();
         return redirect()->route('pelamar.index')->with('success', 'Pelamar berhasil dihapus');
+    }
+
+    // Method untuk handle pengalaman kerja
+    public function storePengalaman(Request $request, $pelamarId)
+    {
+        $validated = $request->validate([
+            'perusahaan' => 'required|string|max:50',
+            'jabatan_awal' => 'nullable|string|max:50',
+            'jabatan_akhir' => 'nullable|string|max:50',
+            'tgl_start' => 'required|date',
+            'tgl_end' => 'required|date',
+            'gaji_awal' => 'nullable|numeric',
+            'gaji_akhir' => 'nullable|numeric',
+            'alasan_resign' => 'nullable|string',
+            'hp_hrd' => 'nullable|string|max:50',
+            'nama_hrd' => 'nullable|string|max:50',
+            'hp_atasan' => 'nullable|string|max:50',
+        ]);
+
+        // Set default values untuk field yang required di database
+        $validated['tr_hr_pelamar_id'] = $pelamarId;
+        $validated['hp_hrd'] = $validated['hp_hrd'] ?: '';
+        $validated['nama_hrd'] = $validated['nama_hrd'] ?: '';
+        $validated['hp_atasan'] = $validated['hp_atasan'] ?: '';
+        
+        \App\Models\TrHrPelamarPengalamanPerusahaan::create($validated);
+        
+        return redirect()->back()->with('success', 'Pengalaman kerja berhasil ditambahkan!');
+    }
+
+    public function destroyPengalaman($id)
+    {
+        $pengalaman = \App\Models\TrHrPelamarPengalamanPerusahaan::findOrFail($id);
+        $pengalaman->delete();
+        
+        return redirect()->back()->with('success', 'Pengalaman kerja berhasil dihapus!');
     }
 
     // Aksi pelamar

@@ -17,8 +17,8 @@
         </div>
         <div class="mb-4">
             <label class="block mb-1">No HP</label>
-            <input type="text" name="hp" class="w-full border rounded px-3 py-2" value="{{ old('hp', $pelamar->hp) }}">
-            @error('hp')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
+            <input type="text" name="no_hp" class="w-full border rounded px-3 py-2" value="{{ old('no_hp', $pelamar->no_hp) }}">
+            @error('no_hp')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
         </div>
         <div class="mb-4">
             <label class="block mb-1">Status</label>
@@ -64,7 +64,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="pengalaman" role="tabpanel">
-            <livewire:pelamar-pengalaman :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
+            @include('pelamar.pengalaman', ['pelamar' => $pelamar])
         </div>
         <div class="tab-pane fade" id="interview" role="tabpanel">
             <livewire:pelamar-interview :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />

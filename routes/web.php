@@ -24,6 +24,11 @@ Route::middleware(['auth'])->group(function () {
     
     // AJAX check for duplicate pelamar id
     Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
+    
+    // Routes untuk pengalaman kerja
+    Route::post('/pelamar/{id}/pengalaman', [PelamarController::class, 'storePengalaman'])->name('pelamar.pengalaman.store');
+    Route::delete('/pelamar/pengalaman/{id}', [PelamarController::class, 'destroyPengalaman'])->name('pelamar.pengalaman.destroy');
+    
     // Aksi pelamar
     Route::post('/pelamar/{id}/jadikan-kandidat', [PelamarController::class, 'jadikanKandidat'])->name('pelamar.jadikanKandidat');
     Route::get('/pelamar/{id}/interview', [PelamarController::class, 'interview'])->name('pelamar.interview');

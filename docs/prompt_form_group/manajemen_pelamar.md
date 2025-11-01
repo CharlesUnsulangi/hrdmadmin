@@ -8,12 +8,31 @@
     - Filter: status, posisi, tanggal daftar, keyword
     - Tombol aksi: detail, edit, arsipkan
     - Tabel input dinamis: Form di bagian atas/terpisah untuk input pelamar satu per satu. Setiap baris bisa langsung disimpan sebelum tambah baris baru. Tidak ada bulk entry, lebih aman dan minim risiko error.
-- /pelamar/{id} (route: pelamar.show)
-    - Detail lengkap pelamar (data diri, pengalaman, dokumen, status)
-    - Aksi: update status, kirim undangan, konfirmasi, dll
-- Modal/Edit Form: Untuk update data tanpa reload
-## 4. Alur Bisnis Singkat
-1. Input pelamar → 2. Kirim WA → 3. Penjadwalan interview → 4. Konfirmasi kehadiran → 5. Interview → 6. Proses lanjut/selesai.
+  - /pelamar/{id}/edit (route: pelamar.edit)
+    - Tab interaktif (Livewire):
+        - Data Personal: tampil, tambah, edit langsung
+        - Pengalaman Perusahaan: tampil, tambah, edit langsung
+        - Sosial Media: tampil, tambah, edit, hapus langsung
+        - Hasil Interview: (bisa dikembangkan interaktif)
+    - Tombol aksi status: Jadikan Kandidat, Interview, Tolak, Diskusi, Confirm Jadwal Interview, Reschedule, Background Check
+    - Semua perubahan data langsung tersimpan tanpa reload halaman
+    - Modal/Edit Form: Untuk update data tanpa reload
+## 4. Flow Kerja (Alur Bisnis Terbaru)
+1. Input pelamar (form/tabel dinamis, validasi per baris)
+2. Kirim WhatsApp undangan otomatis/manual ke pelamar
+3. Data pelamar bisa diedit/detail (tab interaktif: personal, pengalaman, sosmed, interview)
+4. Penjadwalan interview (buat jadwal, update status, konfirmasi kehadiran)
+5. Interview (isi hasil interview, update status, upload dokumen jika perlu)
+6. Aksi status pelamar:
+  - Jadikan Kandidat (salin ke tabel kandidat)
+  - Tolak (update status, beri alasan)
+  - Diskusi (undang user lain, catat diskusi)
+  - Confirm Jadwal Interview (konfirmasi ke pelamar & tim)
+  - Reschedule Interview (atur ulang jadwal, update status)
+  - Background Check (isi hasil background check, upload dokumen jika perlu)
+7. Semua perubahan data langsung tersimpan (Livewire, tanpa reload)
+8. Semua aksi penting konfirmasi via modal/alert
+9. Data pelamar yang selesai proses bisa diarsipkan (soft delete)
 
 ## 5. Referensi
 - Lihat AI_SAFETY_GUIDELINES.md untuk detail struktur tabel dan aturan bisnis.
