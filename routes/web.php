@@ -36,7 +36,7 @@ Route::view('/pkwtt', 'under-development')->name('pkwtt');
 Route::view('/assesment', 'under-development')->name('assesment');
 Route::view('/payroll', 'under-development')->name('payroll');
 Route::view('/berita-acara', 'under-development')->name('berita-acara');
-Route::view('/master', 'under-development')->name('master');
+Route::view('/master', 'master.index')->name('master');
 
 // Setting User Routes - Only Admin can access
 Route::middleware(['auth', 'admin'])->group(function () {
