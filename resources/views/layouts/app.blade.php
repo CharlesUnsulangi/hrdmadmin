@@ -41,6 +41,10 @@
                             <svg class="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                             Manajemen Pelamar
                         </a>
+                        <a href="{{ url('/kandidat') }}" class="flex items-center px-3 py-2 rounded text-black hover:bg-indigo-100 font-semibold">
+                            <svg class="h-5 w-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3" /></svg>
+                            Kandidat
+                        </a>
                         <a href="{{ url('/interview') }}" class="flex items-center px-3 py-2 rounded text-black hover:bg-blue-100">
                             <svg class="h-5 w-5 mr-2 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                             Interview

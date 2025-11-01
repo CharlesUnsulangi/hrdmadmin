@@ -49,6 +49,7 @@
     </div>
     <div class="flex gap-4">
         <a href="{{ url('/pelamar') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Manajemen Pelamar</a>
+        <a href="{{ url('/kandidat') }}" class="bg-indigo-500 text-black px-4 py-2 rounded font-semibold">Kandidat</a>
         <a href="{{ url('/interview') }}" class="bg-green-500 text-white px-4 py-2 rounded">Interview</a>
         <a href="{{ url('/karyawan') }}" class="bg-purple-500 text-white px-4 py-2 rounded">Karyawan</a>
         <a href="{{ url('/payroll') }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Payroll</a>

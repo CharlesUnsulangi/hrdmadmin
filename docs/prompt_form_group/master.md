@@ -1,7 +1,35 @@
-# RENCANA PENGATURAN MASTER
+# MASTER
 
 ## Tujuan
 Menyediakan halaman terpusat untuk mengelola data master yang digunakan di seluruh sistem HRD, seperti posisi/jabatan, asal lamaran, status pelamar, template pesan, dan data referensi lain (perusahaan, divisi, bank, serta seluruh tabel master dan relasi utama yang dipakai aplikasi).
+
+## Penambahan Fitur Kandidat
+
+### Definisi Kandidat
+Kandidat adalah individu yang didaftarkan untuk menjadi employee/karyawan, namun statusnya masih draft atau belum di-approve. Kandidat dapat berasal dari:
+- Pelamar: seluruh data pelamar akan di-copy ke kandidat, dan primary key pelamar menjadi primary key kandidat.
+- Kandidat baru: data kandidat diinput langsung tanpa harus berasal dari pelamar.
+
+### Alur Kandidat
+- Jika kandidat berasal dari pelamar, maka data pelamar (beserta relasi: pengalaman, dokumen, dsb) otomatis di-copy ke tabel kandidat.
+- Jika kandidat baru, data diinput manual melalui form kandidat.
+- Kandidat bisa diedit, dihapus (soft delete), atau di-approve menjadi employee.
+- Setelah di-approve, data kandidat akan dipindahkan/diintegrasikan ke tabel employee.
+
+### Struktur Tabel Kandidat (Contoh)
+| Kolom             | Tipe         | Nullable | Deskripsi                                 |
+|-------------------|--------------|----------|--------------------------------------------|
+| kandidat_id       | varchar(50)  | No       | Primary key (sama dengan pelamar_id jika dari pelamar) |
+| sumber            | varchar(20)  | No       | 'pelamar' atau 'manual'                   |
+| status            | varchar(20)  | No       | draft/approved/rejected                   |
+| ...               | ...          | ...      | ... (data lain sesuai kebutuhan)          |
+
+### Navigasi & UI
+- Tambahkan menu/tab baru: "Kandidat"
+- Halaman kandidat menampilkan daftar kandidat, filter status, tombol tambah kandidat baru, dan aksi approve/reject.
+- Jika tambah dari pelamar, pilih pelamar dari list, lalu data otomatis terisi.
+- Jika tambah manual, isi form kandidat baru.
+- Tampilkan status kandidat (draft/approved/rejected) dan aksi sesuai status.
 
 ## Daftar Tabel Master & Relasi Utama
 
@@ -103,8 +131,8 @@ Menyediakan halaman terpusat untuk mengelola data master yang digunakan di selur
 - Tidak ada fitur hapus permanen untuk data master penting (perusahaan, divisi, bank)
 
 ## Struktur Halaman
-- Sidebar/menu: "Pengaturan Master"
-- Link ke halaman master perusahaan, divisi, dan bank di atas tab pengaturan master
+- Sidebar/menu: "Master"
+- Link ke halaman master perusahaan, divisi, dan bank di atas tab master
 - Tab/sub-menu untuk setiap entitas master:
   - Master Posisi/Jabatan
   - Master Asal Lamaran
