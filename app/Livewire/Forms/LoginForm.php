@@ -38,6 +38,27 @@ class LoginForm extends Form
             ]);
         }
 
+        // Check if user is active - using strict comparison with debugging
+        $user = Auth::user();
+        if ($user) {
+            // Debug info - you can remove this later
+            \Log::info('User login attempt', [
+                'username' => $user->username ?? 'N/A',
+                'email' => $user->email ?? 'N/A',
+                'is_active_raw' => $user->getAttributes()['is_active'] ?? 'N/A',
+                'is_active_cast' => $user->is_active ?? 'N/A',
+                'is_active_type' => gettype($user->is_active)
+            ]);
+
+            if (!isset($user->is_active) || $user->is_active != 1) {
+                Auth::logout();
+                
+                throw ValidationException::withMessages([
+                    'form.email' => 'Akun Anda belum aktif. Silakan hubungi administrator.',
+                ]);
+            }
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

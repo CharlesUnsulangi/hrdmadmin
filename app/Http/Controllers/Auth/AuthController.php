@@ -23,7 +23,15 @@ class AuthController extends Controller
         $user = MsHrUser::where('email', $data['login'])
             ->orWhere('username', $data['login'])
             ->first();
+        
         if ($user && Hash::check($data['password'], $user->password)) {
+            // Check if user is active using strict integer comparison
+            if ($user->is_active != 1) {
+                return back()->withErrors([
+                    'login' => 'Akun Anda belum aktif. Silakan hubungi administrator.',
+                ]);
+            }
+            
             Auth::login($user, $request->filled('remember'));
             $request->session()->regenerate();
             return redirect()->intended('dashboard');

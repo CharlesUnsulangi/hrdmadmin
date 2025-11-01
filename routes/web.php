@@ -19,6 +19,7 @@ Route::get('/pelamar/{id}/edit', [PelamarController::class, 'edit'])->name('pela
 Route::put('/pelamar/{id}', [PelamarController::class, 'update'])->name('pelamar.update');
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SettingUserController;
 
 Route::get('dashboard', [DashboardController::class, 'index'])
     ->middleware('auth')
@@ -36,7 +37,15 @@ Route::view('/assesment', 'under-development')->name('assesment');
 Route::view('/payroll', 'under-development')->name('payroll');
 Route::view('/berita-acara', 'under-development')->name('berita-acara');
 Route::view('/master', 'under-development')->name('master');
-Route::view('/setting-user', 'under-development')->name('setting-user');
+
+// Setting User Routes - Only Admin can access
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/setting-user', [SettingUserController::class, 'index'])->name('setting-user.index');
+    Route::post('/setting-user', [SettingUserController::class, 'store'])->name('setting-user.store');
+    Route::put('/setting-user/{id}', [SettingUserController::class, 'update'])->name('setting-user.update');
+    Route::delete('/setting-user/{id}', [SettingUserController::class, 'destroy'])->name('setting-user.destroy');
+    Route::patch('/setting-user/{id}/toggle-status', [SettingUserController::class, 'toggleStatus'])->name('setting-user.toggle-status');
+});
 
 require __DIR__.'/auth.php';
 require __DIR__.'/logout.php';
