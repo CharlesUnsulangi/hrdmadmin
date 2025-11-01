@@ -59,15 +59,12 @@ class PelamarController extends Controller
 
     public function update(Request $request, $id)
     {
-        $pelamar = TrHrPelamarMain::findOrFail($id);
+        $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
         $validated = $request->validate([
-            'tr_hr_pelamar_id' => 'required|string|max:50',
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:tr_hr_pelamar_main,email,' . $id . ',tr_hr_pelamar_id',
-            'hp' => 'nullable|string|max:50',
-            'posisi' => 'nullable|string|max:100',
-            'user_created' => 'nullable|string|max:50',
-            // 'date_created' => 'nullable|date', // Dihapus, tidak perlu validasi/update
+            'email' => 'required|email|max:100',
+            'no_hp' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
             'rating' => 'nullable|integer|min:1|max:5',
             'cek_confirm' => 'nullable|boolean',
             'time_confirm' => 'nullable|date',
@@ -82,9 +79,6 @@ class PelamarController extends Controller
             'time_interview' => 'nullable|date',
             'time_wa' => 'nullable|date',
             'link_cv' => 'nullable|string|max:255',
-            'asal_lamaran' => 'nullable|string|max:100',
-            'ms_hr_from_id' => 'nullable|string|max:50',
-            'status' => 'nullable|string|max:50',
         ]);
         $pelamar->update($validated);
         return redirect()->route('pelamar.index')->with('success', 'Pelamar berhasil diupdate');
