@@ -12,8 +12,19 @@ Route::resource('ms-division', MsDivisionController::class);
 Route::resource('ms-company', MsCompanyController::class);
 Route::resource('ms-bank', MsBankController::class);
 
-// AJAX check for duplicate pelamar id
-Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
+// Pelamar Routes - Protected by auth middleware
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pelamar', [PelamarController::class, 'index'])->name('pelamar.index');
+    Route::get('/pelamar/create', [PelamarController::class, 'create'])->name('pelamar.create');
+    Route::post('/pelamar', [PelamarController::class, 'store'])->name('pelamar.store');
+    Route::get('/pelamar/{id}', [PelamarController::class, 'show'])->name('pelamar.show');
+    Route::get('/pelamar/{id}/edit', [PelamarController::class, 'edit'])->name('pelamar.edit');
+    Route::put('/pelamar/{id}', [PelamarController::class, 'update'])->name('pelamar.update');
+    Route::delete('/pelamar/{id}', [PelamarController::class, 'destroy'])->name('pelamar.destroy');
+    
+    // AJAX check for duplicate pelamar id
+    Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
+});
 
 Route::get('/', function () {
     if (Auth::check()) {
