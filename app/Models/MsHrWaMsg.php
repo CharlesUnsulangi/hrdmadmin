@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class MsHrWaMsg extends Model
 {
     protected $table = 'ms_hr_wa_msg';
-    protected $primaryKey = 'id'; // Ganti jika ada primary key lain
+    protected $primaryKey = 'id';
     public $incrementing = true;
     protected $fillable = [
-        // Tambahkan kolom sesuai struktur tabel
+        'msg_code', 'msg_text', 'created_at', 'updated_at'
     ];
+    public $timestamps = true;
 }

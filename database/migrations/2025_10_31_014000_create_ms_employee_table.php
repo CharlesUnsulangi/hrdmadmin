@@ -19,21 +19,21 @@ return new class extends Migration
             $table->string('emp_name', 100)->nullable();
             $table->boolean('emp_inactive')->nullable();
             $table->string('emp_subdivision', 50)->nullable();
-            $table->decimal('emp_upahpokok', 19, 4)->nullable();
-            $table->decimal('emp_tunjangan', 19, 4)->nullable();
+            $table->decimal('emp_upahpokok', 19, 4)->nullable(); // money
+            $table->decimal('emp_tunjangan', 19, 4)->nullable(); // money
             $table->date('emp_datejoin')->nullable();
             $table->date('emp_dateresign')->nullable();
             $table->date('emp_born')->nullable();
             $table->string('emp_nokontrak', 50)->nullable();
             $table->date('emp_expdatekontrak')->nullable();
-            $table->decimal('emp_numkontrak', 19, 4)->nullable();
+            $table->decimal('emp_numkontrak', 19, 4)->nullable(); // money
             $table->string('emp_npwp', 50)->nullable();
             $table->string('emp_bank', 50)->nullable();
             $table->string('emp_norek', 50)->nullable();
             $table->string('emp_address', 200)->nullable();
             $table->string('emp_idktp', 50)->nullable();
             $table->string('emp_kotalahir', 100)->nullable();
-            $table->decimal('emp_childno', 19, 4)->nullable();
+            $table->decimal('emp_childno', 19, 4)->nullable(); // money
             $table->string('emp_namaistri', 50)->nullable();
             $table->string('emp_jamsostek', 50)->nullable();
             $table->boolean('emp_includepajak')->nullable();
@@ -42,15 +42,15 @@ return new class extends Migration
             $table->string('emp_lastcom', 100)->nullable();
             $table->string('emp_telplastcom', 50)->nullable();
             $table->string('emp_lastjabatan', 100)->nullable();
-            $table->decimal('emp_lastsalary', 19, 4)->nullable();
+            $table->decimal('emp_lastsalary', 19, 4)->nullable(); // money
             $table->string('emp_cutitotal', 50)->nullable();
             $table->string('emp_com', 50)->nullable();
             $table->string('emp_status', 50)->nullable();
             $table->string('emp_religion', 50)->nullable();
             $table->string('emp_citizen', 50)->nullable();
             $table->string('emp_desc', 100)->nullable();
-            $table->decimal('emp_levelclass', 19, 4)->nullable();
-            $table->decimal('emp_leveljabatan', 19, 4)->nullable();
+            $table->decimal('emp_levelclass', 19, 4)->nullable(); // money
+            $table->decimal('emp_leveljabatan', 19, 4)->nullable(); // money
             $table->string('emp_lastjobdesk', 50)->nullable();
             $table->string('emp_apprlast', 50)->nullable();
             $table->char('emp_gender', 1)->nullable();

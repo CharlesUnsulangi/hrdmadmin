@@ -1,3 +1,23 @@
+# [UPDATE] Perkembangan Terakhir (per 1 November 2025)
+
+- Semua foreign key antar tabel kini konsisten menggunakan `tr_hr_pelamar_main_id` sesuai primary key di tabel utama `tr_hr_pelamar_main`.
+- Tabel relasi seperti `tr_hr_pelamar_pengalaman_perusahaan` dan `tr_hr_pelamar_interview` sudah diperbaiki agar referensi ke pelamar utama konsisten.
+- Migration dan model sudah disesuaikan, serta sudah dilakukan commit dan push ke repository.
+- Livewire component untuk tabel pelamar, input per baris, dan edit/detail sudah tersedia.
+- Tabel pelamar sudah mendukung filter, search, paginasi, sorting, dan aksi cepat (edit, detail, arsip).
+- Input pelamar satu per satu: setiap baris bisa langsung disimpan, validasi dan feedback error sudah real-time.
+- Tab pengalaman kerja dan hasil interview pada halaman edit pelamar sedang dalam proses integrasi.
+- Semua aksi penting (ubah status, arsip) sudah menggunakan konfirmasi modal.
+- Tombol "Kirim WA" sudah tersedia di tabel pelamar, membuka WhatsApp Web dengan template pesan yang bisa dikustomisasi.
+- Status proses rekrutmen dan konfirmasi interview sudah terintegrasi di dashboard.
+- Tidak ada aksi hapus permanen, hanya soft delete/arsip.
+- Data sensitif hanya bisa diakses oleh role tertentu (admin/HR).
+- Authorization dan middleware sudah diterapkan di seluruh route penting.
+- Semua fitur utama sudah diuji dengan data edge case dan user tanpa hak akses.
+- Automated test untuk akses, filter, update, entry per baris, dan aksi status sudah mulai dibuat.
+
+---
+
 # Rencana Halaman Manajemen Pelamar
 # Rencana Manajemen Pelamar
 

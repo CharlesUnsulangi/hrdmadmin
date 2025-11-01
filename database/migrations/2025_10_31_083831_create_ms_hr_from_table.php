@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('ms_hr_from', function (Blueprint $table) {
             $table->string('ms_hr_from_id', 50)->primary();
             $table->string('form_hr_desc', 50)->nullable();
+            $table->boolean('status_aktif')->default(1);
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();
         });

@@ -28,6 +28,14 @@ class PelamarRowEntryList extends Component
         ];
     }
 
+    public function confirmSaveRow($index)
+    {
+        $this->dispatchBrowserEvent('swal:confirm-save-row', [
+            'idx' => $index,
+            'componentId' => $this->id,
+        ]);
+    }
+
     public function saveRow($index)
     {
         $data = $this->rows[$index];
@@ -45,6 +53,10 @@ class PelamarRowEntryList extends Component
         }
         $validated['tr_hr_pelamar_main_id'] = $validated['email'];
         $validated['date_created'] = now();
+        $validated['cek_shortlist'] = true;
+        $validated['cek_staff'] = true;
+        $validated['cek_driver'] = false;
+        $validated['cek_helper'] = false;
         TrHrPelamarMain::create($validated);
         $this->rows[$index]['saved'] = true;
         $this->addRow();

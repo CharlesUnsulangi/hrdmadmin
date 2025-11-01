@@ -1,64 +1,142 @@
+@php
+// Route for AJAX duplicate check
+$checkIdUrl = route('pelamar.checkid');
+@endphp
 <div>
     @if (session()->has('success'))
         <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
-    <table class="table table-bordered table-striped table-hover align-middle shadow mb-4">
-        <thead class="table-light">
-            <tr>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>No HP</th>
-                <th>Asal Lamaran</th>
-                <th>Rating</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($rows as $i => $row)
-            <tr>
-                <td><input type="text" wire:model.lazy="rows.{{ $i }}.nama" class="form-control form-control-sm @error('rows.'.$i.'.nama') is-invalid @enderror" required /></td>
-                <td>
-                    <input type="email" wire:model.lazy="rows.{{ $i }}.email" class="form-control form-control-sm @error('rows.'.$i.'.email') is-invalid @enderror" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
-                    @error('rows.'.$i.'.email')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                    @if(!filter_var($row['email'], FILTER_VALIDATE_EMAIL) && !empty($row['email']))
-                        <div class="text-danger small">Format email tidak valid. Contoh: user@email.com</div>
-                    @endif
-                </td>
-                <td>
-                    <input type="text" wire:model.lazy="rows.{{ $i }}.no_hp" class="form-control form-control-sm @error('rows.'.$i.'.no_hp') is-invalid @enderror" placeholder="62..." required pattern="^62[0-9]{7,}$" />
-                    @error('rows.'.$i.'.no_hp')
-                        <div class="invalid-feedback d-block">{{ $message }}</div>
-                    @enderror
-                    @if(!empty($row['no_hp']) && !preg_match('/^62[0-9]{7,}$/', $row['no_hp']))
-                        <div class="text-danger small">Nomor HP harus diawali 62 dan minimal 10 digit.</div>
-                    @endif
-                </td>
-                <td>
-                    <select wire:model.defer="rows.{{ $i }}.ms_hr_from_id" class="form-select form-select-sm">
-                        <option value="">-- Pilih --</option>
-                        @foreach($asal_lamaran_options as $id => $desc)
-                            <option value="{{ $id }}">{{ $desc }}</option>
-                        @endforeach
-                    </select>
-                </td>
-                <td><input type="number" wire:model.defer="rows.{{ $i }}.rating" class="form-control form-control-sm w-75" min="0" max="5" /></td>
-                <td><input type="text" wire:model.defer="rows.{{ $i }}.status" class="form-control form-control-sm" /></td>
-                <td>
-                    @if(empty($row['saved']))
-                        <button wire:click.prevent="if(confirm('Yakin simpan data pelamar ini?')) saveRow({{ $i }})" class="btn btn-success btn-sm d-flex align-items-center gap-1" @if($errors->has('rows.'.$i.'.email') || $errors->has('rows.'.$i.'.no_hp')) disabled @endif>
+    <form method="POST" action="{{ route('pelamar.store') }}">
+        @csrf
+        <table class="table table-bordered table-striped table-hover align-middle shadow mb-4">
+            <thead class="table-light">
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>No HP</th>
+                    <th>Asal Lamaran</th>
+                    <th>Rating</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($rows as $i => $row)
+                <tr>
+                    <td><input type="text" name="rows[{{ $i }}][nama]" value="{{ $row['nama'] ?? '' }}" class="form-control form-control-sm" required /></td>
+                    <td><input type="email" name="rows[{{ $i }}][email]" value="{{ $row['email'] ?? '' }}" class="form-control form-control-sm" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" /></td>
+                    <td><input type="number" name="rows[{{ $i }}][no_hp]" value="{{ $row['no_hp'] ?? '' }}" class="form-control form-control-sm" placeholder="62..." required min="6200000000" step="1" /></td>
+                    <td>
+                        <select name="rows[{{ $i }}][ms_hr_from_id]" class="form-select form-select-sm">
+                            <option value="">-- Pilih --</option>
+                            @foreach($asal_lamaran_options as $id => $desc)
+                                <option value="{{ $id }}" @if(($row['ms_hr_from_id'] ?? '') == $id) selected @endif>{{ $desc }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td><input type="number" name="rows[{{ $i }}][rating]" value="{{ $row['rating'] ?? '' }}" class="form-control form-control-sm w-75" min="0" max="5" /></td>
+                    <td><input type="text" name="rows[{{ $i }}][status]" value="{{ $row['status'] ?? '' }}" class="form-control form-control-sm" /></td>
+                    <td>
+                        <button type="button" id="btn-simpan" class="btn btn-success btn-sm d-flex align-items-center gap-1">
                             <i class="bi bi-save"></i> Simpan
                         </button>
-                    @else
-                        <span class="text-success fw-bold">Tersimpan</span>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+</table>
+    </form>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('pelamar.store') }}"]');
+    const btnSimpan = document.getElementById('btn-simpan');
+    if (form && btnSimpan) {
+        btnSimpan.addEventListener('click', function (e) {
+            // Validasi nomor HP semua baris
+            let valid = true;
+            let pesan = '';
+            form.querySelectorAll('input[name^="rows"][name$="[no_hp]"]')?.forEach(function(input) {
+                const val = input.value;
+                if (!/^62[0-9]{7,}$/.test(val)) {
+                    valid = false;
+                    pesan = 'Nomor HP harus diawali 62 dan minimal 10 digit.';
+                }
+            });
+            if (!valid) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Format Nomor HP Salah',
+                    text: pesan,
+                });
+                return;
+            }
+            // Validasi email semua baris
+            let emailValid = true;
+            let emailMsg = '';
+            form.querySelectorAll('input[name^="rows"][name$="[email]"]')?.forEach(function(input) {
+                const val = input.value;
+                // Simple email regex: must contain @ and . after @
+                if (!/^\S+@\S+\.\S+$/.test(val)) {
+                    emailValid = false;
+                    emailMsg = 'Format email tidak valid. Contoh: user@email.com';
+                }
+            });
+            if (!emailValid) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Format Email Salah',
+                    text: emailMsg,
+                });
+                return;
+            }
+            // Cek duplikat tr_hr_pelamar_main_id (email) ke server
+            let emails = [];
+            form.querySelectorAll('input[name^="rows"][name$="[email]"]')?.forEach(function(input) {
+                emails.push(input.value);
+            });
+            fetch("{{$checkIdUrl}}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
+                },
+                body: JSON.stringify({ emails: emails })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists && data.exists.length > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Data Duplikat',
+                        html: 'Email berikut sudah pernah diinput:<br><b>' + data.exists.join('<br>') + '</b>',
+                    });
+                    return;
+                }
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Yakin simpan data pelamar?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, simpan',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    }
+});
+</script>
+@endpush
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </form>
+</div>
+

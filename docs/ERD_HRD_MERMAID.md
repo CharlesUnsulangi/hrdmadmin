@@ -118,6 +118,13 @@ erDiagram
     ms_hr_from {
         varchar(50) ms_hr_from_id PK
         varchar(50) form_hr_desc
+        datetime created_at
+        datetime updated_at
+    }
+
+    ms_hr_posisi {
+        varchar(50) ms_hr_posisi_id PK
+        varchar(100) posisi_desc
     }
 
     tr_hr_pelamar_main ||--o{ tr_hr_pelamar_interview : "tr_hr_pelamar_id"
@@ -126,4 +133,6 @@ erDiagram
     tr_hr_pelamar_main ||--o{ tr_hr_pelamar_sosmed : "tr_hr_pelamar_id"
     tr_hr_pelamar_main ||--o{ tr_hr_pelamar_driver : "tr_pelamar_driver_id"
     ms_hr_from ||--o{ tr_hr_pelamar_main : "ms_hr_from_id"
+
+    ms_hr_posisi ||--o{ tr_hr_pelamar_main : "posisi"
 ```

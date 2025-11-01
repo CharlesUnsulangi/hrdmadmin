@@ -1,8 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MsDivisionController;
+use App\Http\Controllers\MsCompanyController;
+use App\Http\Controllers\MsBankController;
+
+Route::resource('ms-division', MsDivisionController::class);
+Route::resource('ms-company', MsCompanyController::class);
+Route::resource('ms-bank', MsBankController::class);
+
+// AJAX check for duplicate pelamar id
+Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -17,6 +26,7 @@ Route::get('/pelamar', [PelamarController::class, 'index'])->name('pelamar.index
 Route::get('/pelamar/create', [PelamarController::class, 'create'])->name('pelamar.create');
 Route::get('/pelamar/{id}/edit', [PelamarController::class, 'edit'])->name('pelamar.edit');
 Route::put('/pelamar/{id}', [PelamarController::class, 'update'])->name('pelamar.update');
+Route::post('/pelamar/store', [PelamarController::class, 'store'])->name('pelamar.store');
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingUserController;

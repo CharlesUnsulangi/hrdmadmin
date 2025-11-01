@@ -11,6 +11,7 @@ class MsHrFrom extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'ms_hr_from_id', 'form_hr_desc'
+        'ms_hr_from_id', 'form_hr_desc', 'created_at', 'updated_at'
     ];
+    public $timestamps = true;
 }

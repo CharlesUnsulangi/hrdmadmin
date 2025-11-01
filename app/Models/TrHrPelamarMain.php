@@ -15,7 +15,6 @@ class TrHrPelamarMain extends Model
         'nama',
         'email',
         'no_hp',
-        'posisi',
         'status',
         'created_at',
         'updated_at',
@@ -34,13 +33,15 @@ class TrHrPelamarMain extends Model
         'time_wa',
         'link_cv',
         'date_created',
+        'cek_shortlist',
+        'cek_helper',
+        'cek_staff',
     ];
-    // Nonaktifkan timestamps otomatis Laravel
     public $timestamps = false;
 
     public function pengalaman()
     {
-    return $this->hasMany(\App\Models\TrHrPelamarPengalamanPerusahaan::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
+        return $this->hasMany(\App\Models\TrHrPelamarPengalamanPerusahaan::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
     }
 
     public function hasilInterview()
