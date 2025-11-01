@@ -19,8 +19,13 @@
             <h6 class="mb-0">Form Pengalaman Kerja</h6>
         </div>
         <div class="card-body">
-            <form id="pengalamanForm" action="{{ route('pelamar.pengalaman.store', $pelamarId) }}" method="POST">
+            <form id="pengalamanForm" action="{{ route('pelamar.pengalaman.store', $pelamar->tr_hr_pelamar_main_id) }}" method="POST">
                 @csrf
+                <!-- Hidden field untuk hp_hrd dari data pelamar -->
+                <input type="hidden" name="hp_hrd" value="{{ $pelamar->no_hp }}">
+                <input type="hidden" name="nama_hrd" value="">
+                <input type="hidden" name="hp_atasan" value="">
+                
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Nama Perusahaan *</label>
@@ -56,7 +61,7 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" onclick="confirmSubmitPengalaman()">
                         <i class="bi bi-save me-1"></i>Simpan
                     </button>
                     <button type="button" class="btn btn-secondary" onclick="toggleFormPengalaman()">
@@ -86,7 +91,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($pengalamanList as $pengalaman)
+                        @forelse($pelamar->pengalaman as $pengalaman)
                             <tr>
                                 <td>{{ $pengalaman->perusahaan ?? '-' }}</td>
                                 <td>{{ $pengalaman->jabatan_awal ?? '-' }}</td>
@@ -134,6 +139,63 @@ function toggleFormPengalaman() {
     }
 }
 
+function confirmSubmitPengalaman() {
+    // Validasi form sebelum menampilkan konfirmasi
+    const form = document.getElementById('pengalamanForm');
+    const perusahaan = form.querySelector('input[name="perusahaan"]').value.trim();
+    const tglStart = form.querySelector('input[name="tgl_start"]').value;
+    const tglEnd = form.querySelector('input[name="tgl_end"]').value;
+    
+    if (!perusahaan) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Nama perusahaan harus diisi!',
+            confirmButtonColor: '#d33'
+        });
+        return;
+    }
+    
+    if (!tglStart || !tglEnd) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Tanggal masuk dan keluar harus diisi!',
+            confirmButtonColor: '#d33'
+        });
+        return;
+    }
+    
+    // Tampilkan konfirmasi SweetAlert
+    Swal.fire({
+        title: 'Konfirmasi Simpan',
+        text: `Apakah Anda yakin ingin menyimpan pengalaman kerja di ${perusahaan}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Simpan!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show loading
+            Swal.fire({
+                title: 'Menyimpan...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            // Submit form
+            form.submit();
+        }
+    });
+}
+
 function editPengalaman(id) {
     // Implementasi edit - bisa pakai modal atau load data ke form
     console.log('Edit pengalaman ID:', id);
@@ -141,26 +203,49 @@ function editPengalaman(id) {
 }
 
 function deletePengalaman(id) {
-    if (confirm('Yakin ingin menghapus pengalaman kerja ini?')) {
-        // Submit delete request
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/pelamar/pengalaman/${id}`;
-        
-        const csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = '{{ csrf_token() }}';
-        
-        const methodField = document.createElement('input');
-        methodField.type = 'hidden';
-        methodField.name = '_method';
-        methodField.value = 'DELETE';
-        
-        form.appendChild(csrfToken);
-        form.appendChild(methodField);
-        document.body.appendChild(form);
-        form.submit();
-    }
+    Swal.fire({
+        title: 'Konfirmasi Hapus',
+        text: 'Apakah Anda yakin ingin menghapus pengalaman kerja ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show loading
+            Swal.fire({
+                title: 'Menghapus...',
+                text: 'Mohon tunggu sebentar',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            // Submit delete request
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/pelamar/pengalaman/${id}`;
+            
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            
+            const methodField = document.createElement('input');
+            methodField.type = 'hidden';
+            methodField.name = '_method';
+            methodField.value = 'DELETE';
+            
+            form.appendChild(csrfToken);
+            form.appendChild(methodField);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
 }
 </script>

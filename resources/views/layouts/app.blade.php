@@ -17,6 +17,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Livewire Styles -->
+        @livewireStyles
 
         <!-- Bootstrap 5 & Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -152,6 +155,43 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <!-- SweetAlert -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <!-- Livewire Scripts -->
+        @livewireScripts
+        
+        <!-- Manual trigger untuk debug -->
+        <script>
+            // Test manual Livewire trigger
+            window.testLivewire = function() {
+                console.log('Testing Livewire...');
+                if (typeof Livewire !== 'undefined') {
+                    console.log('Livewire is available');
+                    // Find PelamarPengalaman component
+                    const component = Livewire.find('pelamar-pengalaman');
+                    if (component) {
+                        console.log('Found PelamarPengalaman component');
+                        component.call('showAddForm');
+                    } else {
+                        console.log('PelamarPengalaman component not found');
+                    }
+                } else {
+                    console.log('Livewire not available');
+                }
+            };
+            
+            // Debug Livewire
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM loaded');
+                setTimeout(() => {
+                    console.log('Livewire available after timeout:', typeof Livewire !== 'undefined');
+                    if (typeof Livewire !== 'undefined') {
+                        console.log('Livewire is available!');
+                    } else {
+                        console.error('Livewire is NOT available!');
+                    }
+                }, 1000);
+            });
+        </script>
         
         @stack('scripts')
     </body>

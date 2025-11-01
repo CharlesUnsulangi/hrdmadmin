@@ -31,15 +31,19 @@ class PelamarPengalaman extends Component
 
     public function loadPengalaman()
     {
-        $pelamar = TrHrPelamarMain::with('pengalaman')->find($this->pelamarId);
+        $pelamar = TrHrPelamarMain::with('pengalaman')->where('tr_hr_pelamar_main_id', $this->pelamarId)->first();
         $this->pengalamanList = $pelamar && $pelamar->pengalaman ? $pelamar->pengalaman : [];
     }
 
     public function showAddForm()
     {
+        \Log::info('showAddForm method called'); // Debug log
         $this->resetForm();
         $this->showForm = true;
         $this->editId = null;
+        
+        // Emit event untuk debugging
+        $this->dispatch('form-toggled', ['showForm' => $this->showForm]);
     }
 
     public function showEditForm($id)
@@ -71,7 +75,9 @@ class PelamarPengalaman extends Component
             'form.gaji_akhir' => 'nullable|numeric',
             'form.alasan_resign' => 'nullable|string',
         ])['form'];
+        
         $data['tr_hr_pelamar_id'] = $this->pelamarId;
+        
         if ($this->editId) {
             $pengalaman = TrHrPelamarPengalamanPerusahaan::findOrFail($this->editId);
             $pengalaman->update($data);
@@ -82,6 +88,8 @@ class PelamarPengalaman extends Component
         $this->editId = null;
         $this->resetForm();
         $this->loadPengalaman();
+        
+        session()->flash('success', 'Pengalaman berhasil disimpan!');
     }
 
     public function resetForm()
