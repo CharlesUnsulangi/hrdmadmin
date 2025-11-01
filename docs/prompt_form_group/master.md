@@ -44,6 +44,7 @@ Kandidat adalah individu yang didaftarkan untuk menjadi employee/karyawan, namun
 
 ### Tabel Transaksi/Relasi:
 - tr_hr_pelamar_main (Pelamar)
+- tr_hr_pelamar_personal (Data Personal Pelamar)
 - tr_hr_pelamar_interview (Interview Pelamar)
 - tr_hr_pelamar_pengalaman_perusahaan (Pengalaman Kerja Pelamar)
 - tr_hr_pelamar_skedul (Jadwal Interview Pelamar)

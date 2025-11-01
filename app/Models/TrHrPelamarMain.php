@@ -41,11 +41,21 @@ class TrHrPelamarMain extends Model
 
     public function pengalaman()
     {
-        return $this->hasMany(\App\Models\TrHrPelamarPengalamanPerusahaan::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
+        return $this->hasMany(\App\Models\TrHrPelamarPengalamanPerusahaan::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
     }
 
     public function hasilInterview()
     {
         return $this->hasMany(\App\Models\TrHrPelamarInterview::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
+    }
+
+    public function personal()
+    {
+        return $this->hasOne(\App\Models\TrHrPelamarPersonal::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
+    }
+
+    public function sosmed()
+    {
+        return $this->hasMany(\App\Models\TrHrPelamarSosmed::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
     }
 }

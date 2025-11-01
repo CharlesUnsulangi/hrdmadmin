@@ -24,6 +24,14 @@ Route::middleware(['auth'])->group(function () {
     
     // AJAX check for duplicate pelamar id
     Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
+    // Aksi pelamar
+    Route::post('/pelamar/{id}/jadikan-kandidat', [PelamarController::class, 'jadikanKandidat'])->name('pelamar.jadikanKandidat');
+    Route::get('/pelamar/{id}/interview', [PelamarController::class, 'interview'])->name('pelamar.interview');
+    Route::post('/pelamar/{id}/tolak', [PelamarController::class, 'tolak'])->name('pelamar.tolak');
+    Route::get('/pelamar/{id}/diskusi', [PelamarController::class, 'diskusi'])->name('pelamar.diskusi');
+    Route::post('/pelamar/{id}/confirm-jadwal-interview', [PelamarController::class, 'confirmJadwalInterview'])->name('pelamar.confirmJadwalInterview');
+    Route::get('/pelamar/{id}/reschedule', [PelamarController::class, 'reschedule'])->name('pelamar.reschedule');
+    Route::get('/pelamar/{id}/background-check', [PelamarController::class, 'backgroundCheck'])->name('pelamar.backgroundCheck');
 });
 
 Route::get('/', function () {

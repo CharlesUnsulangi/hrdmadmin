@@ -29,12 +29,37 @@
         <a href="{{ route('pelamar.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>
 
+    <div class="my-4 flex flex-wrap gap-2">
+        <form action="{{ route('pelamar.jadikanKandidat', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-success">Jadikan Kandidat</button>
+        </form>
+        <a href="{{ route('pelamar.interview', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-primary">Interview</a>
+        <form action="{{ route('pelamar.tolak', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-danger">Tolak</button>
+        </form>
+        <a href="{{ route('pelamar.diskusi', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-warning">Diskusi</a>
+        <form action="{{ route('pelamar.confirmJadwalInterview', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-info">Confirm Jadwal Interview</button>
+        </form>
+        <a href="{{ route('pelamar.reschedule', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-secondary">Reschedule Interview</a>
+        <a href="{{ route('pelamar.backgroundCheck', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-dark">Background Check</a>
+    </div>
+
     <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="pengalaman-tab" data-bs-toggle="tab" data-bs-target="#pengalaman" type="button" role="tab">Pengalaman</button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="interview-tab" data-bs-toggle="tab" data-bs-target="#interview" type="button" role="tab">Hasil Interview</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Data Personal</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sosmed-tab" data-bs-toggle="tab" data-bs-target="#sosmed" type="button" role="tab">Sosial Media</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -43,6 +68,12 @@
         </div>
         <div class="tab-pane fade" id="interview" role="tabpanel">
             <livewire:pelamar-interview :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
+        </div>
+        <div class="tab-pane fade" id="personal" role="tabpanel">
+            <livewire:pelamar-personal :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
+        </div>
+        <div class="tab-pane fade" id="sosmed" role="tabpanel">
+            <livewire:pelamar-sosmed :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
         </div>
     </div>
 </div>

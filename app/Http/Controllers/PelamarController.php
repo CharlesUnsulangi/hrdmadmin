@@ -53,8 +53,10 @@ class PelamarController extends Controller
 
     public function edit($id)
     {
-    $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
-        return view('pelamar.edit', compact('pelamar'));
+        $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
+        $personal = $pelamar->personal;
+        $sosmed = $pelamar->sosmed;
+        return view('pelamar.edit', compact('pelamar', 'personal', 'sosmed'));
     }
 
     public function update(Request $request, $id)
@@ -89,5 +91,42 @@ class PelamarController extends Controller
     $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
         $pelamar->delete();
         return redirect()->route('pelamar.index')->with('success', 'Pelamar berhasil dihapus');
+    }
+
+    // Aksi pelamar
+    public function jadikanKandidat($id)
+    {
+        // TODO: Salin data pelamar ke tabel kandidat
+        return back()->with('success', 'Pelamar dijadikan kandidat.');
+    }
+    public function interview($id)
+    {
+        // TODO: Tampilkan form interview
+        return back();
+    }
+    public function tolak($id)
+    {
+        // TODO: Update status pelamar jadi ditolak
+        return back()->with('success', 'Pelamar ditolak.');
+    }
+    public function diskusi($id)
+    {
+        // TODO: Undang diskusi
+        return back();
+    }
+    public function confirmJadwalInterview($id)
+    {
+        // TODO: Konfirmasi jadwal interview
+        return back()->with('success', 'Jadwal interview dikonfirmasi.');
+    }
+    public function reschedule($id)
+    {
+        // TODO: Tampilkan form reschedule interview
+        return back();
+    }
+    public function backgroundCheck($id)
+    {
+        // TODO: Tampilkan form background check
+        return back();
     }
 }

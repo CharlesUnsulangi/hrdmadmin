@@ -24,5 +24,6 @@ class TrHrPelamarPersonal extends Model
         'agama',
         'pendidikan',
         'cek_pengalaman',
+        'gaji_diminta',
     ];
 }

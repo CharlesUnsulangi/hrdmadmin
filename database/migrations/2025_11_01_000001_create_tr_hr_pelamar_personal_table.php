@@ -21,7 +21,12 @@ return new class extends Migration
             $table->string('agama', 50)->nullable();
             $table->string('pendidikan', 50)->nullable();
             $table->boolean('cek_pengalaman')->nullable();
+            $table->decimal('gaji_diminta', 19, 4)->nullable();
             $table->timestamps();
+            $table->foreign('tr_hr_pelamar_id')
+                ->references('tr_hr_pelamar_main_id')
+                ->on('tr_hr_pelamar_main')
+                ->onDelete('cascade');
         });
     }
 
