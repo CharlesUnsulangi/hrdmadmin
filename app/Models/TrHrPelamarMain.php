@@ -40,7 +40,7 @@ class TrHrPelamarMain extends Model
 
     public function pengalaman()
     {
-        return $this->hasMany(\App\Models\TrHrPelamarPengalaman::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
+    return $this->hasMany(\App\Models\TrHrPelamarPengalamanPerusahaan::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
     }
 
     public function hasilInterview()
