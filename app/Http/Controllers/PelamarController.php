@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TrHrPelamarMain;
+use Spatie\GoogleCalendar\Event;
 
 class PelamarController extends Controller
 {
@@ -132,13 +133,40 @@ class PelamarController extends Controller
     // Aksi pelamar
     public function jadikanKandidat($id)
     {
-        // TODO: Salin data pelamar ke tabel kandidat
-        return back()->with('success', 'Pelamar dijadikan kandidat.');
+        // Ambil data pelamar
+        $pelamar = \App\Models\TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
+
+        // Cek apakah sudah ada kandidat dengan primary key yang sama
+        $kandidatExists = \App\Models\MsHrKandidat::where('ms_hr_kandidat_emp_id', $pelamar->tr_hr_pelamar_main_id)->exists();
+        if ($kandidatExists) {
+            return back()->with('warning', 'Pelamar ini sudah menjadi kandidat.');
+        }
+
+        // Salin data ke ms_hr_kandidat
+        $kandidatData = [
+            'ms_hr_kandidat_emp_id' => $pelamar->tr_hr_pelamar_main_id,
+            // Mapping field lain sesuai kebutuhan, default null jika tidak ada di pelamar
+            'ms_status_id' => null,
+            'ms_user_id' => null,
+            'date_kandidat' => now(),
+            'date_emp' => null,
+            'date_hrd_approve' => null,
+            'date_finance_approve' => null,
+            'date_bod_approve' => null,
+            'rating_hrd' => null,
+            'rating_finance' => null,
+            'rating_bod' => null,
+            'rating_spv' => null,
+            'date_spv' => null,
+        ];
+        \App\Models\MsHrKandidat::create($kandidatData);
+
+        return back()->with('success', 'Pelamar berhasil dijadikan kandidat.');
     }
     public function interview($id)
     {
-        // TODO: Tampilkan form interview
-        return back();
+    $pelamar = \App\Models\TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
+    return view('pelamar.interview', compact('pelamar'));
     }
     public function tolak($id)
     {
@@ -152,8 +180,22 @@ class PelamarController extends Controller
     }
     public function confirmJadwalInterview($id)
     {
-        // TODO: Konfirmasi jadwal interview
-        return back()->with('success', 'Jadwal interview dikonfirmasi.');
+        // Konfirmasi jadwal interview dan create event Google Calendar
+        $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->first();
+        $start = $pelamar->time_interview ? \Carbon\Carbon::parse($pelamar->time_interview) : now()->addDay();
+        $end = (clone $start)->addHour();
+        $event = Event::create([
+            'name' => 'Interview: ' . ($pelamar ? $pelamar->nama : 'Pelamar'),
+            'startDateTime' => $start,
+            'endDateTime' => $end,
+            'description' => 'Interview kandidat dari sistem HRD',
+        ]);
+        // Simpan google_event_id ke database
+        if ($pelamar && $event && $event->id) {
+            $pelamar->google_event_id = $event->id;
+            $pelamar->save();
+        }
+        return back()->with('success', 'Jadwal interview dikonfirmasi & event Google Calendar dibuat.');
     }
     public function reschedule($id)
     {

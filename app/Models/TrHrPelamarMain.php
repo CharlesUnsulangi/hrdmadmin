@@ -36,8 +36,25 @@ class TrHrPelamarMain extends Model
         'cek_shortlist',
         'cek_helper',
         'cek_staff',
+        'google_event_id', // Untuk simpan event Google Calendar
     ];
     public $timestamps = false;
+
+    // Helper untuk tipe pelamar
+    public function isDriver()
+    {
+        return (bool) $this->cek_driver;
+    }
+
+    public function isStaff()
+    {
+        return (bool) $this->cek_staff;
+    }
+
+    public function isHelper()
+    {
+        return (bool) $this->cek_helper;
+    }
 
     public function pengalaman()
     {
@@ -46,13 +63,14 @@ class TrHrPelamarMain extends Model
 
     public function hasilInterview()
     {
-        return $this->hasMany(\App\Models\TrHrPelamarInterview::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
+        return $this->hasMany(TrHrPelamarInterviewMain::class, 'tr_hr_pelamar_main_id', 'tr_hr_pelamar_main_id');
     }
 
     public function personal()
     {
         return $this->hasOne(\App\Models\TrHrPelamarPersonal::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
     }
+
 
     public function sosmed()
     {

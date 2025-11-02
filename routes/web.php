@@ -1,4 +1,15 @@
+
 <?php
+use App\Http\Controllers\InterviewManagementController;
+use App\Http\Controllers\TrHrPelamarInterviewFinanceController;
+use App\Http\Controllers\TrHrPelamarInterviewHrdController;
+use App\Http\Controllers\TrHrPelamarInterviewMgtController;
+use App\Http\Controllers\TrHrPelamarInterviewSpvController;
+Route::get('/manajemen-interview', [InterviewManagementController::class, 'index'])->name('manajemen-interview.index');
+Route::resource('interview_finance', TrHrPelamarInterviewFinanceController::class);
+Route::resource('interview_hrd', TrHrPelamarInterviewHrdController::class);
+Route::resource('interview_mgt', TrHrPelamarInterviewMgtController::class);
+Route::resource('interview_spv', TrHrPelamarInterviewSpvController::class);
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +67,11 @@ Route::get('dashboard', [DashboardController::class, 'index'])
 Route::view('profile', 'profile')
     ->name('profile');
 
-Route::view('/interview', 'under-development')->name('interview');
+use App\Http\Controllers\InterviewController;
+Route::get('/interview', [InterviewController::class, 'index'])->name('interview');
+Route::get('/interview/create', [InterviewController::class, 'create'])->name('interview.create');
+Route::resource('interview_bod', App\Http\Controllers\TrHrPelamarInterviewBodController::class);
+Route::resource('interview_admin', App\Http\Controllers\TrHrPelamarInterviewAdminController::class);
 Route::view('/karyawan', 'under-development')->name('karyawan');
 Route::view('/driver', 'under-development')->name('driver');
 Route::view('/kenek', 'under-development')->name('kenek');
@@ -79,7 +94,9 @@ require __DIR__.'/auth.php';
 require __DIR__.'/logout.php';
 require __DIR__.'/auth_custom.php';
 
+
 // Tambahkan route kandidat
 Route::get('/kandidat', [\App\Http\Controllers\KandidatController::class, 'index'])->name('kandidat.index');
+Route::get('/kandidat/{id}/edit', [\App\Http\Controllers\KandidatController::class, 'edit'])->name('kandidat.edit');
 
 

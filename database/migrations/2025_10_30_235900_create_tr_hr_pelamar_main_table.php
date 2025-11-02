@@ -34,6 +34,7 @@ return new class extends Migration
             $table->boolean('cek_shortlist')->nullable();
             $table->boolean('cek_helper')->nullable();
             $table->boolean('cek_staff')->nullable();
+            $table->string('google_event_id', 255)->nullable(); // Untuk simpan event Google Calendar
         });
     }
 

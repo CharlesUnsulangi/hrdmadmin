@@ -28,12 +28,12 @@
         </thead>
         <tbody>
             @foreach($kandidat as $row)
-            <tr>
+            <tr ondblclick="window.location='{{ route('kandidat.edit', $row->ms_hr_kandidat_emp_id) }}'" style="cursor:pointer;">
                 <td class="border px-4 py-2">{{ $row->ms_hr_kandidat_emp_id }}</td>
                 <td class="border px-4 py-2">{{ $row->ms_status_id }}</td>
                 <td class="border px-4 py-2">{{ $row->date_kandidat }}</td>
                 <td class="border px-4 py-2">
-                    <a href="#" class="text-blue-600">Edit</a>
+                    <a href="{{ route('kandidat.edit', $row->ms_hr_kandidat_emp_id) }}" class="text-blue-600">Edit</a>
                 </td>
             </tr>
             @endforeach

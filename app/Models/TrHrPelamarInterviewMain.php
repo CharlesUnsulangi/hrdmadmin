@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TrHrPelamarInterview extends Model
+class TrHrPelamarInterviewMain extends Model
 {
     protected $table = 'tr_hr_pelamar_interview_main';
     protected $primaryKey = 'tr_hr_pelamar_interview_main_id';

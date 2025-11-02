@@ -9,10 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tr_hr_pelamar_skedul', function (Blueprint $table) {
-            $table->string('tr_hr_pelamar_id', 50)->primary();
+            $table->increments('tr_hr_pelamar_skedul_id');
+            $table->string('tr_hr_pelamar_id', 50);
             $table->dateTime('skedul_pelamar_time')->nullable();
             $table->dateTime('skedul_confirmed')->nullable();
-            $table->timestamps();
+            $table->dateTime('created_at')->nullable();
+            $table->dateTime('updated_at')->nullable();
+            $table->primary('tr_hr_pelamar_skedul_id');
         });
     }
 

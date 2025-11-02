@@ -63,6 +63,12 @@
                                     <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
                                 @endif
                             </th>
+                            <th class="align-middle" style="cursor:pointer" wire:click="sortBy('cek_shortlist')">
+                                Shortlist
+                                @if($sortField === 'cek_shortlist')
+                                    <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
+                                @endif
+                            </th>
                             <th class="align-middle" style="cursor:pointer" wire:click="sortBy('posisi')">
                                 Posisi
                                 @if($sortField === 'posisi')
@@ -98,6 +104,13 @@
                             <td>{{ $pelamar->email }}</td>
                             <td>{{ $pelamar->no_hp }}</td>
                             <td>{{ $pelamar->status }}</td>
+                            <td>
+                                @if($pelamar->cek_shortlist)
+                                    <span class="badge bg-success">&#10003;</span>
+                                @else
+                                    <span class="badge bg-secondary">-</span>
+                                @endif
+                            </td>
                             <td>{{ $pelamar->posisi }}</td>
                             <td>
                                 <span class="badge bg-primary fs-6 px-3 py-2">{{ $pelamar->rating }}</span>
@@ -108,6 +121,7 @@
                                 <div class="btn-group" role="group">
                                     <button wire:click="showDetail({{ $pelamar->id }})" class="btn btn-sm btn-info" title="Detail"><i class="bi bi-eye"></i></button>
                                     <a href="{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="{{ route('pelamar.interview', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="btn btn-sm btn-primary" title="Interview"><i class="bi bi-calendar-event"></i></a>
                                     <button wire:click="arsipkanPelamar({{ $pelamar->id }})" class="btn btn-sm btn-warning" title="Arsip"><i class="bi bi-archive"></i></button>
                                     <button wire:click="kirimWa({{ $pelamar->id }})" class="btn btn-sm btn-dark" title="Kirim WA"><i class="bi bi-whatsapp"></i></button>
                                 </div>

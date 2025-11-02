@@ -46,6 +46,30 @@
         </form>
         <a href="{{ route('pelamar.reschedule', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-secondary">Reschedule Interview</a>
         <a href="{{ route('pelamar.backgroundCheck', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-dark">Background Check</a>
+
+        <!-- Tombol Lakukan Interview -->
+        @php
+            $interviewTypeRoutes = [
+                'SPV' => 'interview_spv.create',
+                'MGT' => 'interview_mgt.create',
+                'HRD' => 'interview_hrd.create',
+                'FINANCE' => 'interview_finance.create',
+                'BOD' => 'interview_bod.create',
+                'ADMIN' => 'interview_admin.create',
+            ];
+        @endphp
+        <div class="dropdown d-inline-block">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownInterviewType" data-bs-toggle="dropdown" aria-expanded="false">
+                Lakukan Interview
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownInterviewType">
+                @foreach($interviewTypeRoutes as $label => $route)
+                    <li>
+                        <a class="dropdown-item" href="{{ route($route, ['pelamar_id' => $pelamar->tr_hr_pelamar_main_id]) }}">{{ $label }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
 
     <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
