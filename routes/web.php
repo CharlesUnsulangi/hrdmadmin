@@ -1,3 +1,8 @@
+use App\Http\Controllers\PkwttController;
+// PKWTT
+Route::get('/pkwtt', [PkwttController::class, 'index'])->name('pkwtt.index');
+Route::get('/pkwtt/create', [PkwttController::class, 'create'])->name('pkwtt.create');
+Route::post('/pkwtt', [PkwttController::class, 'store'])->name('pkwtt.store');
 
 <?php
 use App\Http\Controllers\InterviewManagementController;
@@ -22,6 +27,9 @@ use App\Http\Controllers\KandidatController;
 Route::resource('ms-division', MsDivisionController::class);
 Route::resource('ms-company', MsCompanyController::class);
 Route::resource('ms-bank', MsBankController::class);
+
+// PKWTT Kandidat
+Route::post('/kandidat/{id}/buat-pkwtt', [KandidatController::class, 'buatPkwtt'])->name('kandidat.buat-pkwtt');
 
 // Pelamar Routes - Protected by auth middleware
 Route::middleware(['auth'])->group(function () {

@@ -1,7 +1,7 @@
 # tr_hr_pelamar_interview
 
 **Deskripsi:**
-Tabel data interview pelamar.
+Tabel data interview pelamar, terintegrasi dengan workflow manajemen interview multi-tipe (SPV, MGT, HRD, Finance, BOD, Admin).
 
 | Kolom                      | Tipe         | Nullable | Deskripsi                        |
 |----------------------------|--------------|----------|-----------------------------------|
@@ -9,7 +9,7 @@ Tabel data interview pelamar.
 | tr_hr_pelamar_id           | varchar(50)  | Yes      | Foreign key ke pelamar           |
 | date_interview             | date         | Yes      | Tanggal interview                |
 | time_start                 | time(7)      | Yes      | Waktu mulai                      |
-| time_end                   | time(7)      | Yes      | Waktu selesai                    |
+| time_end                   | time(7)      | Yes      | Waktu selesai (diisi otomatis pada proses simpan, tidak wajib di form/validasi) |
 | note_operator              | varchar(50)  | Yes      | Catatan operator                 |
 | note_spv                   | varchar(50)  | Yes      | Catatan supervisor               |
 | note_mgr                   | varchar(50)  | Yes      | Catatan manager                  |
@@ -28,6 +28,8 @@ Tabel data interview pelamar.
 | cek_lanjut                 | bit          | Yes      | Flag lanjut proses                |
 | cek_tolak                  | bit          | Yes      | Flag tolak proses                 |
 
-**Aturan Bisnis:**
+**Aturan Bisnis & Workflow:**
 - Tidak boleh dihapus jika sudah ada relasi.
-- Digunakan untuk tracking proses interview.
+- Digunakan untuk tracking proses interview multi-tipe.
+- Field jam selesai (time_end) diisi otomatis pada proses simpan, tidak wajib di form maupun validasi backend.
+- Terhubung ke workflow manajemen interview terpusat dan integrasi Google Calendar.
