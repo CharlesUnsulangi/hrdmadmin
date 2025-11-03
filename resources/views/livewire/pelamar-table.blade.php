@@ -118,7 +118,7 @@
                                 <td>{{ $pelamar->statusPelamar->status_desc ?? '-' }}</td>
                                 @endif
                             </td>
-                            <td>{{ $pelamar->posisi }}</td>
+                            <td>{{ $pelamar->msHrPosisi->posisi_desc ?? '-' }}</td>
                             <td>
                                 <span class="badge bg-primary fs-6 px-3 py-2">{{ $pelamar->rating }}</span>
                             </td>

@@ -68,6 +68,17 @@
             <input type="text" name="link_cv" class="w-full border rounded px-3 py-2" value="{{ old('link_cv', $pelamar->link_cv) }}">
             @error('link_cv')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
         </div>
+
+        <div class="mb-4 flex gap-6">
+            <label class="inline-flex items-center">
+                <input type="checkbox" name="cek_shortlist" value="1" {{ old('cek_shortlist', $pelamar->cek_shortlist) ? 'checked' : '' }}>
+                <span class="ml-2">Cek Shortlist</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input type="checkbox" name="cek_priority" value="1" {{ old('cek_priority', $pelamar->cek_priority) ? 'checked' : '' }}>
+                <span class="ml-2">Cek Priority</span>
+            </label>
+        </div>
     <button type="submit" class="bg-yellow-400 text-black font-bold px-4 py-2 rounded border border-yellow-600 shadow">Update</button>
         <a href="{{ route('pelamar.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>

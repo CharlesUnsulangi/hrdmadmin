@@ -74,6 +74,7 @@ class PelamarController extends Controller
             'email' => 'required|email|max:100',
             'no_hp' => 'nullable|string|max:50',
             'status' => 'nullable|string|max:50',
+            'ms_hr_posisi_id' => 'nullable|string|max:50',
             'rating' => 'nullable|integer|min:1|max:5',
             'cek_confirm' => 'nullable|boolean',
             'time_confirm' => 'nullable|date',
@@ -89,6 +90,9 @@ class PelamarController extends Controller
             'time_wa' => 'nullable|date',
             'link_cv' => 'nullable|string|max:255',
         ]);
+        // Pastikan checkbox boolean selalu terisi true/false
+        $validated['cek_shortlist'] = $request->has('cek_shortlist');
+        $validated['cek_priority'] = $request->has('cek_priority');
         $pelamar->update($validated);
         return redirect()->route('pelamar.edit', $id)->with('success', 'Pelamar berhasil diupdate');
     }

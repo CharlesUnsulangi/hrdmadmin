@@ -35,7 +35,7 @@
         @forelse($interviews as $row)
             <tr>
                 <td>{{ $row->pelamar->nama ?? '-' }}</td>
-                <td>{{ $row->pelamar->posisi ?? '-' }}</td>
+                <td>{{ $row->pelamar && $row->pelamar->msHrPosisi ? $row->pelamar->msHrPosisi->posisi_desc : '-' }}</td>
                 <td>{{ $row->skedul_pelamar_time ? \Carbon\Carbon::parse($row->skedul_pelamar_time)->format('d-m-Y') : '-' }}</td>
                 <td>{{ $row->skedul_pelamar_time ? \Carbon\Carbon::parse($row->skedul_pelamar_time)->format('H:i') : '-' }}</td>
                 <td>-</td>

@@ -82,6 +82,11 @@ class TrHrPelamarMain extends Model
         return $this->hasMany(TrHrPelamarSosmed::class, 'tr_hr_pelamar_id', 'tr_hr_pelamar_main_id');
     }
 
+    public function msHrPosisi()
+    {
+        return $this->belongsTo(MsHrPosisi::class, 'ms_hr_posisi_id', 'ms_hr_posisi_id');
+    }
+
     // === HELPER ===
     public function isDriver(): bool   { return $this->cek_driver; }
     public function isStaff(): bool    { return $this->cek_staff; }
