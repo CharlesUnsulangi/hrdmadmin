@@ -14,7 +14,7 @@ class TrHrBgCheck extends Model
         'tr_hr_pelamar_main_id',
         'telepon',
         'nama',
-        'ms_user_id',
+    'ms_hr_user_id',
         'note',
         'cek_fraud',
         'cek_bohong',

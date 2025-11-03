@@ -99,7 +99,7 @@ class PkwttController extends Controller
             'date_pkwtt_start' => $validated['date_pkwtt_start'],
             'date_pkwtt_end' => $validated['date_pkwtt_end'],
             'date_sign' => $validated['date_sign'],
-            'ms_user_id' => auth()->user() ? auth()->user()->id : null,
+            'ms_hr_user_id' => auth()->user() ? auth()->user()->id : null,
             'ms_company_id' => null,
             'month' => $validated['month'],
         ]);

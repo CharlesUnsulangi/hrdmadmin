@@ -12,7 +12,7 @@ class TrHrPelamarInterviewSpv extends Model
     protected $keyType = 'int';
     public $timestamps = false;
     protected $fillable = [
-        'ms_user_id',
+    'ms_hr_user_id',
         'ms_hr_pelamar_main_id',
         'date_interview',
         'time_start',

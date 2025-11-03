@@ -25,6 +25,7 @@ class PelamarController extends Controller
     public function index()
     {
         $pelamars = TrHrPelamarMain::all();
+        // dd($pelamars);
         return view('pelamar.index', compact('pelamars'));
     }
 
@@ -52,6 +53,7 @@ class PelamarController extends Controller
             $validated['cek_staff'] = true;
             $validated['cek_driver'] = false;
             $validated['cek_helper'] = false;
+            $validated['ms_hr_user_id'] = auth()->user() ? auth()->user()->id : null;
             TrHrPelamarMain::create($validated);
             $success++;
         }

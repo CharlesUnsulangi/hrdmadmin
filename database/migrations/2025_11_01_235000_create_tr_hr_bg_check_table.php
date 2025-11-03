@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('tr_hr_pelamar_main_id', 50);
             $table->string('telepon', 50)->nullable();
             $table->string('nama', 50)->nullable();
-            $table->string('ms_user_id', 50)->nullable();
+            $table->string('ms_hr_user_id', 50)->nullable();
             $table->string('note', 50)->nullable();
             $table->boolean('cek_fraud')->nullable();
             $table->boolean('cek_bohong')->nullable();

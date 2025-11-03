@@ -12,6 +12,6 @@ class TrHrPkwtt extends Model
     protected $keyType = 'string';
     public $timestamps = false;
     protected $fillable = [
-        'tr_hd_pkwtt_id', 'ms_emp_id', 'date_pkwtt_start', 'date_pkwtt_end', 'date_sign', 'ms_user_id', 'ms_company_id', 'month'
+    'tr_hd_pkwtt_id', 'ms_emp_id', 'date_pkwtt_start', 'date_pkwtt_end', 'date_sign', 'ms_hr_user_id', 'ms_company_id', 'month'
     ];
 }

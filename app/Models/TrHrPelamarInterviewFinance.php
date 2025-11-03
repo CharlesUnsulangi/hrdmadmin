@@ -11,7 +11,7 @@ class TrHrPelamarInterviewFinance extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     protected $fillable = [
-        'ms_user_id',
+    'ms_hr_user_id',
         'ms_hr_pelamar_main_id',
         'date_interview',
         'time_start',

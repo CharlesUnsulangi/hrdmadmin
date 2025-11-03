@@ -11,7 +11,7 @@ class MsHrKandidat extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'ms_hr_kandidat_emp_id', 'ms_status_id', 'ms_user_id', 'date_kandidat', 'date_emp',
+        'ms_hr_kandidat_emp_id', 'ms_status_id', 'ms_hr_user_id', 'date_kandidat', 'date_emp',
         'date_hrd_approve', 'date_finance_approve', 'date_bod_approve',
         'rating_hrd', 'rating_finance', 'rating_bod', 'rating_spv', 'date_spv'
     ];

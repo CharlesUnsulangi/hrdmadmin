@@ -82,6 +82,7 @@
                                     <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
                                 @endif
                             </th>
+                            <th class="align-middle">User</th>
                             <th class="align-middle">Link CV</th>
                             <th class="align-middle" style="cursor:pointer" wire:click="sortBy('asal_lamaran')">
                                 Asal
@@ -102,6 +103,7 @@
                         @foreach($pelamars as $index => $pelamar)
                         <tr ondblclick="window.location='{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}'" style="cursor:pointer;">
                             <td style="display:none">{{ $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id }}</td>
+                            <td>{{ $pelamar->msHrUser->username ?? '-' }}</td>
                             <td>
                                 <a href="{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="text-primary fw-bold text-decoration-underline" title="Edit Pelamar">
                                     {{ $pelamar->nama }}

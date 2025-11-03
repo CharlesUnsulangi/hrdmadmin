@@ -27,7 +27,7 @@ class TrHrPelamarInterviewAdminController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ms_user_id' => 'nullable|string|max:50',
+            'ms_hr_user_id' => 'nullable|string|max:50',
             'ms_hr_pelamar_main_id' => 'required|string|max:50',
             'date_interview' => 'required|date',
             'time_start' => 'required',
@@ -53,7 +53,7 @@ class TrHrPelamarInterviewAdminController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'ms_user_id' => 'nullable|string|max:50',
+            'ms_hr_user_id' => 'nullable|string|max:50',
             'ms_hr_pelamar_main_id' => 'required|string|max:50',
             'date_interview' => 'required|date',
             'time_start' => 'required',

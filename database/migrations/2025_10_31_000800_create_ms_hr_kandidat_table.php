@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('ms_hr_kandidat', function (Blueprint $table) {
             $table->string('ms_hr_kandidat_emp_id', 50)->primary();
             $table->string('ms_status_id', 50)->nullable();
-            $table->string('ms_user_id', 50)->nullable();
+            $table->string('ms_hr_user_id', 50)->nullable();
             $table->date('date_kandidat')->nullable();
             $table->date('date_emp')->nullable();
             $table->date('date_hrd_approve')->nullable();

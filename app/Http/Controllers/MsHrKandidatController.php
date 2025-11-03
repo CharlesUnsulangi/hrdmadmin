@@ -25,7 +25,7 @@ class MsHrKandidatController extends Controller
         $validated = $request->validate([
             'ms_hr_kandidat_emp_id' => 'required|string|max:50|unique:ms_hr_kandidat,ms_hr_kandidat_emp_id',
             'ms_status_id' => 'nullable|string|max:50',
-            'ms_user_id' => 'nullable|string|max:50',
+            'ms_hr_user_id' => 'nullable|string|max:50',
             'date_kandidat' => 'nullable|date',
             'date_emp' => 'nullable|date',
             'date_hrd_approve' => 'nullable|date',
@@ -52,7 +52,7 @@ class MsHrKandidatController extends Controller
         $kandidat = MsHrKandidat::findOrFail($id);
         $validated = $request->validate([
             'ms_status_id' => 'nullable|string|max:50',
-            'ms_user_id' => 'nullable|string|max:50',
+            'ms_hr_user_id' => 'nullable|string|max:50',
             'date_kandidat' => 'nullable|date',
             'date_emp' => 'nullable|date',
             'date_hrd_approve' => 'nullable|date',

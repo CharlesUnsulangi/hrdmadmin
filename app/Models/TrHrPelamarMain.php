@@ -6,6 +6,12 @@ use Illuminate\Support\Str;
 
 class TrHrPelamarMain extends Model
 {
+    // ...existing code...
+
+    public function msHrUser()
+    {
+        return $this->belongsTo(MsHrUser::class, 'ms_hr_user_id', 'id');
+    }
     protected $table = 'tr_hr_pelamar_main';
     protected $primaryKey = 'tr_hr_pelamar_main_id';
     public $incrementing = false;

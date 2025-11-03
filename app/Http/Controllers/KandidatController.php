@@ -54,7 +54,7 @@ class KandidatController extends Controller
             'date_pkwtt_start' => $start,
             'date_pkwtt_end' => $end,
             'date_sign' => $sign,
-            'ms_user_id' => auth()->user() ? auth()->user()->id : null,
+            'ms_hr_user_id' => auth()->user() ? auth()->user()->id : null,
             'ms_company_id' => null,
             'month' => 12
         ]);
