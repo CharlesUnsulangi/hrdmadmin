@@ -52,7 +52,14 @@ $checkIdUrl = route('pelamar.checkid');
                         <input type="text" class="form-control form-control-sm d-inline w-75" value="{{ $link }}" readonly id="link-portal-{{ $i }}">
                         <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('link-portal-{{ $i }}').value)">Copy</button>
                     </td>
-                    <td><input type="text" name="rows[{{ $i }}][status]" value="{{ $row['status'] ?? '' }}" class="form-control form-control-sm" /></td>
+                    <td>
+                        <select name="rows[{{ $i }}][status]" class="form-select form-select-sm">
+                            <option value="">-- Pilih --</option>
+                            @foreach($status_options as $id => $desc)
+                                <option value="{{ $id }}" @if(($row['status'] ?? '') == $id) selected @endif>{{ $desc }}</option>
+                            @endforeach
+                        </select>
+                    </td>
                     <td>
                         <button type="button" id="btn-simpan" class="btn btn-success btn-sm d-flex align-items-center gap-1">
                             <i class="bi bi-save"></i> Simpan

@@ -4,15 +4,17 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\TrHrPelamarMain;
 use App\Models\MsHrFrom;
-
+use App\Models\MsHrPelamarStatus;
 class PelamarRowEntryList extends Component
 {
     public $rows = [];
     public $asal_lamaran_options = [];
+    public $status_options = [];
 
     public function mount()
     {
         $this->asal_lamaran_options = MsHrFrom::pluck('form_hr_desc', 'ms_hr_from_id')->toArray();
+        $this->status_options = MsHrPelamarStatus::pluck('status_desc', 'ms_hr_pelamar_status_id')->toArray();
         $this->addRow();
     }
 
@@ -67,6 +69,7 @@ class PelamarRowEntryList extends Component
     {
         return view('livewire.pelamar-row-entry-list', [
             'asal_lamaran_options' => $this->asal_lamaran_options,
+            'status_options' => $this->status_options,
         ]);
     }
 }
