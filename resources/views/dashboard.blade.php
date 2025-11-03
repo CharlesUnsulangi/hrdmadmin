@@ -38,7 +38,7 @@
             <tbody>
                 @foreach($upcomingInterviews as $row)
                 <tr>
-                    <td>{{ $row->tr_hr_pelamar_id }}</td>
+                    <td>{{ $row->tr_hr_pelamar_main_id }}</td>
                     <td>{{ $row->date_interview }}</td>
                     <td>{{ $row->time_start }}</td>
                     <td>{{ $row->cek_lanjut ? 'Konfirmasi' : 'Belum' }}</td>

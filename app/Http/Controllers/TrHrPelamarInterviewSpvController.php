@@ -33,6 +33,20 @@ class TrHrPelamarInterviewSpvController extends Controller
             // 'time_end' => 'required',
         ]);
         TrHrPelamarInterviewSpv::create($request->all());
+
+        // Simpan juga ke tabel utama interview
+        \App\Models\TrHrPelamarInterviewMain::create([
+            'tr_hr_pelamar_main_id' => $request->ms_hr_pelamar_main_id,
+            'interview_type' => 'SPV',
+            'date_interview' => $request->date_interview,
+            'time_start' => $request->time_start,
+            'time_end' => $request->time_end,
+            'rating_spv' => $request->rating_final ?? null,
+            'note_spv' => $request->note_interview ?? null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         return redirect()->route('interview_spv.index')->with('success', 'Data interview supervisor berhasil ditambahkan.');
     }
 
@@ -48,11 +62,17 @@ class TrHrPelamarInterviewSpvController extends Controller
         $request->validate([
             'ms_hr_pelamar_main_id' => 'required|exists:tr_hr_pelamar_main,tr_hr_pelamar_main_id',
             'date_interview' => 'required|date',
-            'time_start' => 'required',
-            'time_end' => 'required',
         ]);
         $interview = TrHrPelamarInterviewSpv::findOrFail($id);
-        $interview->update($request->all());
+        $data = $request->all();
+        // If time_start/time_end not filled, use old value
+        if (empty($data['time_start'])) {
+            $data['time_start'] = $interview->time_start;
+        }
+        if (empty($data['time_end'])) {
+            $data['time_end'] = $interview->time_end;
+        }
+        $interview->update($data);
         return redirect()->route('interview_spv.index')->with('success', 'Data interview supervisor berhasil diupdate.');
     }
 

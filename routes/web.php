@@ -1,10 +1,15 @@
+<?php
+use App\Http\Controllers\InterviewMainController;
+Route::resource('interview_main', InterviewMainController::class);
+Route::delete('/pkwtt/{id}', [PkwttController::class, 'destroy'])->name('pkwtt.destroy');
 use App\Http\Controllers\PkwttController;
 // PKWTT
 Route::get('/pkwtt', [PkwttController::class, 'index'])->name('pkwtt.index');
 Route::get('/pkwtt/create', [PkwttController::class, 'create'])->name('pkwtt.create');
 Route::post('/pkwtt', [PkwttController::class, 'store'])->name('pkwtt.store');
-
-<?php
+Route::get('/pkwtt/{id}/edit', [PkwttController::class, 'edit'])->name('pkwtt.edit');
+Route::post('/pkwtt/{id}/promote', [PkwttController::class, 'promote'])->name('pkwtt.promote');
+Route::get('/pkwtt/{id}', [PkwttController::class, 'show'])->name('pkwtt.show');
 use App\Http\Controllers\InterviewManagementController;
 use App\Http\Controllers\TrHrPelamarInterviewFinanceController;
 use App\Http\Controllers\TrHrPelamarInterviewHrdController;
@@ -83,7 +88,6 @@ Route::resource('interview_admin', App\Http\Controllers\TrHrPelamarInterviewAdmi
 Route::view('/karyawan', 'under-development')->name('karyawan');
 Route::view('/driver', 'under-development')->name('driver');
 Route::view('/kenek', 'under-development')->name('kenek');
-Route::view('/pkwtt', 'under-development')->name('pkwtt');
 Route::view('/assesment', 'under-development')->name('assesment');
 Route::view('/payroll', 'under-development')->name('payroll');
 Route::view('/berita-acara', 'under-development')->name('berita-acara');
@@ -105,6 +109,8 @@ require __DIR__.'/auth_custom.php';
 
 // Tambahkan route kandidat
 Route::get('/kandidat', [\App\Http\Controllers\KandidatController::class, 'index'])->name('kandidat.index');
+
 Route::get('/kandidat/{id}/edit', [\App\Http\Controllers\KandidatController::class, 'edit'])->name('kandidat.edit');
+Route::put('/kandidat/{id}', [\App\Http\Controllers\KandidatController::class, 'update'])->name('kandidat.update');
 
 

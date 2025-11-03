@@ -1,9 +1,11 @@
+
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
     <h2>Edit Kandidat</h2>
-    <form action="#" method="POST">
+    <form action="{{ route('kandidat.update', $kandidat->ms_hr_kandidat_emp_id) }}" method="POST">
+        @method('PUT')
         @csrf
         <!-- Tambahkan field sesuai kebutuhan -->
         <div class="mb-3">
@@ -22,31 +24,14 @@
                 <a href="{{ route('kandidat.index') }}" class="btn btn-secondary">Kembali</a>
 
                 <!-- Tombol Buat PKWTT -->
-                <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#modalPKWTT">
-                        Buat PKWTT
-                </button>
-
-                <!-- Modal Konfirmasi PKWTT -->
-                <div class="modal fade" id="modalPKWTT" tabindex="-1" aria-labelledby="modalPKWTTLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalPKWTTLabel">Konfirmasi Buat PKWTT</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Apakah Anda yakin ingin membuat PKWTT untuk kandidat ini?
-                            </div>
-                            <div class="modal-footer">
-                                <form action="{{ route('kandidat.buat-pkwtt', $kandidat->ms_hr_kandidat_emp_id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success">Ya, Buat PKWTT</button>
-                                </form>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <a href="{{ route('pkwtt.create', ['ms_emp_id' => $kandidat->ms_hr_kandidat_emp_id]) }}" class="btn btn-success ms-2">
+                    Buat PKWTT
+                </a>
+                <!-- Tombol Jadikan Karyawan -->
+                <form action="{{ route('kandidat.promote', $kandidat->ms_hr_kandidat_emp_id) }}" method="POST" class="d-inline ms-2">
+                    @csrf
+                    <button type="submit" class="btn btn-warning" onclick="return confirm('Jadikan kandidat ini sebagai karyawan?')">Jadikan Karyawan</button>
+                </form>
     </form>
 </div>
 @endsection

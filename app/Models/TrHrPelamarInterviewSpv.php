@@ -10,6 +10,7 @@ class TrHrPelamarInterviewSpv extends Model
     protected $primaryKey = 'tr_hr_pelamar_operator_id';
     public $incrementing = true;
     protected $keyType = 'int';
+    public $timestamps = false;
     protected $fillable = [
         'ms_user_id',
         'ms_hr_pelamar_main_id',

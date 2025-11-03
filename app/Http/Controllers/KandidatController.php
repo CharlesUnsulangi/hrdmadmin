@@ -19,6 +19,18 @@ class KandidatController extends Controller
         return view('kandidat.edit', compact('kandidat'));
     }
     /**
+     * Update kandidat dari form edit.
+     */
+    public function update(Request $request, $id)
+    {
+        $kandidat = MsHrKandidat::where('ms_hr_kandidat_emp_id', $id)->firstOrFail();
+        $kandidat->ms_status_id = $request->input('ms_status_id');
+        $kandidat->date_kandidat = $request->input('date_kandidat');
+        $kandidat->save();
+        return redirect()->route('kandidat.edit', $id)->with('success', 'Data kandidat berhasil diupdate.');
+    }
+
+    /**
      * Proses pembuatan PKWTT dari kandidat.
      */
     public function buatPkwtt($id)
@@ -49,5 +61,31 @@ class KandidatController extends Controller
 
         return redirect()->route('kandidat.edit', $id)
             ->with('success', 'PKWTT berhasil dibuat untuk kandidat ini.');
+    }
+    /**
+     * Promote kandidat menjadi karyawan (MsEmployee)
+     */
+    public function promote($id)
+    {
+        $kandidat = \App\Models\MsHrKandidat::where('ms_hr_kandidat_emp_id', $id)->firstOrFail();
+        $employee = \App\Models\MsEmployee::find($id);
+
+        if (!$employee) {
+            $employee = new \App\Models\MsEmployee();
+            $employee->emp_id = $id;
+            $employee->emp_name = $kandidat->ms_hr_kandidat_name ?? $id;
+        }
+
+        $employee->emp_statuskaryawan = 'PKWTT';
+        $employee->emp_datejoin = now()->toDateString();
+        $employee->emp_status = 1;
+        $employee->rec_status = 1;
+        $employee->save();
+
+        // Update kandidat status
+        $kandidat->ms_status_id = 'karyawan';
+        $kandidat->save();
+
+        return redirect()->route('kandidat.edit', $id)->with('success', 'Kandidat telah dijadikan karyawan.');
     }
 }
