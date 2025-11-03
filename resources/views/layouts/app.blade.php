@@ -105,14 +105,25 @@
             @endif
             <!-- Main Content -->
             <div class="flex-1 flex flex-col min-h-screen">
-                <!-- Page Heading -->
-                @if (isset($header))
-                    <header class="bg-white shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
+                <!-- Page Heading & User Profile -->
+                <header class="bg-white shadow flex items-center justify-between px-4 py-3">
+                    <div>
+                        @if (isset($header))
+                            <div class="max-w-7xl mx-auto py-2 px-2 sm:px-4 lg:px-6">
+                                {{ $header }}
+                            </div>
+                        @endif
+                    </div>
+                    @if(Auth::check())
+                        <div class="flex items-center gap-3">
+                            <i class="bi bi-person-circle text-2xl text-gray-600"></i>
+                            <div class="text-right">
+                                <div class="font-semibold text-gray-800">{{ Auth::user()->nama ?? Auth::user()->name }}</div>
+                                <div class="text-xs text-gray-500">{{ Auth::user()->email }}</div>
+                            </div>
                         </div>
-                    </header>
-                @endif
+                    @endif
+                </header>
                 <!-- Page Content -->
                 <main class="flex-1 p-4 md:p-8">
                     <!-- Flash Messages -->

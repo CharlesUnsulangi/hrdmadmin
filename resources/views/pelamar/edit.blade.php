@@ -22,10 +22,53 @@
         </div>
         <div class="mb-4">
             <label class="block mb-1">Status</label>
-            <input type="text" name="status" class="w-full border rounded px-3 py-2" value="{{ old('status', $pelamar->status) }}">
+            <select name="status" class="w-full border rounded px-3 py-2">
+                <option value="">-- Pilih Status --</option>
+                @foreach(\App\Models\MsHrPelamarStatus::all() as $status)
+                    <option value="{{ $status->ms_hr_pelamar_status_id }}" {{ old('status', $pelamar->status) == $status->ms_hr_pelamar_status_id ? 'selected' : '' }}>{{ $status->status_desc }}</option>
+                @endforeach
+            </select>
             @error('status')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
         </div>
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+
+        <div class="mb-4">
+            <label class="block mb-1">Posisi</label>
+            <select name="ms_hr_posisi_id" class="w-full border rounded px-3 py-2">
+                <option value="">-- Pilih Posisi --</option>
+                @foreach(\App\Models\MsHrPosisi::all() as $posisi)
+                    <option value="{{ $posisi->ms_hr_posisi_id }}" {{ old('ms_hr_posisi_id', $pelamar->ms_hr_posisi_id) == $posisi->ms_hr_posisi_id ? 'selected' : '' }}>{{ $posisi->posisi_desc }}</option>
+                @endforeach
+            </select>
+            @error('ms_hr_posisi_id')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
+        </div>
+        <div class="mb-4">
+            <label class="block mb-1">Rating</label>
+            <div class="flex gap-2">
+                @for($i = 1; $i <= 5; $i++)
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="rating" value="{{ $i }}" {{ old('rating', $pelamar->rating) == $i ? 'checked' : '' }}>
+                        <span class="ml-1">{{ $i }}</span>
+                    </label>
+                @endfor
+            </div>
+            @error('rating')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
+        </div>
+        <div class="mb-4">
+            <label class="block mb-1">Asal Lamaran</label>
+            <select name="ms_hr_from_id" class="w-full border rounded px-3 py-2">
+                <option value="">-- Pilih Asal Lamaran --</option>
+                @foreach(\App\Models\MsHrFrom::all() as $from)
+                    <option value="{{ $from->ms_hr_from_id }}" {{ old('ms_hr_from_id', $pelamar->ms_hr_from_id) == $from->ms_hr_from_id ? 'selected' : '' }}>{{ $from->form_hr_desc }}</option>
+                @endforeach
+            </select>
+            @error('ms_hr_from_id')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
+        </div>
+        <div class="mb-4">
+            <label class="block mb-1">Link CV</label>
+            <input type="text" name="link_cv" class="w-full border rounded px-3 py-2" value="{{ old('link_cv', $pelamar->link_cv) }}">
+            @error('link_cv')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror
+        </div>
+    <button type="submit" class="bg-yellow-400 text-black font-bold px-4 py-2 rounded border border-yellow-600 shadow">Update</button>
         <a href="{{ route('pelamar.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>
 

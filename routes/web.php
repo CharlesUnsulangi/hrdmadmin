@@ -1,59 +1,79 @@
+
 <?php
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+// === SEMUA CONTROLLER DI ATAS ===
+use App\Http\Controllers\MsHrPelamarTypeController;
 use App\Http\Controllers\InterviewMainController;
-Route::resource('interview_main', InterviewMainController::class);
-Route::delete('/pkwtt/{id}', [PkwttController::class, 'destroy'])->name('pkwtt.destroy');
 use App\Http\Controllers\PkwttController;
-// PKWTT
-Route::get('/pkwtt', [PkwttController::class, 'index'])->name('pkwtt.index');
-Route::get('/pkwtt/create', [PkwttController::class, 'create'])->name('pkwtt.create');
-Route::post('/pkwtt', [PkwttController::class, 'store'])->name('pkwtt.store');
-Route::get('/pkwtt/{id}/edit', [PkwttController::class, 'edit'])->name('pkwtt.edit');
-Route::post('/pkwtt/{id}/promote', [PkwttController::class, 'promote'])->name('pkwtt.promote');
-Route::get('/pkwtt/{id}', [PkwttController::class, 'show'])->name('pkwtt.show');
 use App\Http\Controllers\InterviewManagementController;
 use App\Http\Controllers\TrHrPelamarInterviewFinanceController;
 use App\Http\Controllers\TrHrPelamarInterviewHrdController;
 use App\Http\Controllers\TrHrPelamarInterviewMgtController;
 use App\Http\Controllers\TrHrPelamarInterviewSpvController;
-Route::get('/manajemen-interview', [InterviewManagementController::class, 'index'])->name('manajemen-interview.index');
-Route::resource('interview_finance', TrHrPelamarInterviewFinanceController::class);
-Route::resource('interview_hrd', TrHrPelamarInterviewHrdController::class);
-Route::resource('interview_mgt', TrHrPelamarInterviewMgtController::class);
-Route::resource('interview_spv', TrHrPelamarInterviewSpvController::class);
-
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\MsDivisionController;
 use App\Http\Controllers\MsCompanyController;
 use App\Http\Controllers\MsBankController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\KandidatController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SettingUserController;
+use App\Http\Controllers\InterviewController;
+use App\Http\Controllers\TrHrPelamarInterviewBodController;
+use App\Http\Controllers\TrHrPelamarInterviewAdminController;
 
+// === ROOT REDIRECT ===
+Route::get('/', function () {
+    return Auth::check() ? redirect()->route('dashboard') : redirect()->route('login');
+});
+
+// === DASHBOARD ===
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::view('/profile', 'profile')->name('profile');
+});
+
+// === MASTER DATA ===
+Route::resource('ms_hr_pelamar_type', MsHrPelamarTypeController::class);
+Route::resource('ms_hr_pelamar_status', \App\Http\Controllers\MsHrPelamarStatusController::class);
 Route::resource('ms-division', MsDivisionController::class);
 Route::resource('ms-company', MsCompanyController::class);
 Route::resource('ms-bank', MsBankController::class);
 
-// PKWTT Kandidat
+// === INTERVIEW ===
+Route::get('/interview', [InterviewController::class, 'index'])->name('interview');
+Route::get('/interview/create', [InterviewController::class, 'create'])->name('interview.create');
+Route::get('/manajemen-interview', [InterviewManagementController::class, 'index'])->name('manajemen-interview.index');
+Route::resource('interview_main', InterviewMainController::class);
+Route::resource('interview_finance', TrHrPelamarInterviewFinanceController::class);
+Route::resource('interview_hrd', TrHrPelamarInterviewHrdController::class);
+Route::resource('interview_mgt', TrHrPelamarInterviewMgtController::class);
+Route::resource('interview_spv', TrHrPelamarInterviewSpvController::class);
+Route::resource('interview_bod', TrHrPelamarInterviewBodController::class);
+Route::resource('interview_admin', TrHrPelamarInterviewAdminController::class);
+
+// === PKWTT ===
+Route::resource('pkwtt', PkwttController::class)->except(['show']);
+Route::post('/pkwtt/{id}/promote', [PkwttController::class, 'promote'])->name('pkwtt.promote');
+
+// === KANDIDAT ===
+Route::get('/kandidat', [KandidatController::class, 'index'])->name('kandidat.index');
+Route::get('/kandidat/{id}/edit', [KandidatController::class, 'edit'])->name('kandidat.edit');
+Route::put('/kandidat/{id}', [KandidatController::class, 'update'])->name('kandidat.update');
 Route::post('/kandidat/{id}/buat-pkwtt', [KandidatController::class, 'buatPkwtt'])->name('kandidat.buat-pkwtt');
 
-// Pelamar Routes - Protected by auth middleware
-Route::middleware(['auth'])->group(function () {
+// === PELAMAR (auth) ===
+Route::middleware('auth')->group(function () {
+    Route::resource('pelamar', PelamarController::class);
     Route::get('/pelamar', [PelamarController::class, 'index'])->name('pelamar.index');
     Route::get('/pelamar/create', [PelamarController::class, 'create'])->name('pelamar.create');
     Route::post('/pelamar', [PelamarController::class, 'store'])->name('pelamar.store');
-    Route::get('/pelamar/{id}', [PelamarController::class, 'show'])->name('pelamar.show');
-    Route::get('/pelamar/{id}/edit', [PelamarController::class, 'edit'])->name('pelamar.edit');
-    Route::put('/pelamar/{id}', [PelamarController::class, 'update'])->name('pelamar.update');
-    Route::delete('/pelamar/{id}', [PelamarController::class, 'destroy'])->name('pelamar.destroy');
-    
-    // AJAX check for duplicate pelamar id
+
+    // AJAX & Custom
     Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
-    
-    // Routes untuk pengalaman kerja
     Route::post('/pelamar/{id}/pengalaman', [PelamarController::class, 'storePengalaman'])->name('pelamar.pengalaman.store');
     Route::delete('/pelamar/pengalaman/{id}', [PelamarController::class, 'destroyPengalaman'])->name('pelamar.pengalaman.destroy');
-    
-    // Aksi pelamar
     Route::post('/pelamar/{id}/jadikan-kandidat', [PelamarController::class, 'jadikanKandidat'])->name('pelamar.jadikanKandidat');
     Route::get('/pelamar/{id}/interview', [PelamarController::class, 'interview'])->name('pelamar.interview');
     Route::post('/pelamar/{id}/tolak', [PelamarController::class, 'tolak'])->name('pelamar.tolak');
@@ -63,37 +83,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pelamar/{id}/background-check', [PelamarController::class, 'backgroundCheck'])->name('pelamar.backgroundCheck');
 });
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('login');
-});
-
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SettingUserController;
-
-Route::get('dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth')
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->name('profile');
-
-use App\Http\Controllers\InterviewController;
-Route::get('/interview', [InterviewController::class, 'index'])->name('interview');
-Route::get('/interview/create', [InterviewController::class, 'create'])->name('interview.create');
-Route::resource('interview_bod', App\Http\Controllers\TrHrPelamarInterviewBodController::class);
-Route::resource('interview_admin', App\Http\Controllers\TrHrPelamarInterviewAdminController::class);
-Route::view('/karyawan', 'under-development')->name('karyawan');
-Route::view('/driver', 'under-development')->name('driver');
-Route::view('/kenek', 'under-development')->name('kenek');
-Route::view('/assesment', 'under-development')->name('assesment');
-Route::view('/payroll', 'under-development')->name('payroll');
-Route::view('/berita-acara', 'under-development')->name('berita-acara');
-Route::view('/master', 'master.index')->name('master');
-
-// Setting User Routes - Only Admin can access
+// === SETTING USER (admin only) ===
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/setting-user', [SettingUserController::class, 'index'])->name('setting-user.index');
     Route::post('/setting-user', [SettingUserController::class, 'store'])->name('setting-user.store');
@@ -102,15 +92,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/setting-user/{id}/toggle-status', [SettingUserController::class, 'toggleStatus'])->name('setting-user.toggle-status');
 });
 
+// === UNDER DEVELOPMENT ===
+Route::view('/karyawan', 'under-development')->name('karyawan');
+Route::view('/driver', 'under-development')->name('driver');
+Route::view('/kenek', 'under-development')->name('kenek');
+Route::view('/assesment', 'under-development')->name('assesment');
+Route::view('/payroll', 'under-development')->name('payroll');
+Route::view('/berita-acara', 'under-development')->name('berita-acara');
+Route::view('/master', 'master.index')->name('master');
+
+// === AUTH ===
 require __DIR__.'/auth.php';
 require __DIR__.'/logout.php';
 require __DIR__.'/auth_custom.php';
-
-
-// Tambahkan route kandidat
-Route::get('/kandidat', [\App\Http\Controllers\KandidatController::class, 'index'])->name('kandidat.index');
-
-Route::get('/kandidat/{id}/edit', [\App\Http\Controllers\KandidatController::class, 'edit'])->name('kandidat.edit');
-Route::put('/kandidat/{id}', [\App\Http\Controllers\KandidatController::class, 'update'])->name('kandidat.update');
 
 

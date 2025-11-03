@@ -7,6 +7,8 @@
         <a href="{{ route('ms-company.index') }}" class="btn btn-outline-primary btn-sm">Master Perusahaan</a>
         <a href="{{ route('ms-division.index') }}" class="btn btn-outline-primary btn-sm">Master Divisi</a>
         <a href="{{ route('ms-bank.index') }}" class="btn btn-outline-primary btn-sm">Master Bank</a>
+    <a href="{{ route('ms_hr_pelamar_type.index') }}" class="btn btn-outline-success btn-sm">Master Tipe Pelamar</a>
+    <a href="{{ route('ms_hr_pelamar_status.index') }}" class="btn btn-outline-info btn-sm">Master Status Pelamar</a>
     </div>
     <ul class="nav nav-tabs" id="masterTab" role="tablist">
         <li class="nav-item" role="presentation">

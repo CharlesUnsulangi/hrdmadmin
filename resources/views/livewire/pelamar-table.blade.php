@@ -45,6 +45,7 @@
                                     <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
                                 @endif
                             </th>
+                            <th class="align-middle">Tipe Pelamar</th>
                             <th class="align-middle" style="cursor:pointer" wire:click="sortBy('email')">
                                 Email
                                 @if($sortField === 'email')
@@ -81,6 +82,7 @@
                                     <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
                                 @endif
                             </th>
+                            <th class="align-middle">Link CV</th>
                             <th class="align-middle" style="cursor:pointer" wire:click="sortBy('asal_lamaran')">
                                 Asal
                                 @if($sortField === 'asal_lamaran')
@@ -100,7 +102,12 @@
                         @foreach($pelamars as $index => $pelamar)
                         <tr ondblclick="window.location='{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}'" style="cursor:pointer;">
                             <td style="display:none">{{ $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id }}</td>
-                            <td>{{ $pelamar->nama }}</td>
+                            <td>
+                                <a href="{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="text-primary fw-bold text-decoration-underline" title="Edit Pelamar">
+                                    {{ $pelamar->nama }}
+                                </a>
+                            </td>
+                            <td>{{ $pelamar->tipePelamar->type_desc ?? '-' }}</td>
                             <td>{{ $pelamar->email }}</td>
                             <td>{{ $pelamar->no_hp }}</td>
                             <td>{{ $pelamar->status }}</td>
@@ -108,14 +115,21 @@
                                 @if($pelamar->cek_shortlist)
                                     <span class="badge bg-success">&#10003;</span>
                                 @else
-                                    <span class="badge bg-secondary">-</span>
+                                <td>{{ $pelamar->statusPelamar->status_desc ?? '-' }}</td>
                                 @endif
                             </td>
                             <td>{{ $pelamar->posisi }}</td>
                             <td>
                                 <span class="badge bg-primary fs-6 px-3 py-2">{{ $pelamar->rating }}</span>
                             </td>
-                            <td>{{ $pelamar->asal_lamaran }}</td>
+                            <td>
+                                @if($pelamar->link_cv)
+                                    <a href="{{ $pelamar->link_cv }}" target="_blank" class="text-info text-decoration-underline">Lihat CV</a>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td>{{ $pelamar->msHrFrom->form_hr_desc ?? '-' }}</td>
                             <td>{{ $pelamar->date_created ? \Carbon\Carbon::parse($pelamar->date_created)->format('d-m-Y H:i') : '-' }}</td>
                             <td>
                                 <div class="btn-group" role="group">

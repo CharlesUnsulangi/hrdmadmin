@@ -18,6 +18,7 @@ $checkIdUrl = route('pelamar.checkid');
                     <th>No HP</th>
                     <th>Asal Lamaran</th>
                     <th>Rating</th>
+                    <th>Link Portal</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -36,7 +37,21 @@ $checkIdUrl = route('pelamar.checkid');
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="number" name="rows[{{ $i }}][rating]" value="{{ $row['rating'] ?? '' }}" class="form-control form-control-sm w-75" min="0" max="5" /></td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            @for($r=1;$r<=5;$r++)
+                                <input type="radio" name="rows[{{ $i }}][rating]" value="{{ $r }}" id="rating_{{ $i }}_{{ $r }}" @if(($row['rating'] ?? '') == $r) checked @endif>
+                                <label for="rating_{{ $i }}_{{ $r }}" class="me-1">{{ $r }}</label>
+                            @endfor
+                        </div>
+                    </td>
+                    <td>
+                        @php
+                            $link = url('/portal/pelamar/'.($row['email'] ?? ''));
+                        @endphp
+                        <input type="text" class="form-control form-control-sm d-inline w-75" value="{{ $link }}" readonly id="link-portal-{{ $i }}">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('link-portal-{{ $i }}').value)">Copy</button>
+                    </td>
                     <td><input type="text" name="rows[{{ $i }}][status]" value="{{ $row['status'] ?? '' }}" class="form-control form-control-sm" /></td>
                     <td>
                         <button type="button" id="btn-simpan" class="btn btn-success btn-sm d-flex align-items-center gap-1">

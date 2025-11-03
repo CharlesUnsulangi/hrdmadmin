@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +8,11 @@ use Spatie\GoogleCalendar\Event;
 
 class PelamarController extends Controller
 {
+    // Tambah method show untuk menghindari error resource route
+    public function show($id)
+    {
+        return redirect()->route('pelamar.edit', $id);
+    }
     public function checkId(Request $request)
     {
         $emails = $request->input('emails', []);
