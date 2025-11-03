@@ -103,7 +103,6 @@
                         @foreach($pelamars as $index => $pelamar)
                         <tr ondblclick="window.location='{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}'" style="cursor:pointer;">
                             <td style="display:none">{{ $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id }}</td>
-                            <td>{{ $pelamar->msHrUser->username ?? '-' }}</td>
                             <td>
                                 <a href="{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="text-primary fw-bold text-decoration-underline" title="Edit Pelamar">
                                     {{ $pelamar->nama }}
@@ -112,18 +111,19 @@
                             <td>{{ $pelamar->tipePelamar->type_desc ?? '-' }}</td>
                             <td>{{ $pelamar->email }}</td>
                             <td>{{ $pelamar->no_hp }}</td>
-                            <td>{{ $pelamar->status }}</td>
+                            <td>{{ $pelamar->statusPelamar->status_desc ?? $pelamar->status ?? '-' }}</td>
                             <td>
                                 @if($pelamar->cek_shortlist)
                                     <span class="badge bg-success">&#10003;</span>
                                 @else
-                                <td>{{ $pelamar->statusPelamar->status_desc ?? '-' }}</td>
+                                    <span class="text-muted">-</span>
                                 @endif
                             </td>
                             <td>{{ $pelamar->msHrPosisi->posisi_desc ?? '-' }}</td>
                             <td>
                                 <span class="badge bg-primary fs-6 px-3 py-2">{{ $pelamar->rating }}</span>
                             </td>
+                            <td>{{ $pelamar->msHrUser->username ?? '-' }}</td>
                             <td>
                                 @if($pelamar->link_cv)
                                     <a href="{{ $pelamar->link_cv }}" target="_blank" class="text-info text-decoration-underline">Lihat CV</a>

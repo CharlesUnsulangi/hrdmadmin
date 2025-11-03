@@ -1,11 +1,14 @@
+
 <?php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\AutoFillUserCreated;
 
 class TrHrPelamarInterview extends Model
 {
+    use AutoFillUserCreated;
     protected $table = 'tr_hr_pelamar_interview_main';
     protected $primaryKey = 'tr_hr_pelamar_interview_main_id';
     public $incrementing = true;
