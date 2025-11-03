@@ -3,21 +3,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\TrHrPkwtt;
+
 class PkwttController extends Controller
 {
-    // ...existing methods...
-
     // Promote PKWTT to Employee
-    public function show($id)
-    {
-        $pkwtt = \App\Models\TrHrPkwtt::findOrFail($id);
-        // Relasi kandidat/employee
-        $kandidat = \App\Models\MsHrKandidat::find($pkwtt->ms_emp_id);
-        $employee = class_exists('App\\Models\\MsEmployee') ? \App\Models\MsEmployee::find($pkwtt->ms_emp_id) : null;
-        return view('pkwtt.show', compact('pkwtt', 'kandidat', 'employee'));
-    }
+    // ...existing code...
 
-    // Promote PKWTT to Employee
     public function promote($id)
     {
         $pkwtt = \App\Models\TrHrPkwtt::findOrFail($id);
@@ -43,17 +35,14 @@ class PkwttController extends Controller
 
         return redirect()->route('pkwtt.edit', $id)->with('success', 'PKWTT telah dijadikan karyawan.');
     }
-}
-use App\Models\TrHrPkwtt;
 
-class PkwttController extends Controller
-{
     public function destroy($id)
     {
         $pkwtt = \App\Models\TrHrPkwtt::findOrFail($id);
         $pkwtt->delete();
         return redirect()->route('pkwtt.index')->with('success', 'PKWTT berhasil dihapus.');
     }
+
     public function index(Request $request)
     {
         $query = TrHrPkwtt::query();
