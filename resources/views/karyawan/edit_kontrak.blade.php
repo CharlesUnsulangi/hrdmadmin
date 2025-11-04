@@ -6,7 +6,9 @@
         <strong>ID:</strong> {{ $karyawan->emp_id }}<br>
         <strong>Nama:</strong> {{ $karyawan->emp_name }}<br>
         <strong>Divisi:</strong> {{ $karyawan->emp_iddivision }}<br>
-        <strong>Status:</strong> {{ $karyawan->emp_status }}
+        <strong>Status:</strong> {{ $karyawan->emp_status }}<br>
+    <strong>Absen Terakhir:</strong> {{ $karyawan->emp_lastabsen }}<br>
+    <strong>Tanggal Gaji Terakhir:</strong> {{ $karyawan->emp_last_salary_date }}
     </div>
     <form method="POST" action="{{ url('/karyawan/' . $karyawan->emp_id . '/kontrak') }}">
         @csrf
