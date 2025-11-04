@@ -147,7 +147,7 @@
                                 @if($pelamar->ms_hr_user_id && $pelamar->ms_hr_user_id !== '-')
                                     {{ $pelamar->msHrUser->username ?? $pelamar->ms_hr_user_id }}
                                 @else
-                                    -
+                                   
                                 @endif
                             </td>
                             <td>
