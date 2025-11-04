@@ -123,7 +123,13 @@
                             <td>
                                 <span class="badge bg-primary fs-6 px-3 py-2">{{ $pelamar->rating }}</span>
                             </td>
-                            <td>{{ $pelamar->msHrUser->username ?? '-' }}</td>
+                            <td>
+                                @if($pelamar->ms_hr_user_id && $pelamar->ms_hr_user_id !== '-')
+                                    {{ $pelamar->msHrUser->username ?? $pelamar->ms_hr_user_id }}
+                                @else
+                                    -
+                                @endif
+                            </td>
                             <td>
                                 @if($pelamar->link_cv)
                                     <a href="{{ $pelamar->link_cv }}" target="_blank" class="text-info text-decoration-underline">Lihat CV</a>
@@ -139,7 +145,9 @@
                                     <a href="{{ route('pelamar.edit', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>
                                     <a href="{{ route('pelamar.interview', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" class="btn btn-sm btn-primary" title="Interview"><i class="bi bi-calendar-event"></i></a>
                                     <button wire:click="arsipkanPelamar({{ $pelamar->id }})" class="btn btn-sm btn-warning" title="Arsip"><i class="bi bi-archive"></i></button>
-                                    <button wire:click="kirimWa({{ $pelamar->id }})" class="btn btn-sm btn-dark" title="Kirim WA"><i class="bi bi-whatsapp"></i></button>
+                                    <a href="{{ route('pelamar.kirimWaLink', $pelamar->tr_hr_pelamar_main_id ?? $pelamar->id) }}" target="_blank" class="btn btn-sm btn-dark" title="Kirim WA">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </a>
                                 </div>
                             </td>
                         </tr>

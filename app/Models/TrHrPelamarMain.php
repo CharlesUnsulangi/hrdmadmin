@@ -23,6 +23,11 @@ class TrHrPelamarMain extends Model
     const UPDATED_AT = 'updated_at';
 
     // AMAN: Hanya kolom yang boleh diisi user
+    protected $fillable = [
+        'nama', 'email', 'no_hp', 'status', 'ms_hr_posisi_id', 'rating', 'cek_confirm', 'time_confirm',
+        'cek_cv', 'cek_driver', 'cek_interview', 'cek_kandidat', 'cek_priority', 'cek_tolak', 'cek_wa',
+        'time_cv', 'time_interview', 'time_wa', 'link_cv', 'ms_hr_from_id', 'ms_hr_user_id'
+    ];
     protected $guarded = ['tr_hr_pelamar_main_id'];
 
     // Casting otomatis

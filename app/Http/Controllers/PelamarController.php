@@ -8,6 +8,64 @@ use Spatie\GoogleCalendar\Event;
 
 class PelamarController extends Controller
 {
+    /**
+     * Redirect ke WhatsApp Web dengan pesan template dari ms_hr_wa_msg
+     */
+    public function kirimWaLink($id)
+    {
+        $pelamar = \App\Models\TrHrPelamarMain::findOrFail($id);
+        $template = \App\Models\MsHrWaMsg::where('msg_code', 'PELAMAR_DEFAULT')->first();
+        // Ambil nama posisi dan asal jika relasi tersedia, fallback ke ID jika tidak
+        $posisi = $pelamar->posisi->nama ?? $pelamar->ms_hr_posisi_id ?? '';
+        $asal = $pelamar->asal->nama ?? $pelamar->ms_hr_from_id ?? '';
+        $msg = $template ? str_replace(
+            ['{nama}', '{posisi}', '{asal}', '{no_hp}'],
+            [$pelamar->nama, $posisi, $asal, $pelamar->no_hp],
+            $template->msg_text
+        ) : '';
+        // Format nomor: hanya angka, tanpa spasi, strip, plus, dsb
+        $noHp = preg_replace('/[^0-9]/', '', $pelamar->no_hp);
+        if (substr($noHp, 0, 1) === '0') {
+            $noHp = '62' . substr($noHp, 1);
+        }
+        $waUrl = 'https://wa.me/' . $noHp . '?text=' . urlencode($msg);
+        return redirect()->away($waUrl);
+    }
+    /**
+     * Kirim WhatsApp ke pelamar dengan template dari ms_hr_wa_msg
+     */
+    public function kirimWa(Request $request, $id)
+    {
+        $pelamar = \App\Models\TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
+        $template = \App\Models\MsHrWaMsg::where('msg_code', 'PELAMAR_DEFAULT')->first();
+        if (!$template) {
+            return back()->with('error', 'Template WhatsApp tidak ditemukan.');
+        }
+
+        // Format pesan (contoh sederhana, bisa pakai str_replace atau blade view)
+        $msg = str_replace([
+            '{nama}', '{posisi}', '{asal}', '{no_hp}'
+        ], [
+            $pelamar->nama,
+            $pelamar->ms_hr_posisi_id,
+            $pelamar->ms_hr_from_id,
+            $pelamar->no_hp
+        ], $template->msg_text);
+
+        // TODO: Integrasi API WhatsApp di sini
+        // Contoh stub sukses
+        $success = true; // Ganti dengan hasil API
+
+        if ($success) {
+            // Simpan waktu kirim WA jika perlu
+            $pelamar->cek_wa = true;
+            $pelamar->time_wa = now();
+            $pelamar->save();
+            return back()->with('success', 'Pesan WhatsApp berhasil dikirim ke pelamar.');
+        } else {
+            return back()->with('error', 'Gagal mengirim pesan WhatsApp.');
+        }
+    }
     // Tambah method show untuk menghindari error resource route
     public function show($id)
     {
@@ -70,33 +128,37 @@ class PelamarController extends Controller
 
     public function update(Request $request, $id)
     {
-        $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|max:100',
-            'no_hp' => 'nullable|string|max:50',
-            'status' => 'nullable|string|max:50',
-            'ms_hr_posisi_id' => 'nullable|string|max:50',
-            'rating' => 'nullable|integer|min:1|max:5',
-            'cek_confirm' => 'nullable|boolean',
-            'time_confirm' => 'nullable|date',
-            'cek_cv' => 'nullable|boolean',
-            'cek_driver' => 'nullable|boolean',
-            'cek_interview' => 'nullable|boolean',
-            'cek_kandidat' => 'nullable|boolean',
-            'cek_priority' => 'nullable|boolean',
-            'cek_tolak' => 'nullable|boolean',
-            'cek_wa' => 'nullable|boolean',
-            'time_cv' => 'nullable|date',
-            'time_interview' => 'nullable|date',
-            'time_wa' => 'nullable|date',
-            'link_cv' => 'nullable|string|max:255',
-        ]);
+    $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+        'email' => 'required|email|max:100',
+        'no_hp' => 'nullable|string|max:50',
+        'status' => 'nullable|string|max:50',
+        'ms_hr_posisi_id' => 'nullable|string|max:50',
+        'rating' => 'nullable|integer|min:1|max:5',
+        'cek_confirm' => 'nullable|boolean',
+        'time_confirm' => 'nullable|date',
+        'cek_cv' => 'nullable|boolean',
+        'cek_driver' => 'nullable|boolean',
+        'cek_interview' => 'nullable|boolean',
+        'cek_kandidat' => 'nullable|boolean',
+        'cek_priority' => 'nullable|boolean',
+        'cek_tolak' => 'nullable|boolean',
+        'cek_wa' => 'nullable|boolean',
+        'time_cv' => 'nullable|date',
+        'time_interview' => 'nullable|date',
+        'time_wa' => 'nullable|date',
+        'link_cv' => 'nullable|string|max:255',
+        'ms_hr_from_id' => 'nullable|string|max:50',
+    ]);
+    // Set ms_hr_user_id ke id user login
+    $validated['ms_hr_user_id'] = auth()->user() ? auth()->user()->id : '-';
         // Pastikan checkbox boolean selalu terisi true/false
-        $validated['cek_shortlist'] = $request->has('cek_shortlist');
-        $validated['cek_priority'] = $request->has('cek_priority');
-        $pelamar->update($validated);
-        return redirect()->route('pelamar.edit', $id)->with('success', 'Pelamar berhasil diupdate');
+    $validated['cek_shortlist'] = $request->has('cek_shortlist');
+    $validated['cek_priority'] = $request->has('cek_priority');
+    $pelamar->update($validated);
+    $pelamar->refresh();
+    return redirect()->route('pelamar.edit', $id)->with('success', 'Pelamar berhasil diupdate');
     }
 
     public function destroy($id)

@@ -6,6 +6,11 @@
         @csrf
         @method('PUT')
         <div class="mb-4">
+        <div class="mb-4">
+            <label class="block mb-1">User Terakhir Update</label>
+            <input type="text" class="w-full border rounded px-3 py-2 bg-gray-100" value="{{ auth()->user()->username ?? '-' }}" readonly>
+            <input type="hidden" name="ms_hr_user_id" value="{{ auth()->user()->id ?? '-' }}">
+        </div>
             <label class="block mb-1">Nama</label>
             <input type="text" name="nama" class="w-full border rounded px-3 py-2" value="{{ old('nama', $pelamar->nama) }}">
             @error('nama')<div class="text-red-600 text-xs">{{ $message }}</div>@enderror

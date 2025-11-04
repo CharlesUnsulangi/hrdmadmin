@@ -42,6 +42,10 @@ Route::resource('ms-division', MsDivisionController::class);
 Route::resource('ms-company', MsCompanyController::class);
 Route::resource('ms-bank', MsBankController::class);
 
+// === MASTER BA KEJADIAN ===
+use App\Http\Controllers\MsHrBaKejadianController;
+Route::resource('ms-hr-ba-kejadian', MsHrBaKejadianController::class);
+
 // === INTERVIEW ===
 Route::get('/interview', [InterviewController::class, 'index'])->name('interview');
 Route::get('/interview/create', [InterviewController::class, 'create'])->name('interview.create');
@@ -70,6 +74,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pelamar', [PelamarController::class, 'index'])->name('pelamar.index');
     Route::get('/pelamar/create', [PelamarController::class, 'create'])->name('pelamar.create');
     Route::post('/pelamar', [PelamarController::class, 'store'])->name('pelamar.store');
+    // Kirim WA Link
+    Route::get('/pelamar/{id}/kirim-wa-link', [PelamarController::class, 'kirimWaLink'])->name('pelamar.kirimWaLink');
 
     // AJAX & Custom
     Route::post('/pelamar/checkid', [PelamarController::class, 'checkId'])->name('pelamar.checkid');
@@ -82,6 +88,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/pelamar/{id}/confirm-jadwal-interview', [PelamarController::class, 'confirmJadwalInterview'])->name('pelamar.confirmJadwalInterview');
     Route::get('/pelamar/{id}/reschedule', [PelamarController::class, 'reschedule'])->name('pelamar.reschedule');
     Route::get('/pelamar/{id}/background-check', [PelamarController::class, 'backgroundCheck'])->name('pelamar.backgroundCheck');
+
+        // Kirim WhatsApp
+        Route::post('/pelamar/{id}/kirim-wa', [PelamarController::class, 'kirimWa'])->name('pelamar.kirimWa');
 });
 
 // === SETTING USER (admin only) ===
