@@ -1,7 +1,26 @@
+@php
+    if (!isset($tabOpen)) $tabOpen = false;
+@endphp
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
 <div class="container py-4">
+    <div class="mb-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {{ $tabConfirm === null && !$tabOpen ? 'active' : '' }}" href="#" wire:click.prevent="$set('tabConfirm', null); $set('tabOpen', false)">Semua</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $tabConfirm === 0 && !$tabOpen ? 'active' : '' }}" href="#" wire:click.prevent="$set('tabConfirm', 0); $set('tabOpen', false)">Belum Confirm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $tabConfirm === 1 && !$tabOpen ? 'active' : '' }}" href="#" wire:click.prevent="$set('tabConfirm', 1); $set('tabOpen', false)">Confirm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $tabOpen ? 'active' : '' }}" href="#" wire:click.prevent="$set('tabOpen', true); $set('tabConfirm', null)">Open</a>
+            </li>
+        </ul>
+    </div>
     <div class="row mb-3 align-items-end g-2">
         <div class="col-md-3 mb-2">
             <a href="{{ route('pelamar.create') }}" class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2">
@@ -96,6 +115,7 @@
                                     <i class="bi bi-caret-{{ $sortDirection === 'asc' ? 'up' : 'down' }}-fill text-primary"></i>
                                 @endif
                             </th>
+                            <th class="align-middle">Close</th>
                             <th class="align-middle">Aksi</th>
                         </tr>
                     </thead>
@@ -139,6 +159,9 @@
                             </td>
                             <td>{{ $pelamar->msHrFrom->form_hr_desc ?? '-' }}</td>
                             <td>{{ $pelamar->date_created ? \Carbon\Carbon::parse($pelamar->date_created)->format('d-m-Y H:i') : '-' }}</td>
+                            <td class="text-center">
+                                <input type="checkbox" wire:click="toggleClose({{ $pelamar->id }})" {{ $pelamar->cek_close ? 'checked' : '' }}>
+                            </td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <button wire:click="showDetail({{ $pelamar->id }})" class="btn btn-sm btn-info" title="Detail"><i class="bi bi-eye"></i></button>
