@@ -80,7 +80,7 @@
                   <span class="badge bg-warning">Menunggu</span>
                 </td>
                 <td>
-                    <a href="{{ route('pkwtt.show', $pkwtt->tr_hd_pkwtt_id) }}" class="btn btn-sm btn-info">Detail</a>
+                    <!-- <a href="#" class="btn btn-sm btn-info disabled">Detail</a> -->
                     <a href="{{ route('pkwtt.edit', $pkwtt->tr_hd_pkwtt_id) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('pkwtt.destroy', $pkwtt->tr_hd_pkwtt_id) }}" method="POST" style="display:inline-block" onsubmit="return confirm('Yakin hapus PKWTT ini?')">
                         @csrf

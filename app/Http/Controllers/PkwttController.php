@@ -78,7 +78,11 @@ class PkwttController extends Controller
     public function create(Request $request)
     {
         $ms_emp_id = $request->get('ms_emp_id', '');
-        return view('pkwtt.create', compact('ms_emp_id'));
+        $employee = null;
+        if ($ms_emp_id) {
+            $employee = \App\Models\MsEmployee::find($ms_emp_id);
+        }
+        return view('pkwtt.create', compact('ms_emp_id', 'employee'));
     }
 
     public function store(Request $request)
@@ -103,6 +107,14 @@ class PkwttController extends Controller
             'ms_company_id' => null,
             'month' => $validated['month'],
         ]);
+
+        // Update ms_employee
+        $employee = \App\Models\MsEmployee::find($validated['ms_emp_id']);
+        if ($employee) {
+            $employee->emp_datejoin = $validated['date_pkwtt_start'];
+            $employee->emp_expdatekontrak = $validated['date_pkwtt_end'];
+            $employee->save();
+        }
 
         return redirect()->route('pkwtt.index')->with('success', 'PKWTT berhasil dibuat.');
     }

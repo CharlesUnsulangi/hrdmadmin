@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <h2>Edit Data Karyawan (Kontrak)</h2>
+    <h2>Edit Data Employee (Kontrak)</h2>
     <div class="mb-4">
         <strong>ID:</strong> {{ $karyawan->emp_id }}<br>
         <strong>Nama:</strong> {{ $karyawan->emp_name }}<br>
         <strong>Divisi:</strong> {{ $karyawan->emp_iddivision }}<br>
         <strong>Status:</strong> {{ $karyawan->emp_status }}<br>
-    <strong>Absen Terakhir:</strong> {{ $karyawan->emp_lastabsen }}<br>
-    <strong>Tanggal Gaji Terakhir:</strong> {{ $karyawan->emp_last_salary_date }}
+        <strong>Absen Terakhir:</strong> {{ $karyawan->emp_lastabsen }}<br>
+        <strong>Tanggal Gaji Terakhir:</strong> {{ $karyawan->emp_last_salary_date }}
     </div>
-    <form method="POST" action="{{ url('/karyawan/' . $karyawan->emp_id . '/kontrak') }}">
+    <form method="POST" action="{{ url('/employee/' . $karyawan->emp_id . '/kontrak') }}">
         @csrf
         @method('PUT')
         <div class="mb-3">

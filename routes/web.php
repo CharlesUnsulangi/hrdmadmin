@@ -1,10 +1,26 @@
 
 
 <?php
+// Payroll Non Bulanan
+use App\Http\Controllers\PayrollNonMonthlyController;
+Route::get('/payroll/nonmonthly/{code_h}/edit', [PayrollNonMonthlyController::class, 'edit'])->name('payroll.nonmonthly.edit');
+Route::put('/payroll/nonmonthly/{code_h}', [PayrollNonMonthlyController::class, 'update'])->name('payroll.nonmonthly.update');
+
+// Payroll Bulanan Detail
+use App\Http\Controllers\PayrollMonthlyDetailController;
+Route::get('/payroll/monthly/{code_h}/detail', [PayrollMonthlyDetailController::class, 'show'])->name('payroll.monthly.detail');
+
+// Payroll Bulanan Draft
+use App\Http\Controllers\PayrollMonthlyDraftController;
+Route::get('/payroll/monthly-h/create', [PayrollMonthlyDraftController::class, 'create'])->name('payroll.monthly.h.create');
+Route::post('/payroll/monthly-h/store', [PayrollMonthlyDraftController::class, 'store'])->name('payroll.monthly.h.store');
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 // === SEMUA CONTROLLER DI ATAS ===
+use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PayrollDraftDetailController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MsHrPelamarTypeController;
 use App\Http\Controllers\InterviewMainController;
 use App\Http\Controllers\PkwttController;
@@ -24,6 +40,19 @@ use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\TrHrPelamarInterviewBodController;
 use App\Http\Controllers\TrHrPelamarInterviewAdminController;
 use App\Http\Controllers\BeritaAcaraController;
+use App\Http\Controllers\AdminItController;
+
+//Payroll
+Route::get('/payroll/draft-detail', [PayrollDraftDetailController::class, 'index'])->name('payroll.draft.detail.index');
+Route::get('/payroll/draft-detail/create', [PayrollDraftDetailController::class, 'create'])->name('payroll.draft.detail.create');
+Route::post('/payroll/draft-detail/store', [PayrollDraftDetailController::class, 'store'])->name('payroll.draft.detail.store');
+Route::post('/admin-it/ajax-execute/{id}', [AdminItController::class, 'ajaxExecute'])->name('admin-it.ajax-execute');
+//SP
+Route::get('/admin-it', [AdminItController::class, 'index'])->name('admin-it');
+Route::post('/admin-it/execute/{id}', [AdminItController::class, 'execute'])->name('admin-it.execute');
+Route::post('/employee/{id}/resign', [EmployeeController::class, 'updateResign'])->name('employee.updateResign');
+Route::get('/payroll/draft', [PayrollController::class, 'createDraft'])->name('payroll.draft');
+Route::post('/payroll/draft', [PayrollController::class, 'storeDraft'])->name('payroll.draft.store');
 
 // === ROOT REDIRECT ===
 Route::get('/', function () {
@@ -106,14 +135,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // === UNDER DEVELOPMENT ===
-use App\Http\Controllers\KaryawanController;
-Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan');
 Route::view('/driver', 'under-development')->name('driver');
 Route::view('/kenek', 'under-development')->name('kenek');
 Route::view('/assesment', 'under-development')->name('assesment');
-Route::view('/payroll', 'under-development')->name('payroll');
+// use App\Http\Controllers\PayrollController; // Dihapus duplikat
+Route::get('/payroll', [PayrollController::class, 'index'])->name('payroll');
 Route::view('/berita-acara', 'under-development')->name('berita-acara');
 Route::view('/master', 'master.index')->name('master');
+
+
+Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
+Route::get('/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
+Route::post('/employee/{id}/create-pkwtt', [EmployeeController::class, 'createPkwtt'])->name('employee.create-pkwtt');
+
 
 // Berita Acara Routes - Protected by auth middleware
 Route::middleware(['auth'])->group(function () {

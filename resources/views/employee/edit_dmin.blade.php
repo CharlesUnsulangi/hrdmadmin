@@ -1,14 +1,14 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-    <h2>Edit Data Karyawan (Data DMIN)</h2>
+    <h2>Edit Data Employee (Data DMIN)</h2>
     <div class="mb-4">
         <strong>ID:</strong> {{ $karyawan->emp_id }}<br>
         <strong>Nama:</strong> {{ $karyawan->emp_name }}<br>
         <strong>Divisi:</strong> {{ $karyawan->emp_iddivision }}<br>
         <strong>Status:</strong> {{ $karyawan->emp_status }}
     </div>
-    <form method="POST" action="{{ url('/karyawan/' . $karyawan->emp_id . '/dmin') }}">
+    <form method="POST" action="{{ url('/employee/' . $karyawan->emp_id . '/dmin') }}">
         @csrf
         @method('PUT')
         <div class="mb-3">

@@ -2,9 +2,21 @@
 
 @section('content')
 <div class="container">
+    @if(isset($employee) && $employee)
+    <div class="alert alert-info">
+        <strong>Data Employee:</strong><br>
+        No. Kontrak: <b>{{ $employee->emp_nokontrak ?? '-' }}</b><br>
+        Exp. Kontrak: <b>{{ $employee->emp_expdatekontrak ?? '-' }}</b><br>
+        Tanggal Kontrak: <b>{{ $employee->emp_datejoin ?? '-' }}</b>
+    </div>
+    @endif
     <h2>Buat PKWTT Baru</h2>
     <form action="{{ route('pkwtt.store') }}" method="POST">
         @csrf
+        <div class="mb-3">
+            <label for="no_kontrak" class="form-label">No. Kontrak</label>
+            <input type="text" class="form-control" id="no_kontrak" name="no_kontrak" value="{{ old('no_kontrak', isset($employee) && $employee ? $employee->emp_nokontrak : '') }}">
+        </div>
         <div class="mb-3">
             <label for="ms_emp_id" class="form-label">ID Karyawan/Kandidat</label>
             <input type="text" class="form-control" id="ms_emp_id" name="ms_emp_id" value="{{ old('ms_emp_id', $ms_emp_id ?? '') }}" required>
