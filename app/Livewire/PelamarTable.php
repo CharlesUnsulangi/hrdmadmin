@@ -42,7 +42,27 @@ class PelamarTable extends Component
         $emailOptions = \App\Models\TrHrPelamarMain::select('email')->distinct()->orderBy('email')->pluck('email');
         $statusOptions = \App\Models\TrHrPelamarMain::select('status')->distinct()->orderBy('status')->pluck('status');
 
-        $pelamars = \App\Models\TrHrPelamarMain::orderBy($this->sortField, $this->sortDirection)->paginate(50);
+        $query = \App\Models\TrHrPelamarMain::query();
+
+        // Apply filters
+        if ($this->asalLamaran) {
+            $query->where('asal_lamaran', $this->asalLamaran);
+        }
+
+        if ($this->ratingDefault) {
+            $query->where('rating', $this->ratingDefault);
+        }
+
+        if ($this->search) {
+            $query->where(function($q) {
+                $q->where('nama', 'like', '%' . $this->search . '%')
+                  ->orWhere('email', 'like', '%' . $this->search . '%')
+                  ->orWhere('no_hp', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $pelamars = $query->orderBy($this->sortField, $this->sortDirection)->paginate(50);
+        
         return view('livewire.pelamar-table', [
             'asalLamaranOptions' => $asalLamaranOptions,
             'pelamars' => $pelamars,
@@ -52,5 +72,23 @@ class PelamarTable extends Component
             'sortField' => $this->sortField,
             'sortDirection' => $this->sortDirection,
         ]);
+    }
+
+    public function showDetail($pelamarId)
+    {
+        $this->selectedPelamarId = $pelamarId;
+        $this->showDetailModal = true;
+    }
+
+    public function arsipkanPelamar($pelamarId)
+    {
+        // Logic untuk arsip pelamar
+        session()->flash('success', 'Pelamar berhasil diarsipkan');
+    }
+
+    public function kirimWa($pelamarId)
+    {
+        // Logic untuk kirim WA
+        session()->flash('success', 'Pesan WA berhasil dikirim');
     }
 }

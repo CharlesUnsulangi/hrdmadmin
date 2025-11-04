@@ -22,6 +22,7 @@ use App\Http\Controllers\SettingUserController;
 use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\TrHrPelamarInterviewBodController;
 use App\Http\Controllers\TrHrPelamarInterviewAdminController;
+use App\Http\Controllers\BeritaAcaraController;
 
 // === ROOT REDIRECT ===
 Route::get('/', function () {
@@ -101,6 +102,30 @@ Route::view('/assesment', 'under-development')->name('assesment');
 Route::view('/payroll', 'under-development')->name('payroll');
 Route::view('/berita-acara', 'under-development')->name('berita-acara');
 Route::view('/master', 'master.index')->name('master');
+
+// Berita Acara Routes - Protected by auth middleware
+Route::middleware(['auth'])->group(function () {
+// Index accessible by all authenticated users
+Route::get('/berita-acara', [BeritaAcaraController::class, 'index'])->name('berita-acara.index');
+
+// Create/Store accessible by all authenticated users (Operator & Admin)
+Route::get('/berita-acara/create', [BeritaAcaraController::class, 'create'])->name('berita-acara.create');
+Route::post('/berita-acara', [BeritaAcaraController::class, 'store'])->name('berita-acara.store');
+
+// View accessible by all authenticated users
+Route::get('/berita-acara/{id}', [BeritaAcaraController::class, 'show'])->name('berita-acara.show');
+
+// Add details for 2-step process
+Route::get('/berita-acara/{id}/add-details', [BeritaAcaraController::class, 'addDetails'])->name('berita-acara.add-details');
+Route::post('/berita-acara/{id}/store-details', [BeritaAcaraController::class, 'storeDetails'])->name('berita-acara.store-details');
+
+// Edit/Update/Delete only accessible by Admin/HR
+Route::middleware(['admin'])->group(function () {
+    Route::get('/berita-acara/{id}/edit', [BeritaAcaraController::class, 'edit'])->name('berita-acara.edit');
+    Route::put('/berita-acara/{id}', [BeritaAcaraController::class, 'update'])->name('berita-acara.update');
+    Route::delete('/berita-acara/{id}', [BeritaAcaraController::class, 'destroy'])->name('berita-acara.destroy');
+});
+});
 
 // === AUTH ===
 require __DIR__.'/auth.php';

@@ -83,28 +83,48 @@
         <a href="{{ route('pelamar.index') }}" class="ml-2 text-gray-600">Batal</a>
     </form>
 
-    <div class="my-4 flex flex-wrap gap-2">
-        <form action="{{ route('pelamar.jadikanKandidat', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" style="display:inline;">
-            @csrf
-            <button type="submit" class="btn btn-success">Jadikan Kandidat</button>
-        </form>
-        <a href="{{ route('pelamar.interview', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-primary">Interview</a>
-        <form action="{{ route('pelamar.tolak', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" style="display:inline;">
-            @csrf
-            <button type="submit" class="btn btn-danger">Tolak</button>
-        </form>
-        <a href="{{ route('pelamar.diskusi', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-warning">Diskusi</a>
-        <form action="{{ route('pelamar.confirmJadwalInterview', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" style="display:inline;">
-            @csrf
-            <button type="submit" class="btn btn-info">Confirm Jadwal Interview</button>
-        </form>
-        <a href="{{ route('pelamar.reschedule', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-secondary">Reschedule Interview</a>
-        <a href="{{ route('pelamar.backgroundCheck', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-dark">Background Check</a>
-
-        <!-- Tombol Lakukan Interview -->
-        <a href="{{ route('interview_main.create', ['pelamar_id' => $pelamar->tr_hr_pelamar_main_id]) }}" class="btn btn-outline-primary">
-            Lakukan Interview
-        </a>
+    <div class="my-4">
+        <div class="row g-2">
+            <div class="col-md-3">
+                <form action="{{ route('pelamar.jadikanKandidat', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" class="d-inline w-100">
+                    @csrf
+                    <button type="submit" class="btn btn-success w-100">Jadikan Kandidat</button>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ route('pelamar.interview', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-primary w-100">Interview</a>
+            </div>
+            <div class="col-md-3">
+                <form action="{{ route('pelamar.tolak', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" class="d-inline w-100">
+                    @csrf
+                    <button type="submit" class="btn btn-danger w-100">Tolak</button>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <a href="{{ route('pelamar.diskusi', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-warning w-100">Diskusi</a>
+            </div>
+        </div>
+        <div class="row g-2 mt-2">
+            <div class="col-md-4">
+                <form action="{{ route('pelamar.confirmJadwalInterview', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" class="d-inline w-100">
+                    @csrf
+                    <button type="submit" class="btn btn-info w-100">Confirm Jadwal Interview</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ route('pelamar.reschedule', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-secondary w-100">Reschedule Interview</a>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ route('pelamar.backgroundCheck', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-dark w-100">Background Check</a>
+            </div>
+        </div>
+        <div class="row g-2 mt-2">
+            <div class="col-md-6">
+                <a href="{{ route('interview_main.create', ['pelamar_id' => $pelamar->tr_hr_pelamar_main_id]) }}" class="btn btn-outline-primary w-100">
+                    Lakukan Interview
+                </a>
+            </div>
+        </div>
     </div>
 
     <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
@@ -112,13 +132,13 @@
             <button class="nav-link active" id="pengalaman-tab" data-bs-toggle="tab" data-bs-target="#pengalaman" type="button" role="tab">Pengalaman</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="interview-tab" data-bs-toggle="tab" data-bs-target="#interview" type="button" role="tab">Hasil Interview</button>
+            <button class="nav-link" id="interview-tab" data-bs-toggle="tab" data-bs-target="#interview" type="button" role="tab" onclick="loadInterviewData()">Hasil Interview</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">Data Personal</button>
+            <button class="nav-link" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" onclick="loadPersonalData()">Data Personal</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="sosmed-tab" data-bs-toggle="tab" data-bs-target="#sosmed" type="button" role="tab">Sosial Media</button>
+            <button class="nav-link" id="sosmed-tab" data-bs-toggle="tab" data-bs-target="#sosmed" type="button" role="tab" onclick="loadSosmedData()">Sosial Media</button>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -126,14 +146,155 @@
             @include('pelamar.pengalaman', ['pelamar' => $pelamar])
         </div>
         <div class="tab-pane fade" id="interview" role="tabpanel">
-            <livewire:pelamar-interview :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
+            <div class="p-4">
+                <h5>Data Interview</h5>
+                <div id="interview-content">
+                    <div class="text-center py-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="personal" role="tabpanel">
-            <livewire:pelamar-personal :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
+            <div class="p-4">
+                <h5>Data Personal</h5>
+                <div id="personal-content">
+                    <div class="text-center py-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="sosmed" role="tabpanel">
-            <livewire:pelamar-sosmed :pelamar-id="$pelamar->tr_hr_pelamar_main_id" />
+            <div class="p-4">
+                <h5>Data Sosial Media</h5>
+                <div id="sosmed-content">
+                    <div class="text-center py-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+const pelamarId = '{{ $pelamar->tr_hr_pelamar_main_id }}';
+
+function loadInterviewData() {
+    const content = document.getElementById('interview-content');
+    if (content.dataset.loaded) return;
+    
+    fetch(`/api/pelamar/${pelamarId}/interview`)
+        .then(response => response.json())
+        .then(data => {
+            let html = '<div class="table-responsive"><table class="table table-striped">';
+            html += '<thead><tr><th>Tanggal</th><th>Interviewer</th><th>Hasil</th><th>Catatan</th></tr></thead><tbody>';
+            
+            if (data.length > 0) {
+                data.forEach(item => {
+                    html += `<tr>
+                        <td>${item.tanggal}</td>
+                        <td>${item.interviewer}</td>
+                        <td><span class="badge bg-${item.hasil === 'LULUS' ? 'success' : 'danger'}">${item.hasil}</span></td>
+                        <td>${item.catatan || '-'}</td>
+                    </tr>`;
+                });
+            } else {
+                html += '<tr><td colspan="4" class="text-center">Belum ada data interview</td></tr>';
+            }
+            
+            html += '</tbody></table></div>';
+            content.innerHTML = html;
+            content.dataset.loaded = true;
+        })
+        .catch(error => {
+            content.innerHTML = '<div class="alert alert-danger">Error loading data</div>';
+        });
+}
+
+function loadPersonalData() {
+    const content = document.getElementById('personal-content');
+    if (content.dataset.loaded) return;
+    
+    fetch(`/api/pelamar/${pelamarId}/personal`)
+        .then(response => response.json())
+        .then(data => {
+            let html = '<div class="row">';
+            html += `
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Alamat KTP</label>
+                        <textarea class="form-control" readonly>${data.alamat_ktp || '-'}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Alamat Domisili</label>
+                        <textarea class="form-control" readonly>${data.alamat_domisili || '-'}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Lahir</label>
+                        <input type="text" class="form-control" value="${data.tanggal_lahir || '-'}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Agama</label>
+                        <input type="text" class="form-control" value="${data.agama || '-'}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status Pernikahan</label>
+                        <input type="text" class="form-control" value="${data.status_nikah || '-'}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Pendidikan Terakhir</label>
+                        <input type="text" class="form-control" value="${data.pendidikan || '-'}" readonly>
+                    </div>
+                </div>
+            `;
+            html += '</div>';
+            content.innerHTML = html;
+            content.dataset.loaded = true;
+        })
+        .catch(error => {
+            content.innerHTML = '<div class="alert alert-danger">Error loading data</div>';
+        });
+}
+
+function loadSosmedData() {
+    const content = document.getElementById('sosmed-content');
+    if (content.dataset.loaded) return;
+    
+    fetch(`/api/pelamar/${pelamarId}/sosmed`)
+        .then(response => response.json())
+        .then(data => {
+            let html = '<div class="table-responsive"><table class="table table-striped">';
+            html += '<thead><tr><th>Platform</th><th>Username/Link</th><th>Status</th></tr></thead><tbody>';
+            
+            if (data.length > 0) {
+                data.forEach(item => {
+                    html += `<tr>
+                        <td><i class="fab fa-${item.platform.toLowerCase()}"></i> ${item.platform}</td>
+                        <td><a href="${item.link}" target="_blank">${item.username}</a></td>
+                        <td><span class="badge bg-${item.status === 'VERIFIED' ? 'success' : 'warning'}">${item.status}</span></td>
+                    </tr>`;
+                });
+            } else {
+                html += '<tr><td colspan="3" class="text-center">Belum ada data sosial media</td></tr>';
+            }
+            
+            html += '</tbody></table></div>';
+            content.innerHTML = html;
+            content.dataset.loaded = true;
+        })
+        .catch(error => {
+            content.innerHTML = '<div class="alert alert-danger">Error loading data</div>';
+        });
+}
+</script>
 @endsection

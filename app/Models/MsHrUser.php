@@ -19,8 +19,6 @@ class MsHrUser extends Authenticatable
         'password',
         'role',
         'is_active',
-        'created_at',
-        'updated_at',
     ];
     protected $hidden = [
         'password',
@@ -64,6 +62,14 @@ class MsHrUser extends Authenticatable
     public function scopeByRole($query, $role)
     {
         return $query->where('role', $role);
+    }
+
+    /**
+     * Accessor untuk nama (menggunakan username jika nama tidak ada)
+     */
+    public function getNamaAttribute()
+    {
+        return $this->attributes['nama'] ?? $this->username;
     }
 
     /**
