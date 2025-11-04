@@ -20,7 +20,7 @@ class TrHrPelamarMain extends Model
     // Biarkan Laravel handle timestamp
     public $timestamps = true;
     const CREATED_AT = 'date_created';
-    const UPDATED_AT = null;
+    const UPDATED_AT = 'updated_at';
 
     // AMAN: Hanya kolom yang boleh diisi user
     protected $guarded = ['tr_hr_pelamar_main_id'];
@@ -104,10 +104,8 @@ class TrHrPelamarMain extends Model
     public function getStatusLabelAttribute(): string
     {
         return match($this->status) {
-            'baru' => 'Baru',
-            'interview' => 'Sedang Interview',
-            'kandidat' => 'Kandidat Terpilih',
-            'tolak' => 'Ditolak',
+            'kawin' => 'Menikah',
+            'single' => 'Belum Menikah',
             default => 'Tidak Diketahui',
         };
     }
@@ -116,10 +114,8 @@ class TrHrPelamarMain extends Model
     public function getStatusBadgeAttribute(): string
     {
         $colors = [
-            'baru' => 'bg-gray-500',
-            'interview' => 'bg-blue-500',
-            'kandidat' => 'bg-green-500',
-            'tolak' => 'bg-red-500',
+            'kawin' => 'bg-green-500', // Menikah: hijau
+            'single' => 'bg-blue-500', // Belum menikah: biru
         ];
         $color = $colors[$this->status] ?? 'bg-gray-400';
         return "<span class='px-3 py-1 rounded-full text-white text-xs font-medium {$color}'>{$this->status_label}</span>";

@@ -93,7 +93,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // === UNDER DEVELOPMENT ===
-Route::view('/karyawan', 'under-development')->name('karyawan');
+use App\Http\Controllers\KaryawanController;
+Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan');
 Route::view('/driver', 'under-development')->name('driver');
 Route::view('/kenek', 'under-development')->name('kenek');
 Route::view('/assesment', 'under-development')->name('assesment');
