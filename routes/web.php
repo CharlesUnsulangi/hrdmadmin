@@ -1,4 +1,5 @@
 
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -41,7 +42,8 @@ Route::resource('ms_hr_pelamar_status', \App\Http\Controllers\MsHrPelamarStatusC
 Route::resource('ms-division', MsDivisionController::class);
 Route::resource('ms-company', MsCompanyController::class);
 Route::resource('ms-bank', MsBankController::class);
-
+// Route untuk menyimpan interview (POST)
+Route::post('/interview', [App\Http\Controllers\InterviewController::class, 'store'])->name('interview.store');
 // === MASTER BA KEJADIAN ===
 use App\Http\Controllers\MsHrBaKejadianController;
 Route::resource('ms-hr-ba-kejadian', MsHrBaKejadianController::class);
@@ -72,6 +74,7 @@ Route::post('/kandidat/{id}/buat-pkwtt', [KandidatController::class, 'buatPkwtt'
 Route::middleware('auth')->group(function () {
     Route::resource('pelamar', PelamarController::class);
     Route::get('/pelamar', [PelamarController::class, 'index'])->name('pelamar.index');
+    Route::get('/pelamar/open', [PelamarController::class, 'open'])->name('pelamar.open');
     Route::get('/pelamar/create', [PelamarController::class, 'create'])->name('pelamar.create');
     Route::post('/pelamar', [PelamarController::class, 'store'])->name('pelamar.store');
     // Kirim WA Link

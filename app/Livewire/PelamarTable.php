@@ -15,6 +15,7 @@ class PelamarTable extends Component
     public $search;
     public $showDetailModal = false;
     public $selectedPelamarId;
+    public $tabConfirm = null; // null=semua, 0=belum confirm, 1=confirm
 
     // Sorting properties
     public $sortField = 'date_created';
@@ -44,15 +45,17 @@ class PelamarTable extends Component
 
         $query = \App\Models\TrHrPelamarMain::query();
 
+        // Filter tab confirm
+        if ($this->tabConfirm !== null) {
+            $query->where('cek_confirm', (bool)$this->tabConfirm);
+        }
         // Apply filters
         if ($this->asalLamaran) {
             $query->where('asal_lamaran', $this->asalLamaran);
         }
-
         if ($this->ratingDefault) {
             $query->where('rating', $this->ratingDefault);
         }
-
         if ($this->search) {
             $query->where(function($q) {
                 $q->where('nama', 'like', '%' . $this->search . '%')
@@ -60,7 +63,6 @@ class PelamarTable extends Component
                   ->orWhere('no_hp', 'like', '%' . $this->search . '%');
             });
         }
-
         $pelamars = $query->orderBy($this->sortField, $this->sortDirection)->paginate(50);
         
         return view('livewire.pelamar-table', [

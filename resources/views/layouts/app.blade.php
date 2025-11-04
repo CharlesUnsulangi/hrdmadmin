@@ -15,15 +15,17 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
         
-        <!-- Livewire Styles -->
-        @livewireStyles
+    <!-- Livewire Styles -->
+    @livewireStyles
 
-        <!-- Bootstrap 5 & Bootstrap Icons -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Bootstrap 5 & Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    @stack('styles')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 flex">

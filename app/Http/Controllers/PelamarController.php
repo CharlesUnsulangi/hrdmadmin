@@ -82,8 +82,16 @@ class PelamarController extends Controller
     }
     public function index()
     {
-        $pelamars = TrHrPelamarMain::all();
-        // dd($pelamars);
+        $pelamars = TrHrPelamarMain::orderBy('date_created', 'desc')->get();
+        return view('pelamar.index', compact('pelamars'));
+    }
+
+    // Tampilkan hanya pelamar yang cek_close != true
+    public function open()
+    {
+        $pelamars = TrHrPelamarMain::where(function($q) {
+            $q->whereNull('cek_close')->orWhere('cek_close', false);
+        })->orderBy('date_created', 'desc')->get();
         return view('pelamar.index', compact('pelamars'));
     }
 
@@ -244,7 +252,10 @@ class PelamarController extends Controller
     }
     public function tolak($id)
     {
-        // TODO: Update status pelamar jadi ditolak
+        $pelamar = \App\Models\TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->firstOrFail();
+        $pelamar->cek_tolak = true;
+        $pelamar->cek_close = true;
+        $pelamar->save();
         return back()->with('success', 'Pelamar ditolak.');
     }
     public function diskusi($id)
@@ -254,22 +265,25 @@ class PelamarController extends Controller
     }
     public function confirmJadwalInterview($id)
     {
-        // Konfirmasi jadwal interview dan create event Google Calendar
+        // Konfirmasi jadwal interview: update/insert ke tr_hr_pelamar_skedul (skedul_confirmed)
         $pelamar = TrHrPelamarMain::where('tr_hr_pelamar_main_id', $id)->first();
-        $start = $pelamar->time_interview ? \Carbon\Carbon::parse($pelamar->time_interview) : now()->addDay();
-        $end = (clone $start)->addHour();
-        $event = Event::create([
-            'name' => 'Interview: ' . ($pelamar ? $pelamar->nama : 'Pelamar'),
-            'startDateTime' => $start,
-            'endDateTime' => $end,
-            'description' => 'Interview kandidat dari sistem HRD',
-        ]);
-        // Simpan google_event_id ke database
-        if ($pelamar && $event && $event->id) {
-            $pelamar->google_event_id = $event->id;
-            $pelamar->save();
+        if ($pelamar) {
+            $userId = auth()->user() ? auth()->user()->id : null;
+            $skedul = \App\Models\TrHrPelamarSkedul::where('tr_hr_pelamar_id', $pelamar->tr_hr_pelamar_main_id)->first();
+            if ($skedul) {
+                $skedul->skedul_confirmed = now();
+                $skedul->ms_hr_user_id = $userId;
+                $skedul->save();
+            } else {
+                \App\Models\TrHrPelamarSkedul::create([
+                    'tr_hr_pelamar_id' => $pelamar->tr_hr_pelamar_main_id,
+                    'skedul_confirmed' => now(),
+                    'ms_hr_user_id' => $userId,
+                ]);
+            }
+            return back()->with('success', 'Jadwal interview berhasil dikonfirmasi.');
         }
-        return back()->with('success', 'Jadwal interview dikonfirmasi & event Google Calendar dibuat.');
+        return back()->with('error', 'Pelamar tidak ditemukan.');
     }
     public function reschedule($id)
     {

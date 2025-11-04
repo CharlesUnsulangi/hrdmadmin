@@ -111,10 +111,7 @@
         </div>
         <div class="row g-2 mt-2">
             <div class="col-md-4">
-                <form action="{{ route('pelamar.confirmJadwalInterview', $pelamar->tr_hr_pelamar_main_id) }}" method="POST" class="d-inline w-100">
-                    @csrf
-                    <button type="submit" class="btn btn-info w-100">Confirm Jadwal Interview</button>
-                </form>
+                <a href="{{ url('/interview/create?tr_hr_pelamar_id=' . $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-info w-100">Confirm Jadwal Interview</a>
             </div>
             <div class="col-md-4">
                 <a href="{{ route('pelamar.reschedule', $pelamar->tr_hr_pelamar_main_id) }}" class="btn btn-secondary w-100">Reschedule Interview</a>
