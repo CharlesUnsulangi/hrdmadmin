@@ -58,6 +58,15 @@
                             <svg class="h-5 w-5 mr-2 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 3.13a4 4 0 010 7.75M8 3.13a4 4 0 000 7.75" /></svg>
                             Manajemen Employee
                         </a>
+                            @php
+                                $userRole = Auth::user()->role ?? '';
+                            @endphp
+                            @if($userRole == 'admin' || $userRole == 'finance')
+                                <a href="{{ route('employee.admin.index') }}" class="flex items-center px-3 py-2 rounded text-black hover:bg-blue-100">
+                                    <svg class="h-5 w-5 mr-2 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                                    Employee Admin
+                                </a>
+                            @endif
                         <a href="{{ url('/driver') }}" class="flex items-center px-3 py-2 rounded text-black hover:bg-blue-100">
                             <svg class="h-5 w-5 mr-2 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13l2-2m0 0l7-7 7 7M13 5v6h6m-6 0v6m0 0H7m6 0h6" /></svg>
                             Driver

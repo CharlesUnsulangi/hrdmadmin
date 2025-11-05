@@ -16,7 +16,7 @@ class EmployeeController extends Controller
     }
     public function index()
     {
-    $sortable = ['emp_datejoin', 'emp_dateresign', 'emp_expdatekontrak', 'emp_inactive', 'emp_last_salary_date'];
+        $sortable = ['emp_datejoin', 'emp_dateresign', 'emp_expdatekontrak', 'emp_inactive', 'emp_last_salary_date'];
         $sort = request('sort');
         $order = request('order', 'desc');
         $query = MsEmployee::query();
@@ -46,6 +46,15 @@ class EmployeeController extends Controller
         }
         $karyawans = $query->paginate(100)->appends(request()->all());
         return view('employee.index', compact('karyawans', 'sort', 'order'));
+    }
+
+    /**
+     * Tampilkan halaman pengaturan employee khusus admin dan finance.
+     */
+    public function adminIndex()
+    {
+        $employees = MsEmployee::all();
+        return view('employee.admin_index', compact('employees'));
     }
 
     public function edit($id)

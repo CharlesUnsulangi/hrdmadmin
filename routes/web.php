@@ -134,6 +134,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/setting-user/{id}/toggle-status', [SettingUserController::class, 'toggleStatus'])->name('setting-user.toggle-status');
 });
 
+// === EMPLOYEE ADMIN (admin & finance only) ===
+Route::middleware(['auth', 'role:admin,finance'])->group(function () {
+    Route::get('/employee-admin', [EmployeeController::class, 'adminIndex'])->name('employee.admin.index');
+    // Tambahkan route lain sesuai kebutuhan (create, edit, dsb)
+});
+
 // === UNDER DEVELOPMENT ===
 Route::view('/driver', 'under-development')->name('driver');
 Route::view('/kenek', 'under-development')->name('kenek');
